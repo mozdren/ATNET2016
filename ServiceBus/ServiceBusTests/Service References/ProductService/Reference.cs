@@ -133,7 +133,7 @@ namespace ServiceBusTests.ProductService {
         private string NameField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private float PriceField;
+        private double PriceField;
         
         [System.Runtime.Serialization.DataMemberAttribute()]
         public System.Guid ID {
@@ -162,7 +162,7 @@ namespace ServiceBusTests.ProductService {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public float Price {
+        public double Price {
             get {
                 return this.PriceField;
             }

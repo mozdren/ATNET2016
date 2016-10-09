@@ -25,6 +25,6 @@ namespace SharedLibs.DataContracts
         /// Price of the product
         /// </summary>
         [DataMember]
-        public float Price { get; set; }
+        public double Price { get; set; }
     }
 }

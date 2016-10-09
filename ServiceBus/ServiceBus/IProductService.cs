@@ -1,5 +1,4 @@
 ﻿using System.ServiceModel;
-using SharedLibs.DataContracts;
 using System;
 
 namespace ServiceBus
@@ -17,6 +16,6 @@ namespace ServiceBus
         /// <param name="guid">guid of a product</param>
         /// <returns>requested product</returns>
         [OperationContract]
-        Product GetProduct(Guid guid);
+        SharedLibs.DataContracts.Product GetProduct(Guid guid);
     }
 }

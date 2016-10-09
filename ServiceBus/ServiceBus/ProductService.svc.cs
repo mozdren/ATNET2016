@@ -1,5 +1,5 @@
 ﻿using System;
-using SharedLibs.DataContracts;
+using System.Linq;
 
 namespace ServiceBus
 {
@@ -10,16 +10,37 @@ namespace ServiceBus
         /// </summary>
         /// <param name="guid">Guid of a requested product</param>
         /// <returns>requested product</returns>
-        public Product GetProduct(Guid guid)
+        public SharedLibs.DataContracts.Product GetProduct(Guid guid)
         {
             try
             {
-                // not yet implemented, therefore, we throw this exception
-                throw new NotImplementedException();
+                using (var context = new ServiceBusDatabaseEntities())
+                {
+                    var product = context.Products.FirstOrDefault(p => p.Id == guid);
+
+                    if (product == null)
+                    {
+                        return new SharedLibs.DataContracts.Product
+                        {
+                            Result = SharedLibs.DataContracts.Result.Error("Product not found.")
+                        };
+                    }
+
+                    return new SharedLibs.DataContracts.Product
+                    {
+                        Result = SharedLibs.DataContracts.Result.Success("Product found"),
+                        ID = guid,
+                        Name = product.Name,
+                        Price = product.Price
+                    };
+                }
             }
             catch (Exception exception)
             {
-                return new Product { Result = Result.Fatal(string.Format("ProductService.GetProduct Exception: {0}", exception.Message)) };
+                return new SharedLibs.DataContracts.Product
+                {
+                    Result = SharedLibs.DataContracts.Result.Fatal(string.Format("ProductService.GetProduct Exception: {0}", exception.Message))
+                };
             }
         }
     }

@@ -8,7 +8,7 @@
         <xs:sequence>
           <xs:element minOccurs="0" name="ID" type="ser:guid" />
           <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
-          <xs:element minOccurs="0" name="Price" type="xs:float" />
+          <xs:element minOccurs="0" name="Price" type="xs:double" />
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
