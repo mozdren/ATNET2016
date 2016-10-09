@@ -17,5 +17,12 @@ namespace ServiceBus
         /// <returns>requested product</returns>
         [OperationContract]
         SharedLibs.DataContracts.Product GetProduct(Guid guid);
+
+        /// <summary>
+        /// Returns all products
+        /// </summary>
+        /// <returns>collection of all products</returns>
+        [OperationContract]
+        SharedLibs.DataContracts.Products GetAllProducts();
     }
 }

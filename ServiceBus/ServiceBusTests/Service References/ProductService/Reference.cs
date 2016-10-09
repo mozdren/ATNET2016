@@ -17,6 +17,7 @@ namespace ServiceBusTests.ProductService {
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
     [System.Runtime.Serialization.DataContractAttribute(Name="DTO", Namespace="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts")]
     [System.SerializableAttribute()]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(ServiceBusTests.ProductService.Products))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(ServiceBusTests.ProductService.Product))]
     public partial class DTO : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
@@ -122,6 +123,29 @@ namespace ServiceBusTests.ProductService {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="Products", Namespace="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts")]
+    [System.SerializableAttribute()]
+    public partial class Products : ServiceBusTests.ProductService.DTO {
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private ServiceBusTests.ProductService.Product[] ItemsField;
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public ServiceBusTests.ProductService.Product[] Items {
+            get {
+                return this.ItemsField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.ItemsField, value) != true)) {
+                    this.ItemsField = value;
+                    this.RaisePropertyChanged("Items");
+                }
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
     [System.Runtime.Serialization.DataContractAttribute(Name="Product", Namespace="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts")]
     [System.SerializableAttribute()]
     public partial class Product : ServiceBusTests.ProductService.DTO {
@@ -201,6 +225,12 @@ namespace ServiceBusTests.ProductService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProductService/GetProduct", ReplyAction="http://tempuri.org/IProductService/GetProductResponse")]
         System.Threading.Tasks.Task<ServiceBusTests.ProductService.Product> GetProductAsync(System.Guid guid);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProductService/GetAllProducts", ReplyAction="http://tempuri.org/IProductService/GetAllProductsResponse")]
+        ServiceBusTests.ProductService.Products GetAllProducts();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProductService/GetAllProducts", ReplyAction="http://tempuri.org/IProductService/GetAllProductsResponse")]
+        System.Threading.Tasks.Task<ServiceBusTests.ProductService.Products> GetAllProductsAsync();
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -236,6 +266,14 @@ namespace ServiceBusTests.ProductService {
         
         public System.Threading.Tasks.Task<ServiceBusTests.ProductService.Product> GetProductAsync(System.Guid guid) {
             return base.Channel.GetProductAsync(guid);
+        }
+        
+        public ServiceBusTests.ProductService.Products GetAllProducts() {
+            return base.Channel.GetAllProducts();
+        }
+        
+        public System.Threading.Tasks.Task<ServiceBusTests.ProductService.Products> GetAllProductsAsync() {
+            return base.Channel.GetAllProductsAsync();
         }
     }
 }

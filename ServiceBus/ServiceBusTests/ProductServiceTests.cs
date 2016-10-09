@@ -16,5 +16,15 @@ namespace ServiceBusTests
 
             Assert.IsTrue(product.Result.ResultType == ProductService.ResultType.Success); // unless the implementation is done, this test will fail
         }
+
+        [TestMethod]
+        public void GetAllProductsTest()
+        {
+            var client = new ProductService.ProductServiceClient();
+
+            var product = client.GetAllProducts();
+
+            Assert.IsTrue(product.Result.ResultType == ProductService.ResultType.Success); // unless the implementation is done, this test will fail
+        }
     }
 }

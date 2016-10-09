@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using SharedLibs.DataContracts;
 
 namespace ServiceBus
 {
@@ -22,13 +24,13 @@ namespace ServiceBus
                     {
                         return new SharedLibs.DataContracts.Product
                         {
-                            Result = SharedLibs.DataContracts.Result.Error("Product not found.")
+                            Result = SharedLibs.DataContracts.Result.ErrorFormat("Product {0} not found.", guid)
                         };
                     }
 
                     return new SharedLibs.DataContracts.Product
                     {
-                        Result = SharedLibs.DataContracts.Result.Success("Product found"),
+                        Result = SharedLibs.DataContracts.Result.SuccessFormat("Product {0} found", guid),
                         ID = guid,
                         Name = product.Name,
                         Price = product.Price
@@ -39,7 +41,45 @@ namespace ServiceBus
             {
                 return new SharedLibs.DataContracts.Product
                 {
-                    Result = SharedLibs.DataContracts.Result.Fatal(string.Format("ProductService.GetProduct Exception: {0}", exception.Message))
+                    Result = SharedLibs.DataContracts.Result.FatalFormat("ProductService.GetProduct Exception: {0}", exception.Message)
+                };
+            }
+        }
+
+        /// <summary>
+        /// This method returns all defined products
+        /// </summary>
+        /// <returns>collection of all products</returns>
+        public SharedLibs.DataContracts.Products GetAllProducts()
+        {
+            try
+            {
+                using (var context = new ServiceBusDatabaseEntities())
+                {
+                    var returnCollection = new List<SharedLibs.DataContracts.Product>();
+
+                    foreach (var product in context.Products)
+                    {
+                        returnCollection.Add(new SharedLibs.DataContracts.Product
+                        {
+                            ID = product.Id,
+                            Name = product.Name,
+                            Price = product.Price
+                        });
+                    }
+
+                    return new SharedLibs.DataContracts.Products
+                    {
+                        Result = SharedLibs.DataContracts.Result.Success("All products returned"),
+                        Items = returnCollection
+                    };
+                }
+            }
+            catch (Exception exception)
+            {
+                return new SharedLibs.DataContracts.Products
+                {
+                    Result = SharedLibs.DataContracts.Result.FatalFormat("ProductService.GetProduct Exception: {0}", exception.Message)
                 };
             }
         }
