@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataContracts\Basket.cs" />
     <Compile Include="DataContracts\DTO.cs" />
     <Compile Include="DataContracts\Product.cs" />
     <Compile Include="DataContracts\Products.cs" />
