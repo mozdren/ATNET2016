@@ -113,7 +113,9 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Product\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
     <EntityDeploy Include="EntityDataModel.edmx">
