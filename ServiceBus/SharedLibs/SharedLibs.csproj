@@ -41,9 +41,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataContracts\Address.cs" />
+    <Compile Include="DataContracts\Basket.cs" />
+    <Compile Include="DataContracts\BasketItem.cs" />
+    <Compile Include="DataContracts\BillingInformation.cs" />
+    <Compile Include="DataContracts\Campaign.cs" />
     <Compile Include="DataContracts\DTO.cs" />
+    <Compile Include="DataContracts\IPluralized.cs" />
+    <Compile Include="DataContracts\Order.cs" />
+    <Compile Include="DataContracts\Pluralizations.cs" />
+    <Compile Include="DataContracts\Pluralized.cs" />
     <Compile Include="DataContracts\Product.cs" />
-    <Compile Include="DataContracts\Products.cs" />
     <Compile Include="DataContracts\Result.cs" />
     <Compile Include="Enums\ResultEnums.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
