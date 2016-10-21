@@ -130,6 +130,13 @@ namespace ServiceBus
             
         }
 
+        /// <summary>
+        /// This method edits product in case product exists
+        /// </summary>
+        /// <param name="guid">ID of a product</param>
+        /// <param name="name">New name for a product</param>
+        /// <param name="price">New price for a product</param>
+        /// <returns>Modified product</returns>
         public SharedLibs.DataContracts.Product EditProduct(Guid guid, string name, double price)
         {
             try
