@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Linq;
 using SharedLibs.DataContracts;
@@ -127,6 +128,76 @@ namespace ServiceBus
                 return Result.FatalFormat("ProductService.AddProduct Exception: {0}", ex.Message);
             }
             
+        }
+
+        public SharedLibs.DataContracts.Product EditProduct(Guid guid, string name, double price)
+        {
+            try
+            {   //TODO: Do I have to create an objcet of the service like this one in case I do want to use a method GetProduct?
+                var service = new ProductServiceProxyClass.ProductServiceClient();
+                var changesName = false;
+                var changesPrice = false;
+
+                var originalProduct = service.GetProduct(guid);
+
+                var editableProduct = new Product()
+                {
+                    Id = originalProduct.ID,
+                    Name = originalProduct.Name,
+                    Price = originalProduct.Price
+                };
+
+                if (!String.IsNullOrWhiteSpace(name) && name.Length <= 50 && name != editableProduct.Name)
+                {
+                    changesName = true;
+                }
+
+                if (price != editableProduct.Price && price >=0)
+                {
+                    changesPrice = true;
+                }
+
+                if (changesName || changesPrice)
+                {
+                    using (var context = new ServiceBusDatabaseEntities())
+                    {   //TODO In case of more columns find a way to simplify this! 21.10.2016
+                        if (changesName)
+                        {
+                            editableProduct.Name = name;
+                        }
+                        if (changesPrice)
+                        {
+                            editableProduct.Price = price;
+                        }
+                        //context.Products.Attach(editableProduct);
+                        //Since there are only few columns I would prefer this
+                        context.Entry(editableProduct).State = EntityState.Modified;
+                        context.SaveChanges();
+                    }
+
+                    return new SharedLibs.DataContracts.Product()
+                    {
+                        ID = editableProduct.Id,
+                        Name = editableProduct.Name,
+                        Price = editableProduct.Price,
+                        Result = Result.Success()
+                    };
+                }
+                else
+                {
+                    originalProduct.Result = Result.Warning("This product was not modified.");
+                    return originalProduct;
+                }
+
+            }
+            catch (Exception exception)
+            {
+                return new SharedLibs.DataContracts.Product()
+                {
+                    Result =
+                        Result.FatalFormat("ProductService.EditProduct exception has occured : {0}", exception.Message)
+                };
+            }
         }
     }
 }
