@@ -53,5 +53,13 @@ namespace ServiceBus
         /// <returns>Modified product</returns>
         [OperationContract]
         SharedLibs.DataContracts.Product EditProduct(Guid guid, string name, double price);
+
+        /// <summary>
+        /// Delete product item from datasource
+        /// </summary>
+        /// <param name="guid">ID of a product</param>
+        /// <returns>Result object</returns>
+        [OperationContract]
+        SharedLibs.DataContracts.Result DeleteProduct(Guid guid);
     }
 }
