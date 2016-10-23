@@ -27,11 +27,410 @@
           </Key>
           <Property Name="Id" Type="Guid" Nullable="false" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Price" Type="Double" Nullable="false" />
+          <Property Name="Price" Type="Double" Nullable="true" />
+          <NavigationProperty Name="BasketItems" Relationship="DatabaseModel.ProductBasketItem" FromRole="Product" ToRole="BasketItem" />
+          <Property Name="Enabled" Type="Boolean" Nullable="false" DefaultValue="True" />
+          <Property Name="Headliner" Type="Boolean" Nullable="false" DefaultValue="False" />
+          <NavigationProperty Name="Repairs" Relationship="DatabaseModel.ProductRepair" FromRole="Product" ToRole="Repair" />
+          <NavigationProperty Name="Reservations" Relationship="DatabaseModel.ProductReservation" FromRole="Product" ToRole="Reservation" />
+          <NavigationProperty Name="StorageItems" Relationship="DatabaseModel.ProductStorageItem" FromRole="Product" ToRole="StorageItem" />
         </EntityType>
         <EntityContainer Name="ServiceBusDatabaseEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Products" EntityType="Self.Product" />
+          <EntitySet Name="Baskets" EntityType="DatabaseModel.Basket" />
+          <EntitySet Name="Campaigns" EntityType="DatabaseModel.Campaign" />
+          <EntitySet Name="BasketItems" EntityType="DatabaseModel.BasketItem" />
+          <AssociationSet Name="ProductBasketItem" Association="DatabaseModel.ProductBasketItem">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="BasketItem" EntitySet="BasketItems" />
+          </AssociationSet>
+          <AssociationSet Name="BasketBasketItem" Association="DatabaseModel.BasketBasketItem">
+            <End Role="Basket" EntitySet="Baskets" />
+            <End Role="BasketItem" EntitySet="BasketItems" />
+          </AssociationSet>
+          <AssociationSet Name="CampaignBasket" Association="DatabaseModel.CampaignBasket">
+            <End Role="Campaign" EntitySet="Campaigns" />
+            <End Role="Basket" EntitySet="Baskets" />
+          </AssociationSet>
+          <EntitySet Name="Users" EntityType="DatabaseModel.User" />
+          <EntitySet Name="BillingInformations" EntityType="DatabaseModel.BillingInformation" />
+          <EntitySet Name="Addresses" EntityType="DatabaseModel.Address" />
+          <AssociationSet Name="BillingInformationAddress" Association="DatabaseModel.BillingInformationAddress">
+            <End Role="BillingInformation" EntitySet="BillingInformations" />
+            <End Role="Address" EntitySet="Addresses" />
+          </AssociationSet>
+          <EntitySet Name="Orders" EntityType="DatabaseModel.Order" />
+          <AssociationSet Name="AddressOrder" Association="DatabaseModel.AddressOrder">
+            <End Role="Address" EntitySet="Addresses" />
+            <End Role="Order" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="BillingInformationOrder" Association="DatabaseModel.BillingInformationOrder">
+            <End Role="BillingInformation" EntitySet="BillingInformations" />
+            <End Role="Order" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="OrderBasket" Association="DatabaseModel.OrderBasket">
+            <End Role="Order" EntitySet="Orders" />
+            <End Role="Basket" EntitySet="Baskets" />
+          </AssociationSet>
+          <AssociationSet Name="UserOrder" Association="DatabaseModel.UserOrder">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Order" EntitySet="Orders" />
+          </AssociationSet>
+          <EntitySet Name="Reservations" EntityType="DatabaseModel.Reservation" />
+          <EntitySet Name="Repairs" EntityType="DatabaseModel.Repair" />
+          <AssociationSet Name="ProductRepair" Association="DatabaseModel.ProductRepair">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="Repair" EntitySet="Repairs" />
+          </AssociationSet>
+          <AssociationSet Name="UserReservation" Association="DatabaseModel.UserReservation">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Reservation" EntitySet="Reservations" />
+          </AssociationSet>
+          <AssociationSet Name="UserRepair" Association="DatabaseModel.UserRepair">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Repair" EntitySet="Repairs" />
+          </AssociationSet>
+          <EntitySet Name="Storages" EntityType="DatabaseModel.Storage" />
+          <AssociationSet Name="StorageReservation" Association="DatabaseModel.StorageReservation">
+            <End Role="Storage" EntitySet="Storages" />
+            <End Role="Reservation" EntitySet="Reservations" />
+          </AssociationSet>
+          <AssociationSet Name="StorageRepair" Association="DatabaseModel.StorageRepair">
+            <End Role="Storage" EntitySet="Storages" />
+            <End Role="Repair" EntitySet="Repairs" />
+          </AssociationSet>
+          <AssociationSet Name="ProductReservation" Association="DatabaseModel.ProductReservation">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="Reservation" EntitySet="Reservations" />
+          </AssociationSet>
+          <EntitySet Name="StorageItems" EntityType="DatabaseModel.StorageItem" />
+          <AssociationSet Name="ProductStorageItem" Association="DatabaseModel.ProductStorageItem">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="StorageItem" EntitySet="StorageItems" />
+          </AssociationSet>
+          <AssociationSet Name="StorageStorageItem" Association="DatabaseModel.StorageStorageItem">
+            <End Role="Storage" EntitySet="Storages" />
+            <End Role="StorageItem" EntitySet="StorageItems" />
+          </AssociationSet>
+          <AssociationSet Name="StorageAddress" Association="DatabaseModel.StorageAddress">
+            <End Role="Storage" EntitySet="Storages" />
+            <End Role="Address" EntitySet="Addresses" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="Basket">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="BasketItems" Relationship="DatabaseModel.BasketBasketItem" FromRole="Basket" ToRole="BasketItem" />
+          <NavigationProperty Name="Campaign" Relationship="DatabaseModel.CampaignBasket" FromRole="Basket" ToRole="Campaign" />
+          <Property Name="CampaignId" Type="Int32" Nullable="true" />
+          <NavigationProperty Name="Order" Relationship="DatabaseModel.OrderBasket" FromRole="Basket" ToRole="Order" />
+          <Property Name="TotalPrice" Type="Double" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Campaign">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" />
+          <Property Name="Discount" Type="String" Nullable="false" />
+          <NavigationProperty Name="Baskets" Relationship="DatabaseModel.CampaignBasket" FromRole="Campaign" ToRole="Basket" />
+        </EntityType>
+        <EntityType Name="BasketItem" >
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <NavigationProperty Name="Product" Relationship="DatabaseModel.ProductBasketItem" FromRole="BasketItem" ToRole="Product" />
+          <Property Name="ProductId" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="Basket" Relationship="DatabaseModel.BasketBasketItem" FromRole="BasketItem" ToRole="Basket" />
+          <Property Name="BasketId" Type="Int32" Nullable="false" />
+          <Property Name="Count" Type="Int32" Nullable="false" DefaultValue="1" />
+          <Property Name="Id" Type="Guid" Nullable="false" />
+        </EntityType>
+        <Association Name="ProductBasketItem">
+          <End Type="DatabaseModel.Product" Role="Product" Multiplicity="1" />
+          <End Type="DatabaseModel.BasketItem" Role="BasketItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BasketItem">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="BasketBasketItem">
+          <End Type="DatabaseModel.Basket" Role="Basket" Multiplicity="1" />
+          <End Type="DatabaseModel.BasketItem" Role="BasketItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Basket">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BasketItem">
+              <PropertyRef Name="BasketId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="CampaignBasket">
+          <End Type="DatabaseModel.Campaign" Role="Campaign" Multiplicity="0..1" />
+          <End Type="DatabaseModel.Basket" Role="Basket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Campaign">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Basket">
+              <PropertyRef Name="CampaignId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Orders" Relationship="DatabaseModel.UserOrder" FromRole="User" ToRole="Order" />
+          <Property Name="Email" Type="String" Nullable="false" />
+          <Property Name="Phone" Type="String" Nullable="false" />
+          <Property Name="Hash" Type="String" Nullable="false" />
+          <Property Name="Salt" Type="String" Nullable="false" />
+          <NavigationProperty Name="Reservations" Relationship="DatabaseModel.UserReservation" FromRole="User" ToRole="Reservation" />
+          <NavigationProperty Name="Repairs" Relationship="DatabaseModel.UserRepair" FromRole="User" ToRole="Repair" />
+        </EntityType>
+        <EntityType Name="BillingInformation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BIC" Type="String" Nullable="false" />
+          <Property Name="IBAN" Type="String" Nullable="false" />
+          <NavigationProperty Name="Address" Relationship="DatabaseModel.BillingInformationAddress" FromRole="BillingInformation" ToRole="Address" />
+          <NavigationProperty Name="Orders" Relationship="DatabaseModel.BillingInformationOrder" FromRole="BillingInformation" ToRole="Order" />
+        </EntityType>
+        <EntityType Name="Address">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PostCode" Type="String" Nullable="false" />
+          <Property Name="HouseNumber" Type="Int32" Nullable="false" />
+          <Property Name="HouseNumberExtension" Type="String" Nullable="false" />
+          <Property Name="Street" Type="String" Nullable="false" />
+          <Property Name="District" Type="String" Nullable="false" />
+          <Property Name="DoorNumber" Type="String" Nullable="true" />
+          <NavigationProperty Name="BillingInformation" Relationship="DatabaseModel.BillingInformationAddress" FromRole="Address" ToRole="BillingInformation" />
+          <NavigationProperty Name="Orders" Relationship="DatabaseModel.AddressOrder" FromRole="Address" ToRole="Order" />
+          <Property Name="City" Type="String" Nullable="false" />
+          <NavigationProperty Name="Storage" Relationship="DatabaseModel.StorageAddress" FromRole="Address" ToRole="Storage" />
+        </EntityType>
+        <Association Name="BillingInformationAddress">
+          <End Type="DatabaseModel.BillingInformation" Role="BillingInformation" Multiplicity="0..1" />
+          <End Type="DatabaseModel.Address" Role="Address" Multiplicity="1" />
+        </Association>
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrderDate" Type="DateTime" Nullable="false" />
+          <Property Name="DeliveryDate" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="Address" Relationship="DatabaseModel.AddressOrder" FromRole="Order" ToRole="Address" />
+          <Property Name="AddressId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="BillingInformation" Relationship="DatabaseModel.BillingInformationOrder" FromRole="Order" ToRole="BillingInformation" />
+          <Property Name="BillingInformationId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Basket" Relationship="DatabaseModel.OrderBasket" FromRole="Order" ToRole="Basket" />
+          <NavigationProperty Name="User" Relationship="DatabaseModel.UserOrder" FromRole="Order" ToRole="User" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="AddressOrder">
+          <End Type="DatabaseModel.Address" Role="Address" Multiplicity="1" />
+          <End Type="DatabaseModel.Order" Role="Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Address">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="AddressId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="BillingInformationOrder">
+          <End Type="DatabaseModel.BillingInformation" Role="BillingInformation" Multiplicity="1" />
+          <End Type="DatabaseModel.Order" Role="Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BillingInformation">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="BillingInformationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="OrderBasket">
+          <End Type="DatabaseModel.Order" Role="Order" Multiplicity="0..1" />
+          <End Type="DatabaseModel.Basket" Role="Basket" Multiplicity="1" />
+        </Association>
+        <Association Name="UserOrder">
+          <End Type="DatabaseModel.User" Role="User" Multiplicity="1" />
+          <End Type="DatabaseModel.Order" Role="Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Reservation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Count" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="DatabaseModel.UserReservation" FromRole="Reservation" ToRole="User" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Storage" Relationship="DatabaseModel.StorageReservation" FromRole="Reservation" ToRole="Storage" />
+          <Property Name="StorageId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Product" Relationship="DatabaseModel.ProductReservation" FromRole="Reservation" ToRole="Product" />
+          <Property Name="ProductId" Type="Guid" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Repair">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Product" Relationship="DatabaseModel.ProductRepair" FromRole="Repair" ToRole="Product" />
+          <Property Name="ProductId" Type="Guid" Nullable="false" />
+          <Property Name="Serial" Type="String" Nullable="false" />
+          <Property Name="Description" Type="String" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="DatabaseModel.UserRepair" FromRole="Repair" ToRole="User" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Storage" Relationship="DatabaseModel.StorageRepair" FromRole="Repair" ToRole="Storage" />
+          <Property Name="StorageId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="ProductRepair">
+          <End Type="DatabaseModel.Product" Role="Product" Multiplicity="1" />
+          <End Type="DatabaseModel.Repair" Role="Repair" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Repair">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="UserReservation">
+          <End Type="DatabaseModel.User" Role="User" Multiplicity="1" />
+          <End Type="DatabaseModel.Reservation" Role="Reservation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Reservation">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="UserRepair">
+          <End Type="DatabaseModel.User" Role="User" Multiplicity="1" />
+          <End Type="DatabaseModel.Repair" Role="Repair" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Repair">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Storage">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Reservations" Relationship="DatabaseModel.StorageReservation" FromRole="Storage" ToRole="Reservation" />
+          <NavigationProperty Name="Repairs" Relationship="DatabaseModel.StorageRepair" FromRole="Storage" ToRole="Repair" />
+          <NavigationProperty Name="StorageItems" Relationship="DatabaseModel.StorageStorageItem" FromRole="Storage" ToRole="StorageItem" />
+          <NavigationProperty Name="Address" Relationship="DatabaseModel.StorageAddress" FromRole="Storage" ToRole="Address" />
+        </EntityType>
+        <Association Name="StorageReservation">
+          <End Type="DatabaseModel.Storage" Role="Storage" Multiplicity="1" />
+          <End Type="DatabaseModel.Reservation" Role="Reservation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Storage">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Reservation">
+              <PropertyRef Name="StorageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="StorageRepair">
+          <End Type="DatabaseModel.Storage" Role="Storage" Multiplicity="1" />
+          <End Type="DatabaseModel.Repair" Role="Repair" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Storage">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Repair">
+              <PropertyRef Name="StorageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ProductReservation">
+          <End Type="DatabaseModel.Product" Role="Product" Multiplicity="1" />
+          <End Type="DatabaseModel.Reservation" Role="Reservation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Reservation">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="StorageItem">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Product" Relationship="DatabaseModel.ProductStorageItem" FromRole="StorageItem" ToRole="Product" />
+          <Property Name="ProductId" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="Storage" Relationship="DatabaseModel.StorageStorageItem" FromRole="StorageItem" ToRole="Storage" />
+          <Property Name="StorageId" Type="Int32" Nullable="false" />
+          <Property Name="Count" Type="Int32" Nullable="false" DefaultValue="0" />
+        </EntityType>
+        <Association Name="ProductStorageItem">
+          <End Type="DatabaseModel.Product" Role="Product" Multiplicity="1" />
+          <End Type="DatabaseModel.StorageItem" Role="StorageItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StorageItem">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="StorageStorageItem">
+          <End Type="DatabaseModel.Storage" Role="Storage" Multiplicity="1" />
+          <End Type="DatabaseModel.StorageItem" Role="StorageItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Storage">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StorageItem">
+              <PropertyRef Name="StorageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="StorageAddress">
+          <End Type="DatabaseModel.Storage" Role="Storage" Multiplicity="0..1" />
+          <End Type="DatabaseModel.Address" Role="Address" Multiplicity="1" />
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->

@@ -5,7 +5,46 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="dceb585e01cf42a8b58283f29c4903bd" Name="Diagram1">
-        <EntityTypeShape EntityType="DatabaseModel.Product" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DatabaseModel.Product" Width="1.5" PointX="4.625" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DatabaseModel.Basket" Width="1.5" PointX="6.625" PointY="4.375" />
+        <EntityTypeShape EntityType="DatabaseModel.Campaign" Width="1.5" PointX="4.625" PointY="5" />
+        <EntityTypeShape EntityType="DatabaseModel.BasketItem" Width="1.5" PointX="6.625" PointY="1.25" />
+        <AssociationConnector Association="DatabaseModel.ProductBasketItem" />
+        <AssociationConnector Association="DatabaseModel.BasketBasketItem" />
+        <AssociationConnector Association="DatabaseModel.CampaignBasket" />
+        <EntityTypeShape EntityType="DatabaseModel.User" Width="1.5" PointX="8.625" PointY="0.5" />
+        <EntityTypeShape EntityType="DatabaseModel.BillingInformation" Width="2.125" PointX="10.75" PointY="0.5" />
+        <EntityTypeShape EntityType="DatabaseModel.Address" Width="2" PointX="11.375" PointY="3.875" />
+        <AssociationConnector Association="DatabaseModel.BillingInformationAddress" />
+        <EntityTypeShape EntityType="DatabaseModel.Order" Width="1.75" PointX="8.75" PointY="3.75" />
+        <AssociationConnector Association="DatabaseModel.AddressOrder" />
+        <AssociationConnector Association="DatabaseModel.BillingInformationOrder" />
+        <AssociationConnector Association="DatabaseModel.OrderBasket" />
+        <AssociationConnector Association="DatabaseModel.UserOrder" />
+        <EntityTypeShape EntityType="DatabaseModel.Reservation" Width="1.5" PointX="0.5" PointY="1.25" />
+        <EntityTypeShape EntityType="DatabaseModel.Repair" Width="1.5" PointX="2.625" PointY="1.25" />
+        <AssociationConnector Association="DatabaseModel.ProductRepair" />
+        <AssociationConnector Association="DatabaseModel.UserReservation" />
+        <AssociationConnector Association="DatabaseModel.UserRepair" ManuallyRouted="true" >
+          <ConnectorPoint PointX="8.625" PointY="0.88928636155687" />
+          <ConnectorPoint PointX="5.5793884094025614" PointY="0.88928636155686946" />
+          <ConnectorPoint PointX="5.4127217427358953" PointY="0.88928636155687" />
+          <ConnectorPoint PointX="3.3837577042215949" PointY="0.88928636155687" />
+          <ConnectorPoint PointX="3.3837577042215949" PointY="1.25" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="DatabaseModel.Storage" Width="1.5" PointX="0.5" PointY="4.875" />
+        <AssociationConnector Association="DatabaseModel.StorageReservation" />
+        <AssociationConnector Association="DatabaseModel.StorageRepair" />
+        <AssociationConnector Association="DatabaseModel.ProductReservation" ManuallyRouted="true" >
+          <ConnectorPoint PointX="5.4960550760692284" PointY="1.2499999999999998" />
+          <ConnectorPoint PointX="5.4960550760692284" PointY="0.52083333333333337" />
+          <ConnectorPoint PointX="1.723772559582474" PointY="0.52083333333333337" />
+          <ConnectorPoint PointX="1.723772559582474" PointY="1.25" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="DatabaseModel.StorageItem" Width="1.5" PointX="2.625" PointY="4.625" />
+        <AssociationConnector Association="DatabaseModel.ProductStorageItem" />
+        <AssociationConnector Association="DatabaseModel.StorageStorageItem" />
+        <AssociationConnector Association="DatabaseModel.StorageAddress" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

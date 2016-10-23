@@ -26,5 +26,16 @@ namespace ServiceBus
         }
     
         public virtual DbSet<Product> Products { get; set; }
+        public virtual DbSet<Basket> Baskets { get; set; }
+        public virtual DbSet<Campaign> Campaigns { get; set; }
+        public virtual DbSet<BasketItem> BasketItems { get; set; }
+        public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<BillingInformation> BillingInformations { get; set; }
+        public virtual DbSet<Address> Addresses { get; set; }
+        public virtual DbSet<Order> Orders { get; set; }
+        public virtual DbSet<Reservation> Reservations { get; set; }
+        public virtual DbSet<Repair> Repairs { get; set; }
+        public virtual DbSet<Storage> Storages { get; set; }
+        public virtual DbSet<StorageItem> StorageItems { get; set; }
     }
 }

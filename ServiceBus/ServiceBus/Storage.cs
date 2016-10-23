@@ -12,32 +12,24 @@ namespace ServiceBus
     using System;
     using System.Collections.Generic;
     
-    public partial class Product
+    public partial class Storage
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Product()
+        public Storage()
         {
-            this.Enabled = true;
-            this.Headliner = false;
-            this.BasketItems = new HashSet<BasketItem>();
-            this.Repairs = new HashSet<Repair>();
             this.Reservations = new HashSet<Reservation>();
+            this.Repairs = new HashSet<Repair>();
             this.StorageItems = new HashSet<StorageItem>();
         }
     
-        public System.Guid Id { get; set; }
-        public string Name { get; set; }
-        public Nullable<double> Price { get; set; }
-        public bool Enabled { get; set; }
-        public bool Headliner { get; set; }
+        public int Id { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<BasketItem> BasketItems { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Repair> Repairs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Reservation> Reservations { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Repair> Repairs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<StorageItem> StorageItems { get; set; }
+        public virtual Address Address { get; set; }
     }
 }

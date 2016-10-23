@@ -12,32 +12,27 @@ namespace ServiceBus
     using System;
     using System.Collections.Generic;
     
-    public partial class Product
+    public partial class User
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Product()
+        public User()
         {
-            this.Enabled = true;
-            this.Headliner = false;
-            this.BasketItems = new HashSet<BasketItem>();
-            this.Repairs = new HashSet<Repair>();
+            this.Orders = new HashSet<Order>();
             this.Reservations = new HashSet<Reservation>();
-            this.StorageItems = new HashSet<StorageItem>();
+            this.Repairs = new HashSet<Repair>();
         }
     
-        public System.Guid Id { get; set; }
-        public string Name { get; set; }
-        public Nullable<double> Price { get; set; }
-        public bool Enabled { get; set; }
-        public bool Headliner { get; set; }
+        public int Id { get; set; }
+        public string Email { get; set; }
+        public string Phone { get; set; }
+        public string Hash { get; set; }
+        public string Salt { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<BasketItem> BasketItems { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Repair> Repairs { get; set; }
+        public virtual ICollection<Order> Orders { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Reservation> Reservations { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<StorageItem> StorageItems { get; set; }
+        public virtual ICollection<Repair> Repairs { get; set; }
     }
 }
