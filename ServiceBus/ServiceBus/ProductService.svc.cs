@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Linq;
 using SharedLibs.DataContracts;
+using SharedLibs.Enums;
 
 namespace ServiceBus
 {
@@ -128,5 +130,122 @@ namespace ServiceBus
             }
             
         }
+
+        /// <summary>
+        /// This method edits product in case product exists
+        /// </summary>
+        /// <param name="guid">ID of a product</param>
+        /// <param name="name">New name for a product</param>
+        /// <param name="price">New price for a product</param>
+        /// <returns>Modified product</returns>
+        public SharedLibs.DataContracts.Product EditProduct(Guid guid, string name, double price)
+        {
+            try
+            {   //TODO: Do I have to create an objcet of the service like this one in case I do want to use a method GetProduct? //simplify
+                var service = new ProductServiceProxyClass.ProductServiceClient();
+                var changesName = false;
+                var changesPrice = false;
+
+                var originalProduct = service.GetProduct(guid);
+
+                if (originalProduct.Result.ResultType == ResultType.Success)
+                {
+                    var editableProduct = new Product()
+                    {
+                        Id = originalProduct.ID,
+                        Name = originalProduct.Name,
+                        Price = originalProduct.Price
+                    };
+
+                    if (!String.IsNullOrWhiteSpace(name) && name.Length <= 50 && name != editableProduct.Name)
+                    {
+                        changesName = true;
+                    }
+
+                    if (price != editableProduct.Price && price >= 0)
+                    {
+                        changesPrice = true;
+                    }
+
+                    if (changesName || changesPrice)
+                    {
+                        using (var context = new ServiceBusDatabaseEntities())
+                        {
+                            //TODO In case of more columns find a way to simplify this! 21.10.2016
+                            if (changesName)
+                            {
+                                editableProduct.Name = name;
+                            }
+                            if (changesPrice)
+                            {
+                                editableProduct.Price = price;
+                            }
+                            //context.Products.Attach(editableProduct);
+                            //Since there are only few columns I would prefer this
+                            context.Entry(editableProduct).State = EntityState.Modified;
+                            context.SaveChanges();
+                        }
+
+                        return new SharedLibs.DataContracts.Product()
+                        {
+                            ID = editableProduct.Id,
+                            Name = editableProduct.Name,
+                            Price = editableProduct.Price,
+                            Result = Result.Success()
+                        };
+                    }
+                    else
+                    {
+                        originalProduct.Result = Result.Warning("This product was not modified.");
+                        return originalProduct;
+                    }
+                }
+                else
+                {
+                    originalProduct.Result = Result.Error("This product was not found.");
+                    return originalProduct;
+                }
+
+            }
+            catch (Exception exception)
+            {
+                return new SharedLibs.DataContracts.Product()
+                {
+                    Result =
+                        Result.FatalFormat("ProductService.EditProduct exception has occured : {0}", exception.Message)
+                };
+            }
+        }
+
+        /// <summary>
+        /// Delete product item from datasource
+        /// </summary>
+        /// <param name="guid">ID of a product</param>
+        /// <returns>Result object</returns>
+        public Result DeleteProduct(Guid guid)
+        {
+            try
+            {   //TODO : With more complex table structure this should do something like "UPDATE db.Product SET isValid = 0 where db.Product.ID = guid and isValid = 1". Now it is fine as is.
+                using (var context = new ServiceBusDatabaseEntities())
+                {
+                    var product = context.Products.FirstOrDefault(p => p.Id == guid);
+
+                    if (product != null)
+                    {
+                        context.Products.Remove(product);
+                        context.SaveChanges();
+
+                        return Result.SuccessFormat("Product {0} - {1} has been deleted.", product.Id, product.Name);
+                    }
+
+                    return Result.Error("Product was not found. Please make sure product ID is valid.");
+                }
+            }
+            catch (Exception exception)
+            {
+                return Result.FatalFormat("ProductService.DeleteProduct exception has occured : {0}", exception.Message);
+            }
+        }
+
     }
 }
