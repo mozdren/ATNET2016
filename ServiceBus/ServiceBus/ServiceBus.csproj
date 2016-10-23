@@ -89,6 +89,7 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CampaignService.cs" />
     <Compile Include="EntityDataModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -104,6 +105,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>EntityDataModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="ICampaignService.cs" />
     <Compile Include="IProductService.cs" />
     <Compile Include="Product.cs">
       <DependentUpon>EntityDataModel.tt</DependentUpon>
