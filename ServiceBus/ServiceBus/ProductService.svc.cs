@@ -142,7 +142,6 @@ namespace ServiceBus
         {
             try
             {
-                var changeFlag = false;
                 var originalProduct = GetProduct(guid);
 
                 if (originalProduct.Result.ResultType == ResultType.Success)
@@ -154,45 +153,47 @@ namespace ServiceBus
                         Price = originalProduct.Price
                     };
 
-                    if (!String.IsNullOrWhiteSpace(name) && name.Length <= 50 && name != editableProduct.Name)
+                    using (var context = new ServiceBusDatabaseEntities())
                     {
-                        editableProduct.Name = name;
-                        changeFlag = true;
-                    }
+                        context.Products.Attach(editableProduct);
 
-                    if (price != editableProduct.Price && price >= 0)
-                    {
-                        editableProduct.Price = price;
-                        changeFlag = true;
-                    }
-
-                    if (changeFlag)
-                    {
-                        using (var context = new ServiceBusDatabaseEntities())
+                        //is new name valid and different than the stored one?
+                        if (!String.IsNullOrWhiteSpace(name) && name.Length <= 50 && name != editableProduct.Name)
                         {
-                            context.Products.Attach(editableProduct);
-                            context.SaveChanges();
+                            editableProduct.Name = name;
                         }
 
-                        return new SharedLibs.DataContracts.Product()
+                        //is price valid and different from the stored one?
+                        if (price != editableProduct.Price && price >= 0)
                         {
-                            ID = editableProduct.Id,
-                            Name = editableProduct.Name,
-                            Price = editableProduct.Price,
-                            Result = Result.Success()
-                        };
+                            editableProduct.Price = price;
+                        }
+
+                        //No changes? No need to update
+                        if (context.Entry(editableProduct).State == EntityState.Unchanged)
+                        {
+                            originalProduct.Result = Result.WarningFormat("Product {0} was not modified.", originalProduct.ID);
+                            return originalProduct;
+                        }
+                        //Otherwise update db and return what you should return
+                        else
+                        {
+                            context.SaveChanges();
+                            return new SharedLibs.DataContracts.Product()
+                            {
+                                ID = editableProduct.Id,
+                                Name = editableProduct.Name,
+                                Price = editableProduct.Price,
+                                Result = Result.Success()
+                            };
+                        }
                     }
-                    else
-                    {
-                        originalProduct.Result = Result.WarningFormat("Product {0} was not modified.",originalProduct.ID);
-                        return originalProduct;
-                    }
+
                 }
                 else
                 {
                     return originalProduct;
                 }
-
             }
             catch (Exception exception)
             {
