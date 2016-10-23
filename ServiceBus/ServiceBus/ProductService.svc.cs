@@ -141,12 +141,9 @@ namespace ServiceBus
         public SharedLibs.DataContracts.Product EditProduct(Guid guid, string name, double price)
         {
             try
-            {   //TODO: Do I have to create an objcet of the service like this one in case I do want to use a method GetProduct? //simplify
-                var service = new ProductServiceProxyClass.ProductServiceClient();
-                var changesName = false;
-                var changesPrice = false;
-
-                var originalProduct = service.GetProduct(guid);
+            {
+                var changeFlag = false;
+                var originalProduct = GetProduct(guid);
 
                 if (originalProduct.Result.ResultType == ResultType.Success)
                 {
@@ -159,30 +156,21 @@ namespace ServiceBus
 
                     if (!String.IsNullOrWhiteSpace(name) && name.Length <= 50 && name != editableProduct.Name)
                     {
-                        changesName = true;
+                        editableProduct.Name = name;
+                        changeFlag = true;
                     }
 
                     if (price != editableProduct.Price && price >= 0)
                     {
-                        changesPrice = true;
+                        editableProduct.Price = price;
+                        changeFlag = true;
                     }
 
-                    if (changesName || changesPrice)
+                    if (changeFlag)
                     {
                         using (var context = new ServiceBusDatabaseEntities())
                         {
-                            //TODO In case of more columns find a way to simplify this! 21.10.2016
-                            if (changesName)
-                            {
-                                editableProduct.Name = name;
-                            }
-                            if (changesPrice)
-                            {
-                                editableProduct.Price = price;
-                            }
-                            //context.Products.Attach(editableProduct);
-                            //Since there are only few columns I would prefer this
-                            context.Entry(editableProduct).State = EntityState.Modified;
+                            context.Products.Attach(editableProduct);
                             context.SaveChanges();
                         }
 
@@ -196,13 +184,12 @@ namespace ServiceBus
                     }
                     else
                     {
-                        originalProduct.Result = Result.Warning("This product was not modified.");
+                        originalProduct.Result = Result.WarningFormat("Product {0} was not modified.",originalProduct.ID);
                         return originalProduct;
                     }
                 }
                 else
                 {
-                    originalProduct.Result = Result.Error("This product was not found.");
                     return originalProduct;
                 }
 
@@ -225,7 +212,7 @@ namespace ServiceBus
         public Result DeleteProduct(Guid guid)
         {
             try
-            {   //TODO : With more complex table structure this should do something like "UPDATE db.Product SET isValid = 0 where db.Product.ID = guid and isValid = 1". Now it is fine as is.
+            {   
                 using (var context = new ServiceBusDatabaseEntities())
                 {
                     var product = context.Products.FirstOrDefault(p => p.Id == guid);
