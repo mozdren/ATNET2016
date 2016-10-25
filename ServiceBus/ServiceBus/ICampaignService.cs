@@ -24,7 +24,7 @@ namespace ServiceBus
         /// </summary>
         /// <returns>collection of all campaigns</returns>
         [OperationContract]
-        SharedLibs.DataContracts.Campaigns GetAllCampaign();
+        SharedLibs.DataContracts.Campaigns GetAllCampaigns();
 
         /// <summary>
         /// Adds campaign into database
@@ -52,7 +52,7 @@ namespace ServiceBus
         /// <param name="discount">New discount of a campaign</param>
         /// <returns>Edited campaign</returns>
         [OperationContract]
-        SharedLibs.DataContracts.Result EditCampaign(Guid guid, string name, double discount);
+        SharedLibs.DataContracts.Campaign EditCampaign(Guid guid, string name, double discount);
 
         /// <summary>
         /// Delete campaign from database
