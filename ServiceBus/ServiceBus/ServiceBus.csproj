@@ -86,6 +86,7 @@
       <DependentUpon>EntityDataModel.edmx</DependentUpon>
       <LastGenOutput>EntityDataModel.cs</LastGenOutput>
     </Content>
+    <Content Include="Mock\ProductService.svc" />
     <Content Include="ProductService.svc" />
     <Content Include="Properties\DataSources\SharedLibs.DataContracts.Product.datasource" />
     <Content Include="Properties\DataSources\SharedLibs.DataContracts.Products.datasource" />
@@ -116,6 +117,9 @@
       <DependentUpon>EntityDataModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="IProductService.cs" />
+    <Compile Include="Mock\ProductService.svc.cs">
+      <DependentUpon>ProductService.svc</DependentUpon>
+    </Compile>
     <Compile Include="Product.cs">
       <DependentUpon>EntityDataModel.tt</DependentUpon>
     </Compile>
@@ -128,9 +132,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Product\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
