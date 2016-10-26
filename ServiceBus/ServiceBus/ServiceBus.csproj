@@ -86,6 +86,7 @@
       <DependentUpon>EntityDataModel.edmx</DependentUpon>
       <LastGenOutput>EntityDataModel.cs</LastGenOutput>
     </Content>
+    <Content Include="Mock\CampaignService.svc" />
     <Content Include="Mock\ProductService.svc" />
     <Content Include="ProductService.svc" />
     <Content Include="Properties\DataSources\SharedLibs.DataContracts.Product.datasource" />
@@ -98,6 +99,7 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+    <Content Include="CampaignService.svc" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -116,7 +118,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>EntityDataModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="ICampaignService.cs" />
     <Compile Include="IProductService.cs" />
+    <Compile Include="Mock\CampaignService.svc.cs">
+      <DependentUpon>CampaignService.svc</DependentUpon>
+    </Compile>
     <Compile Include="Mock\ProductService.svc.cs">
       <DependentUpon>ProductService.svc</DependentUpon>
     </Compile>
@@ -131,6 +137,9 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="CampaignService.svc.cs">
+      <DependentUpon>CampaignService.svc</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
