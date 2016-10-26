@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Linq;
 using SharedLibs.DataContracts;
+using SharedLibs.Enums;
 
 namespace ServiceBus
 {
@@ -128,5 +130,110 @@ namespace ServiceBus
             }
             
         }
+
+        /// <summary>
+        /// This method edits product in case product exists
+        /// </summary>
+        /// <param name="guid">ID of a product</param>
+        /// <param name="name">New name for a product</param>
+        /// <param name="price">New price for a product</param>
+        /// <returns>Modified product</returns>
+        public SharedLibs.DataContracts.Product EditProduct(Guid guid, string name, double price)
+        {
+            try
+            {
+                var originalProduct = GetProduct(guid);
+
+                if (originalProduct.Result.ResultType == ResultType.Success)
+                {
+                    var editableProduct = new Product()
+                    {
+                        Id = originalProduct.ID,
+                        Name = originalProduct.Name,
+                        Price = originalProduct.Price
+                    };
+
+                    using (var context = new ServiceBusDatabaseEntities())
+                    {
+                        context.Products.Attach(editableProduct);
+
+                        //is new name valid and different than the stored one?
+                        if (!String.IsNullOrWhiteSpace(name) && name.Length <= 50 && name != editableProduct.Name)
+                        {
+                            editableProduct.Name = name;
+                        }
+
+                        //is price valid and different from the stored one?
+                        if (price != editableProduct.Price && price >= 0)
+                        {
+                            editableProduct.Price = price;
+                        }
+
+                        //No changes? No need to update
+                        if (context.Entry(editableProduct).State == EntityState.Unchanged)
+                        {
+                            originalProduct.Result = Result.WarningFormat("Product {0} was not modified.", originalProduct.ID);
+                            return originalProduct;
+                        }
+                        //Otherwise update db and return what you should return
+                        else
+                        {
+                            context.SaveChanges();
+                            return new SharedLibs.DataContracts.Product()
+                            {
+                                ID = editableProduct.Id,
+                                Name = editableProduct.Name,
+                                Price = editableProduct.Price,
+                                Result = Result.Success()
+                            };
+                        }
+                    }
+
+                }
+                else
+                {
+                    return originalProduct;
+                }
+            }
+            catch (Exception exception)
+            {
+                return new SharedLibs.DataContracts.Product()
+                {
+                    Result =
+                        Result.FatalFormat("ProductService.EditProduct exception has occured : {0}", exception.Message)
+                };
+            }
+        }
+
+        /// <summary>
+        /// Delete product item from datasource
+        /// </summary>
+        /// <param name="guid">ID of a product</param>
+        /// <returns>Result object</returns>
+        public Result DeleteProduct(Guid guid)
+        {
+            try
+            {   
+                using (var context = new ServiceBusDatabaseEntities())
+                {
+                    var product = context.Products.FirstOrDefault(p => p.Id == guid);
+
+                    if (product != null)
+                    {
+                        context.Products.Remove(product);
+                        context.SaveChanges();
+
+                        return Result.SuccessFormat("Product {0} - {1} has been deleted.", product.Id, product.Name);
+                    }
+
+                    return Result.Error("Product was not found. Please make sure product ID is valid.");
+                }
+            }
+            catch (Exception exception)
+            {
+                return Result.FatalFormat("ProductService.DeleteProduct exception has occured : {0}", exception.Message);
+            }
+        }
+
     }
 }
