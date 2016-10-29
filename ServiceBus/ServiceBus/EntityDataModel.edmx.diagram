@@ -6,6 +6,9 @@
     <edmx:Diagrams>
       <Diagram DiagramId="dceb585e01cf42a8b58283f29c4903bd" Name="Diagram1">
         <EntityTypeShape EntityType="DatabaseModel.Product" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DatabaseModel.Basket" Width="1.5" PointX="3.5" PointY="1.5" />
+        <EntityTypeShape EntityType="DatabaseModel.Campaign" Width="1.5" PointX="7.25" PointY="2.125" />
+        <AssociationConnector Association="DatabaseModel.BasketCampaign" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

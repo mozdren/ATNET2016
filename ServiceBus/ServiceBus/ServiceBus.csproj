@@ -76,11 +76,13 @@
     <Content Include="App_Data\Database_log.ldf">
       <DependentUpon>Database.mdf</DependentUpon>
     </Content>
+    <Content Include="BasketService.svc" />
     <Content Include="EntityDataModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>EntityDataModel.edmx</DependentUpon>
       <LastGenOutput>EntityDataModel.Context.cs</LastGenOutput>
     </Content>
+    <Content Include="EntityDataModel.edmx.sql" />
     <Content Include="EntityDataModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>EntityDataModel.edmx</DependentUpon>
@@ -103,6 +105,15 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Basket.cs">
+      <DependentUpon>EntityDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BasketService.svc.cs">
+      <DependentUpon>BasketService.svc</DependentUpon>
+    </Compile>
+    <Compile Include="Campaign.cs">
+      <DependentUpon>EntityDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="EntityDataModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -118,6 +129,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>EntityDataModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="IBasketService.cs" />
     <Compile Include="ICampaignService.cs" />
     <Compile Include="IProductService.cs" />
     <Compile Include="Mock\CampaignService.svc.cs">
