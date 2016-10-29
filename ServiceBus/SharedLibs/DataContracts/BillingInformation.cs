@@ -22,13 +22,15 @@ namespace SharedLibs.DataContracts
         public Address BillingAddress { get; set; }
 
         /// <summary>
-        /// Business Identifier Code (or also a bank code)
+        /// Business Identifier Code - in case the payment is performed in Czech republic
+        /// it may be inserted bank code (example: 0300 -> csob, 0800 -> ceska sporitelna, atc.)
         /// </summary>
         [DataMember]
         public string BIC { get; set; }
 
         /// <summary>
-        /// International bank anccount number (or simply an account number)
+        /// International bank anccount number - in case the payment is performed in Czech republic 
+        /// it may be inserted account number (example: 1234567890, 123456-1234567890)
         /// </summary>
         [DataMember]
         public string IBAN { get; set; }
