@@ -26,5 +26,11 @@ namespace SharedLibs.DataContracts
         /// </summary>
         [DataMember]
         public int Quantity { get; set; }
+
+        /// <summary>
+        /// Is product active - it might be there for later (therefore inactive)
+        /// </summary>
+        [DataMember]
+        public bool Active { get; set; }
     }
 }

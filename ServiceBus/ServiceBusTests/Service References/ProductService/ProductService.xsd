@@ -29,6 +29,21 @@
   <xs:element name="Result" nillable="true" type="tns:Result" />
   <xs:complexType name="Products">
     <xs:complexContent mixed="false">
+      <xs:extension base="tns:PluralizedOfProductgUMYyf5D">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="Products" nillable="true" type="tns:Products" />
+  <xs:complexType name="PluralizedOfProductgUMYyf5D">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="PluralizedOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="Product" Namespace="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:complexContent mixed="false">
       <xs:extension base="tns:DTO">
         <xs:sequence>
           <xs:element minOccurs="0" name="Items" nillable="true" type="tns:ArrayOfProduct" />
@@ -36,7 +51,7 @@
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
-  <xs:element name="Products" nillable="true" type="tns:Products" />
+  <xs:element name="PluralizedOfProductgUMYyf5D" nillable="true" type="tns:PluralizedOfProductgUMYyf5D" />
   <xs:complexType name="ArrayOfProduct">
     <xs:sequence>
       <xs:element minOccurs="0" maxOccurs="unbounded" name="Product" nillable="true" type="tns:Product" />

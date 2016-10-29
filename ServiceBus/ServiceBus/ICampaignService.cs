@@ -41,7 +41,7 @@ namespace ServiceBus
         /// </summary>
         /// <param name="campaign">Campaign object</param>
         /// <returns>Result object</returns>
-        [OperationContract]
+        [OperationContract(Name = "AddCampaignByObject")]
         SharedLibs.DataContracts.Result AddCampaign(SharedLibs.DataContracts.Campaign campaign);
 
         /// <summary>

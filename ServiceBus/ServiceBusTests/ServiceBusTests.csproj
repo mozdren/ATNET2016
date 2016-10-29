@@ -85,6 +85,9 @@
     <None Include="Service References\ProductService\ServiceBusTests.ProductService.Products.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
+    <None Include="Service References\ProductService\ServiceBusTests.ProductService.Result.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadataStorage Include="Service References\ProductService\" />
