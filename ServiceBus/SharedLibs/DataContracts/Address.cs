@@ -16,25 +16,26 @@ namespace SharedLibs.DataContracts
         public Guid Id { get; set; }
 
         /// <summary>
-        /// Postal Code
+        /// Postal Code, or ZIP code
         /// </summary>
         [DataMember]
         public string PostCode { get; set; }
 
         /// <summary>
-        /// House Number
+        /// Description number of Hause
         /// </summary>
         [DataMember]
         public int HouseNumber { get; set; }
 
         /// <summary>
         /// House number extension can have alphabethical chracters
+        /// usualy contains Oriented numberm of Hause
         /// </summary>
         [DataMember]
         public string HouseNumberExtension { get; set; }
 
         /// <summary>
-        /// Street
+        /// Name of the Street, or town part, if there is no Street
         /// </summary>
         [DataMember]
         public string Street { get; set; }
