@@ -48,6 +48,7 @@ namespace ServiceBus
                     //basket is saved therefore I would like to return SharedLibs.DataContracts.Basket(); Is this the way how to create it
 
 
+                    //TODO: Is there some C# function which can do this for me so I can use BasketCampaings = basket.Campaigns; like I tried below? Or I have to convert this always explicitly in some block of code?
                     var ciList = new List<SharedLibs.DataContracts.Campaign>();
                     foreach (var item in basket.Campaigns)
                     {
@@ -65,8 +66,8 @@ namespace ServiceBus
                         // foreach is also not available in here  so I have to do all the stuff elswhere for example like ciList ?
                         //foreach (var item in basket.Campaigns) {}
 
-                        BasketCampaings = ciList
-
+                        BasketCampaings = ciList,
+                        //BasketItems = not implemeted;
                     };
 
 
