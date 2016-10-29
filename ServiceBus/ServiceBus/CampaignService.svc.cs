@@ -38,7 +38,7 @@ namespace ServiceBus
             return Result.Fatal("Not Implemented");
         }
 
-        public Campaign EditCampaign(Guid guid, string name, double discount)
+        public SharedLibs.DataContracts.Campaign EditCampaign(Guid guid, string name, double discount)
         {
             //before continuing is necessary to add Campaign to ServiceBusDatabaseEntities
             return new SharedLibs.DataContracts.Campaign
@@ -51,6 +51,12 @@ namespace ServiceBus
         {
             //before continuing is necessary to add Campaign to ServiceBusDatabaseEntities
             return Result.Fatal("Not Implemented");
+        }
+
+        public Result AddCampaign(SharedLibs.DataContracts.Campaign campaign)
+        { 
+            //in order to compile 
+            throw new NotImplementedException();
         }
     }
 }
