@@ -88,6 +88,7 @@
     </Content>
     <Content Include="Mock\CampaignService.svc" />
     <Content Include="Mock\ProductService.svc" />
+    <Content Include="OrderService.svc" />
     <Content Include="ProductService.svc" />
     <Content Include="Properties\DataSources\SharedLibs.DataContracts.Product.datasource" />
     <Content Include="Properties\DataSources\SharedLibs.DataContracts.Products.datasource" />
@@ -119,12 +120,16 @@
       <DependentUpon>EntityDataModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="ICampaignService.cs" />
+    <Compile Include="IOrderService.cs" />
     <Compile Include="IProductService.cs" />
     <Compile Include="Mock\CampaignService.svc.cs">
       <DependentUpon>CampaignService.svc</DependentUpon>
     </Compile>
     <Compile Include="Mock\ProductService.svc.cs">
       <DependentUpon>ProductService.svc</DependentUpon>
+    </Compile>
+    <Compile Include="OrderService.svc.cs">
+      <DependentUpon>OrderService.svc</DependentUpon>
     </Compile>
     <Compile Include="Product.cs">
       <DependentUpon>EntityDataModel.tt</DependentUpon>
