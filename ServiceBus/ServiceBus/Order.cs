@@ -15,16 +15,19 @@ namespace ServiceBus
     public partial class Order
     {
         public int Id { get; set; }
-        public System.DateTime OrderDate { get; set; }
-        public System.DateTime DeliveryDate { get; set; }
-        public int AddressId { get; set; }
-        public int BillingInformationId { get; set; }
-        public int UserId { get; set; }
-        public int Status { get; set; }
+        public Nullable<System.DateTime> OrderDate { get; set; }
+        public Nullable<System.DateTime> DeliveryDate { get; set; }
+        public Nullable<int> AddressId { get; set; }
+        public Nullable<int> BillingInformationId { get; set; }
+        public Nullable<int> UserId { get; set; }
+        public string InvoiceNr { get; set; }
+        public int OrderStatusId { get; set; }
+        public string CustNotes { get; set; }
     
         public virtual Address Address { get; set; }
         public virtual BillingInformation BillingInformation { get; set; }
         public virtual Basket Basket { get; set; }
         public virtual User User { get; set; }
+        public virtual OrderStatus OrderStatus { get; set; }
     }
 }

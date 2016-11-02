@@ -12,20 +12,18 @@ namespace ServiceBus
     using System;
     using System.Collections.Generic;
     
-    public partial class StorageItem
+    public partial class OrderStatus
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public StorageItem()
+        public OrderStatus()
         {
-            this.Quantity = 0;
+            this.Orders = new HashSet<Order>();
         }
     
         public int Id { get; set; }
-        public System.Guid ProductId { get; set; }
-        public int StorageId { get; set; }
-        public int Quantity { get; set; }
+        public string Status { get; set; }
     
-        public virtual Product Product { get; set; }
-        public virtual Storage Storage { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Order> Orders { get; set; }
     }
 }

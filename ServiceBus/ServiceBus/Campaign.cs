@@ -17,14 +17,18 @@ namespace ServiceBus
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Campaign()
         {
-            this.Baskets = new HashSet<Basket>();
+            this.CampaignItems = new HashSet<CampaignItem>();
         }
     
         public int Id { get; set; }
         public string Name { get; set; }
         public string Discount { get; set; }
+        public Nullable<System.DateTime> StartDate { get; set; }
+        public Nullable<System.DateTime> EndDate { get; set; }
+        public bool Active { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Basket> Baskets { get; set; }
+        public virtual ICollection<CampaignItem> CampaignItems { get; set; }
+        public virtual ProductType ProductType { get; set; }
     }
 }

@@ -17,12 +17,12 @@ namespace ServiceBus
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public BasketItem()
         {
-            this.Count = 1;
+            this.Quantity = 1;
         }
     
         public System.Guid ProductId { get; set; }
         public int BasketId { get; set; }
-        public int Count { get; set; }
+        public int Quantity { get; set; }
         public System.Guid Id { get; set; }
     
         public virtual Product Product { get; set; }

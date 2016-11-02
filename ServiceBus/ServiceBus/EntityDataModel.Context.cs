@@ -37,5 +37,8 @@ namespace ServiceBus
         public virtual DbSet<Repair> Repairs { get; set; }
         public virtual DbSet<Storage> Storages { get; set; }
         public virtual DbSet<StorageItem> StorageItems { get; set; }
+        public virtual DbSet<CampaignItem> CampaignItems { get; set; }
+        public virtual DbSet<ProductType> ProductTypes { get; set; }
+        public virtual DbSet<OrderStatus> OrderStatus { get; set; }
     }
 }

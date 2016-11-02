@@ -18,6 +18,7 @@ namespace ServiceBus
         public Basket()
         {
             this.BasketItems = new HashSet<BasketItem>();
+            this.CampaignItems = new HashSet<CampaignItem>();
         }
     
         public int Id { get; set; }
@@ -26,7 +27,8 @@ namespace ServiceBus
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BasketItem> BasketItems { get; set; }
-        public virtual Campaign Campaign { get; set; }
         public virtual Order Order { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CampaignItem> CampaignItems { get; set; }
     }
 }
