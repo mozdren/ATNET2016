@@ -46,11 +46,26 @@ namespace ServiceBus
                                                         BillingInformation billingInformation, DateTime deliveryDate)
         {
             //****
-            return new SharedLibs.DataContracts.Order(); // not finish
+            return new SharedLibs.DataContracts.Order()
+            {
+                Result = Result.Fatal("Not finish")
+            };
         }
 
 
-        public SharedLibs.DataContracts.Result ChangeOrderState(Guid guid, int state)
+        public SharedLibs.DataContracts.Result ChangeOrderState(Guid guid, SharedLibs.Enums.OrderStateType stateType)
+        {
+            return Result.Fatal("Not finish");
+        }
+
+
+        public SharedLibs.DataContracts.Result SendEmail(string user, string emailText)
+        {
+            return Result.Fatal("Not finish");
+        }
+
+
+        public SharedLibs.DataContracts.Result CreateInvoice(string user, Order order)
         {
             return Result.Fatal("Not finish");
         }

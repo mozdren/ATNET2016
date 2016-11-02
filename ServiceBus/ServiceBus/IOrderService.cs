@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ServiceModel;
 using SharedLibs.DataContracts;
+using SharedLibs.Enums;
 
 namespace ServiceBus
 {
@@ -73,7 +74,27 @@ namespace ServiceBus
         /// <param name="state">State of order</param>
         /// /// <returns>Result object</returns>
         [OperationContract]
-        SharedLibs.DataContracts.Result ChangeOrderState(Guid guid, int state);
-        // As state it'd be better to use enums - CANCEL, PAID, FINISHED
+        SharedLibs.DataContracts.Result ChangeOrderState(Guid guid, SharedLibs.Enums.OrderStateType stateType);
+
+
+        /// <summary>
+        /// Send e-mail to client
+        /// </summary>
+        /// <param name="user">Reference to user</param> // using data typ string until user is created 
+        /// <param name="emailText">Formated text of e-mail</param>
+        /// <returns>Result object</returns>
+        [OperationContract]
+        SharedLibs.DataContracts.Result SendEmail(string user, string emailText);
+
+
+        /// <summary>
+        /// Create invoice
+        /// </summary>
+        /// <param name="user">Reference to user</param> // using data typ string until user is created 
+        /// <param name="order">Reference to order</param>
+        /// <returns>Result object</returns>
+        [OperationContract]
+        SharedLibs.DataContracts.Result CreateInvoice(string user, Order order);
+
     }
 }
