@@ -53,6 +53,7 @@
     <Compile Include="DataContracts\Pluralized.cs" />
     <Compile Include="DataContracts\Product.cs" />
     <Compile Include="DataContracts\Result.cs" />
+    <Compile Include="DataContracts\User.cs" />
     <Compile Include="Enums\OrderStateEnums.cs" />
     <Compile Include="Enums\ResultEnums.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

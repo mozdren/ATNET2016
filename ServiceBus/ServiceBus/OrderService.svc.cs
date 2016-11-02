@@ -10,8 +10,56 @@ namespace ServiceBus
     {
 
         // Implementation and other parts - I will make an effort to do it per partes :-) KZ
+        // At this time is not created table order
+
+        /// <summary>
+        /// Method returns order according requested ID number
+        /// </summary>
+        /// <param name="guid">Order ID number</param>
+        /// <returns>Order object</returns>
         public SharedLibs.DataContracts.Order GetOrder(Guid guid)
         {
+            try
+            {
+                using (var context = new ServiceBusDatabaseEntities())
+                {
+                    /*
+                    var order = context.Orders.FirstOrDefault(o => o.ID == guid);
+
+                    if (order == null)
+                    {
+                        return new SharedLibs.DataContracts.Order
+                        {
+                            Result = SharedLibs.DataContracts.Result.ErrorFormat("Requested order ID number {0} was not found.", guid)
+                        };
+                    }
+
+                    return new SharedLibs.DataContracts.Order
+                    {
+                        Id = guid;
+                        Basket = order.Basket;
+                        DeliveryAddress = order.DeliveryAddress;
+                        BillingInformation = order.BillingInformation;
+                        OrderDate = order.OrderDate;
+                        DeliveryDate = order.DeliveryDate;
+                        OrderState = order.OrderState;
+                        Result = SharedLibs.DataContracts.Result.SuccessFormat("Requested order ID number {0} was found.", guid);
+
+                    };
+                    */
+                }
+            }
+            catch (Exception exception)
+            {
+                /*
+                return new SharedLibs.DataContracts.Order
+                {
+                    Result = SharedLibs.DataContracts.Result.FatalFormat("In method OrderService.GetOrder was thrown exception: {0}", exception.Message)
+                };
+                */
+            }
+
+            // delete this code after finishing implementation method GetOrder 
             return new SharedLibs.DataContracts.Order
             {
                 Result = Result.Fatal("Not finish")
@@ -19,6 +67,10 @@ namespace ServiceBus
         }
 
 
+        /// <summary>
+        /// Method returns list of orders in collection
+        /// </summary>
+        /// <returns>List of orders</returns>
         public SharedLibs.DataContracts.Orders GetAllOrders()
         {
             return new SharedLibs.DataContracts.Orders
@@ -45,7 +97,6 @@ namespace ServiceBus
         public SharedLibs.DataContracts.Order EditOrder(Guid guid, Basket basket, Address address,
                                                         BillingInformation billingInformation, DateTime deliveryDate)
         {
-            //****
             return new SharedLibs.DataContracts.Order()
             {
                 Result = Result.Fatal("Not finish")
@@ -53,8 +104,34 @@ namespace ServiceBus
         }
 
 
-        public SharedLibs.DataContracts.Result ChangeOrderState(Guid guid, SharedLibs.Enums.OrderStateType stateType)
+        public SharedLibs.DataContracts.Result ChangeOrderState(Guid guid, SharedLibs.Enums.OrderStateType orderState)
         {
+            try
+            {
+                using (var context = new ServiceBusDatabaseEntities())
+                {
+                    /*
+                    var order = context.Orders.FirstOrDefault(o => o.ID == guid);
+
+                    if (order == null)
+                    {
+                        return SharedLibs.DataContracts.Result.ErrorFormat("Requested order ID number {0} was not found.", guid);
+                    }
+                    else
+                    {
+                        order.OrderState = orderState;
+                        return SharedLibs.DataContracts.Result.SuccessFormat("State of requested order ID number {0} was changed.", guid);
+                    */
+                }
+            }
+            catch (Exception exception)
+            {
+                /*               
+                return SharedLibs.DataContracts.Result.FatalFormat("In method OrderService.GetOrder was thrown exception: {0}", exception.Message)
+                */
+            }
+
+            // delete this code after finishing implementation method ChangeOrderState
             return Result.Fatal("Not finish");
         }
 
@@ -66,6 +143,21 @@ namespace ServiceBus
 
 
         public SharedLibs.DataContracts.Result CreateInvoice(string user, Order order)
+        {
+            return Result.Fatal("Not finish");
+        }
+
+        public SharedLibs.DataContracts.Result DeleteOrder(Guid guid)
+        {
+            return Result.Fatal("Not finish");
+        }
+
+        public SharedLibs.DataContracts.Result SendEmail(User user, string emailText)
+        {
+            return Result.Fatal("Not finish");
+        }
+
+        public SharedLibs.DataContracts.Result CreateInvoice(User user, Order order)
         {
             return Result.Fatal("Not finish");
         }

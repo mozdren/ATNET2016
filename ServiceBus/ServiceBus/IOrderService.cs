@@ -67,6 +67,16 @@ namespace ServiceBus
                                                  DateTime deliveryDate);
 
 
+
+        /// <summary>
+        /// Delete order with specific Guid
+        /// </summary>
+        /// <param name="guid">guid of a order</param>
+        /// <returns>Result object</returns>
+        [OperationContract]
+        SharedLibs.DataContracts.Result DeleteOrder(Guid guid);
+
+
         /// <summary>
         /// Order state change
         /// </summary>
@@ -74,27 +84,27 @@ namespace ServiceBus
         /// <param name="state">State of order</param>
         /// /// <returns>Result object</returns>
         [OperationContract]
-        SharedLibs.DataContracts.Result ChangeOrderState(Guid guid, SharedLibs.Enums.OrderStateType stateType);
+        SharedLibs.DataContracts.Result ChangeOrderState(Guid guid, SharedLibs.Enums.OrderStateType orderState);
 
 
         /// <summary>
         /// Send e-mail to client
         /// </summary>
-        /// <param name="user">Reference to user</param> // using data typ string until user is created 
+        /// <param name="user">Reference to user</param>
         /// <param name="emailText">Formated text of e-mail</param>
         /// <returns>Result object</returns>
         [OperationContract]
-        SharedLibs.DataContracts.Result SendEmail(string user, string emailText);
+        SharedLibs.DataContracts.Result SendEmail(User user, string emailText);
 
 
         /// <summary>
         /// Create invoice
         /// </summary>
-        /// <param name="user">Reference to user</param> // using data typ string until user is created 
+        /// <param name="user">Reference to user</param>
         /// <param name="order">Reference to order</param>
         /// <returns>Result object</returns>
         [OperationContract]
-        SharedLibs.DataContracts.Result CreateInvoice(string user, Order order);
+        SharedLibs.DataContracts.Result CreateInvoice(User user, Order order);
 
     }
 }

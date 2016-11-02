@@ -50,5 +50,12 @@ namespace SharedLibs.DataContracts
         /// </summary>
         [DataMember]
         public DateTime DeliveryDate { get; set; }
+
+        /// <summary>
+        /// Order state
+        /// Keeps actual state of order - implicit value NoState which is used in case there is no state
+        /// </summary>
+        [DataMember]
+        public SharedLibs.Enums.OrderStateType OrderState { set; get; }
     }
 }
