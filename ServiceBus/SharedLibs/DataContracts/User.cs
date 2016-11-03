@@ -17,6 +17,22 @@ namespace SharedLibs.DataContracts
 
 
         /// <summary>
+        /// Login of user - used for registered users
+        /// It can be null for anonymous users
+        /// </summary>
+        [DataMember]
+        public string Login { set; get; }
+
+
+        /// <summary>
+        /// Password of user - used for registered users
+        /// It can be null for anonymous users
+        /// </summary>
+        [DataMember]
+        public string Password { set; get; }
+
+
+        /// <summary>
         /// Name of user
         /// </summary>
         [DataMember]
@@ -56,13 +72,20 @@ namespace SharedLibs.DataContracts
         /// Identification number of company
         /// </summary>
         [DataMember]
-        public string IdentificationNumberOfCompany { set; get; }
+        public string IdentificationCompanyNumber { set; get; }
 
 
         /// <summary>
         /// Tax Identification number of company
         /// </summary>
         [DataMember]
-        public string TaxIdentificationNumberOfCompany { set; get; }
+        public string TaxIdentificationCompanyNumber { set; get; }
+
+
+        /// <summary>
+        /// Address of user
+        /// </summary>
+        [DataMember]
+        public Address UserAddress { set; get; }
     }
 }

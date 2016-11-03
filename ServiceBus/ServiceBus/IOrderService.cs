@@ -61,10 +61,11 @@ namespace ServiceBus
         /// <param name="address">Reference to address object</param>
         /// <param name="billingInformation">Reference to billingInformation object</param>
         /// <param name="deliveryDate">Order delivery date</param>
+        /// <param name="orderState">Signals current state of order</param>
         /// <returns>New Order object</returns>
         [OperationContract]
-        SharedLibs.DataContracts.Order EditOrder(Guid guid, Basket basket, Address address, BillingInformation billingInformation,
-                                                 DateTime deliveryDate);
+        SharedLibs.DataContracts.Order EditOrder(Guid guid, Basket basket, Address deliveryAddress, BillingInformation billingInformation,
+                                                 DateTime deliveryDate, OrderStateType orderState);
 
 
 
@@ -84,7 +85,7 @@ namespace ServiceBus
         /// <param name="state">State of order</param>
         /// /// <returns>Result object</returns>
         [OperationContract]
-        SharedLibs.DataContracts.Result ChangeOrderState(Guid guid, SharedLibs.Enums.OrderStateType orderState);
+        SharedLibs.DataContracts.Order ChangeOrderState(Guid guid, SharedLibs.Enums.OrderStateType orderState);
 
 
         /// <summary>
