@@ -40,8 +40,8 @@ namespace ServiceBus
         /// <param name="deliveryDate">Order delivery date</param>
         /// <returns>Result object</returns>
         [OperationContract]
-        SharedLibs.DataContracts.Result AddOrder(Guid guid, Basket basket, Address address, BillingInformation billingInformation,
-                                                 DateTime orderDate, DateTime deliveryDate);
+        SharedLibs.DataContracts.Result AddOrder(Guid guid, Basket basket, Address deliveryAddress, BillingInformation billingInformation,
+                                                 DateTime orderDate, DateTime deliveryDate, OrderStateType orderState);
 
 
         /// <summary>
@@ -66,7 +66,17 @@ namespace ServiceBus
         [OperationContract]
         SharedLibs.DataContracts.Order EditOrder(Guid guid, Basket basket, Address deliveryAddress, BillingInformation billingInformation,
                                                  DateTime deliveryDate, OrderStateType orderState);
+                
 
+
+        /// <summary>
+        /// Order state change
+        /// </summary>
+        /// <param name="guid">ID of a order</param>
+        /// <param name="state">State of order</param>
+        /// /// <returns>Result object</returns>
+        [OperationContract]
+        SharedLibs.DataContracts.Result ChangeOrderState(Guid guid, SharedLibs.Enums.OrderStateType orderState);
 
 
         /// <summary>
@@ -79,23 +89,13 @@ namespace ServiceBus
 
 
         /// <summary>
-        /// Order state change
-        /// </summary>
-        /// <param name="guid">ID of a order</param>
-        /// <param name="state">State of order</param>
-        /// /// <returns>Result object</returns>
-        [OperationContract]
-        SharedLibs.DataContracts.Order ChangeOrderState(Guid guid, SharedLibs.Enums.OrderStateType orderState);
-
-
-        /// <summary>
         /// Send e-mail to client
         /// </summary>
         /// <param name="user">Reference to user</param>
         /// <param name="emailText">Formated text of e-mail</param>
         /// <returns>Result object</returns>
         [OperationContract]
-        SharedLibs.DataContracts.Result SendEmail(User user, string emailText);
+        SharedLibs.DataContracts.Result SendEmail(User user, Order order, string emailText);
 
 
         /// <summary>

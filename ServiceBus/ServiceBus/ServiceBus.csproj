@@ -93,6 +93,21 @@
     <Content Include="Properties\DataSources\SharedLibs.DataContracts.Product.datasource" />
     <Content Include="Properties\DataSources\SharedLibs.DataContracts.Products.datasource" />
     <Content Include="Properties\DataSources\SharedLibs.DataContracts.Result.datasource" />
+    <Content Include="Properties\DataSources\SharedLibs.DataContracts.Order.datasource" />
+    <Content Include="Properties\DataSources\SharedLibs.DataContracts.Orders.datasource" />
+    <None Include="Service References\OrderServiceProxyClass\OrderService.wsdl" />
+    <None Include="Service References\OrderServiceProxyClass\OrderService.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\OrderServiceProxyClass\OrderService1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\OrderServiceProxyClass\OrderService2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\OrderServiceProxyClass\OrderService3.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Service References\ProductServiceProxyClass\ProductService.disco" />
     <None Include="Service References\ProductServiceProxyClass\configuration91.svcinfo" />
     <None Include="Service References\ProductServiceProxyClass\configuration.svcinfo" />
@@ -101,6 +116,13 @@
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
     <Content Include="CampaignService.svc" />
+    <None Include="Service References\OrderServiceProxyClass\OrderService.disco" />
+    <None Include="Service References\OrderServiceProxyClass\configuration91.svcinfo" />
+    <None Include="Service References\OrderServiceProxyClass\configuration.svcinfo" />
+    <None Include="Service References\OrderServiceProxyClass\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -138,6 +160,11 @@
       <DependentUpon>ProductService.svc</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service References\OrderServiceProxyClass\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Service References\ProductServiceProxyClass\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -189,6 +216,7 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
+    <WCFMetadataStorage Include="Service References\OrderServiceProxyClass\" />
     <WCFMetadataStorage Include="Service References\ProductServiceProxyClass\" />
   </ItemGroup>
   <PropertyGroup>

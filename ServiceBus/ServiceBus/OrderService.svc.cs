@@ -4,6 +4,7 @@ using System.Data.Entity.Migrations;
 using System.Linq;
 using SharedLibs.DataContracts;
 using SharedLibs.Enums;
+using System.Net.Mail;
 
 namespace ServiceBus
 {
@@ -24,7 +25,7 @@ namespace ServiceBus
             {
                 using (var context = new ServiceBusDatabaseEntities())
                 {
-                    /*
+                    /************************************************************hidden code**********************
                     var order = context.Orders.FirstOrDefault(o => o.ID == guid);
 
                     if (order == null)
@@ -60,7 +61,7 @@ namespace ServiceBus
                 
             }
 
-            // delete this code after finishing implementation method GetOrder 
+//********* delete this code after finishing implementation method GetOrder ************
             return new SharedLibs.DataContracts.Order
             {
                 Result = Result.Fatal("Not finish")
@@ -79,7 +80,7 @@ namespace ServiceBus
                 using (var context = new ServiceBusDatabaseEntities())
                 {
                     var orderList = new List<Order>();
-                    /*
+                    /***********************************************hidden code***************************
                     foreach (var order in context.Orders)
                     {
                         orderList.Add(new SharedLibs.DataContracts.Order
@@ -122,7 +123,7 @@ namespace ServiceBus
                 };
             }
 
-            // delete this code after finishing implementation method GetOrder 
+//********* delete this code after finishing implementation method GetOrder ************
             return new SharedLibs.DataContracts.Orders
             {
                 Result = Result.Fatal("Not finish")
@@ -140,10 +141,43 @@ namespace ServiceBus
         /// <param name="deliveryDate">Order delivery date</param>
         /// </summary>
         /// <returns>Result object</returns>
-        public SharedLibs.DataContracts.Result AddOrder(Guid guid, Basket basket, Address address, BillingInformation billingInformation,
-                                                 DateTime orderDate, DateTime deliveryDate)
+        public SharedLibs.DataContracts.Result AddOrder(Guid guid, Basket basket, Address deliveryAddress, BillingInformation billingInformation,
+                                                 DateTime orderDate, DateTime deliveryDate, OrderStateType orderState)
         {
-            return Result.Fatal("Not finish");
+            try
+            {
+                using (var context = new ServiceBusDatabaseEntities())
+                {
+                    if (basket != null && deliveryAddress != null && billingInformation != null &&
+                        orderDate == DateTime.Now && deliveryDate >= DateTime.Now)
+                    {
+                        var newOrder = new SharedLibs.DataContracts.Order
+                        {
+                            Id = guid,
+                            Basket = basket,
+                            DeliveryAddress = deliveryAddress,
+                            BillingInformation = billingInformation,
+                            OrderDate = orderDate,
+                            DeliveryDate = deliveryDate,
+                            OrderState = orderState
+                        };
+
+//********************* context.Orders.Add(newOrder); ************************hidden code***********************
+                        context.SaveChanges();
+
+                        return SharedLibs.DataContracts.Result.SuccessFormat("New order ID number {0} was stored successfully.", guid);
+                    }
+                    else
+                    {
+                        return SharedLibs.DataContracts.Result.ErrorFormat("Input parameters have not correct value.");
+                    }
+                }
+            }
+            catch (Exception exception)
+            {
+                return SharedLibs.DataContracts.Result.FatalFormat("In method OrderService.AddOrder was thrown exception: {0}",
+                                                                         exception.Message);
+            }           
         }
 
 
@@ -155,7 +189,7 @@ namespace ServiceBus
         public SharedLibs.DataContracts.Result AddOrder(Order order)
         {
             return AddOrder(order.Id, order.Basket, order.DeliveryAddress, order.BillingInformation,
-                            order.OrderDate, order.DeliveryDate);
+                            order.OrderDate, order.DeliveryDate, order.OrderState);
         }
 
 
@@ -189,10 +223,10 @@ namespace ServiceBus
                         OrderState = storedOrder.OrderState
                     };
 
-                    /*
+
                     using (var context = new ServiceBusDatabaseEntities())
                     {
-                        context.Orders.Attach(alteredOrder);
+//********************* context.Orders.Attach(alteredOrder); *****************hidden code***************
 
                         // Test data for change of basket object
                         if (basket != null && basket != storedOrder.Basket)
@@ -241,7 +275,6 @@ namespace ServiceBus
                             };
                         }
                     }
-                    */
                 }
                 else
                 {
@@ -256,12 +289,6 @@ namespace ServiceBus
                                                                          exception.Message)
                 };
             }
-
-            // delete this code after finishing implementation method EditOrder 
-            return new SharedLibs.DataContracts.Order()
-            {
-                Result = Result.Fatal("Not finish")
-            };
         }
 
 
@@ -271,7 +298,7 @@ namespace ServiceBus
         /// <param name="guid">ID of a order</param>
         /// <param name="state">State of order</param>
         /// /// <returns>Result object</returns>
-        public SharedLibs.DataContracts.Order ChangeOrderState(Guid guid, SharedLibs.Enums.OrderStateType orderState)
+        public SharedLibs.DataContracts.Result ChangeOrderState(Guid guid, SharedLibs.Enums.OrderStateType orderState)
         {
             try
             {
@@ -292,69 +319,118 @@ namespace ServiceBus
 
                     using (var context = new ServiceBusDatabaseEntities())
                     {
-                        /*
-                        context.Orders.Attach(alteredOrder);
+                        
+//********************* context.Orders.Attach(alteredOrder); ***********************hidden code*******************
 
                         alteredOrder.OrderState = orderState;
 
                         if (context.Entry(alteredOrder).State == System.Data.Entity.EntityState.Unchanged)
                         {
-                            storedOrder.Result = SharedLibs.DataContracts.Result.WarningFormat("State of order ID number {0} was not changed.",
-                                                                                               guid);
-                            return storedOrder;
+                            return SharedLibs.DataContracts.Result.WarningFormat("State of order ID number {0} was not changed.", guid);
                         }
                         else
                         {
-                            context.SaveChanges();
-
-                            return new SharedLibs.DataContracts.Order
-                            {
-                                Id = alteredOrder.Id,
-                                Basket = alteredOrder.Basket,
-                                DeliveryAddress = alteredOrder.DeliveryAddress,
-                                BillingInformation = alteredOrder.BillingInformation,
-                                OrderDate = alteredOrder.OrderDate,
-                                DeliveryDate = alteredOrder.DeliveryDate,
-                                OrderState = alteredOrder.OrderState,
-                                Result = SharedLibs.DataContracts.Result.SuccessFormat("State of order ID number {0} was changed")
-                            };
-                        }
-                        */
+                            context.SaveChanges();                            
+                            return SharedLibs.DataContracts.Result.SuccessFormat("State of order ID number {0} was changed");
+                        }                        
                     }
                 }
                 else
                 {
-                    return storedOrder;
+                    return SharedLibs.DataContracts.Result.WarningFormat("Result of requested order ID number {0} is not success." +
+                                                                          " Order state cannot be changed.", guid);
                 }
             }
             catch (Exception exception)
             {
-                return new SharedLibs.DataContracts.Order
-                {
-                    Result = SharedLibs.DataContracts.Result.FatalFormat("In method OrderService.ChangeOrderState was thrown exception: {0}",
-                                                                        exception.Message)
-                };                
+                return SharedLibs.DataContracts.Result.FatalFormat("In method OrderService.ChangeOrderState was thrown exception: {0}",
+                                                                        exception.Message);           
             }
-
-            // delete this code after finishing implementation method ChangeOrderState
-            return new SharedLibs.DataContracts.Order
-            {
-                Result = Result.Fatal("Not finish")
-            };
         }
 
 
-
+        /// <summary>
+        /// Delete order with specific Guid
+        /// </summary>
+        /// <param name="guid">guid of a order</param>
+        /// <returns>Result object</returns>
         public SharedLibs.DataContracts.Result DeleteOrder(Guid guid)
         {
-            return Result.Fatal("Not finish");
+            try
+            {
+                using (var context = new ServiceBusDatabaseEntities())
+                {
+                    var storedOrder = this.GetOrder(guid);
+
+                    if (storedOrder == null)
+                    {
+                        return SharedLibs.DataContracts.Result.ErrorFormat("Requested order ID number {0} was not found.", guid);
+                    }
+
+//***************** context.Orders.Remove(storedOrder); ***********************hidden code*******************
+                    context.SaveChanges();
+
+                    return SharedLibs.DataContracts.Result.SuccessFormat("Requested order ID number {0} was deleted successfully.", guid);
+                }
+            }
+            catch (Exception exception)
+            {
+                return SharedLibs.DataContracts.Result.FatalFormat("In method OrderService.DeleteOrder was thrown exception: {0}.",
+                                                                         exception.Message);
+            }
         }
 
-        public SharedLibs.DataContracts.Result SendEmail(User user, string emailText)
+
+        /// <summary>
+        /// Send e-mail to client
+        /// </summary>
+        /// <param name="user">Reference to user</param>
+        /// <param name="emailText">Formated text of e-mail</param>
+        /// <returns>Result object</returns>
+        public SharedLibs.DataContracts.Result SendEmail(User user, Order order, string emailText)
         {
-            return Result.Fatal("Not finish");
+            try
+            {
+                if (user != null && order != null && !String.IsNullOrEmpty(emailText))
+                {
+                    string from = "our_company@vsb.cz";   // Temporary sender
+                    string subject = "Order number " + order.Id;
+                    string smtpServer = "smtpServer";
+
+                    MailMessage message = new MailMessage(from, user.EmailAddress, subject, emailText);
+                    SmtpClient client = new SmtpClient(smtpServer); // Temporary server name
+
+                    if (message != null && client != null)
+                    {
+                        client.Send(message);
+                        return SharedLibs.DataContracts.Result.SuccessFormat("E-mail was correctly sent to {0}.", user.EmailAddress);
+                    }
+                    else
+                    {
+                        throw new Exception("Memory allocation failure of MailMessage or SmtpClient.");
+                    }                    
+                }
+                else
+                {
+                    return SharedLibs.DataContracts.Result.ErrorFormat("Input parameters to create e-mail to {0} have not correct value.",
+                                                                        user.EmailAddress);                                                                      
+                }
+
+            }
+            catch (Exception exception)
+            {
+                return SharedLibs.DataContracts.Result.FatalFormat("In method OrderService.SendEmail was thrown exception: {0}.",
+                                                                         exception.Message);
+            }
         }
 
+
+        /// <summary>
+        /// Create invoice
+        /// </summary>
+        /// <param name="user">Reference to user</param>
+        /// <param name="order">Reference to order</param>
+        /// <returns>Result object</returns>
         public SharedLibs.DataContracts.Result CreateInvoice(User user, Order order)
         {
             return Result.Fatal("Not finish");
