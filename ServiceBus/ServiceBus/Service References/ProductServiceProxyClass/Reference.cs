@@ -38,6 +38,18 @@ namespace ServiceBus.ProductServiceProxyClass {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProductService/AddProductByObject", ReplyAction="http://tempuri.org/IProductService/AddProductByObjectResponse")]
         System.Threading.Tasks.Task<SharedLibs.DataContracts.Result> AddProductByObjectAsync(SharedLibs.DataContracts.Product product);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProductService/EditProduct", ReplyAction="http://tempuri.org/IProductService/EditProductResponse")]
+        SharedLibs.DataContracts.Product EditProduct(System.Guid guid, string name, double price);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProductService/EditProduct", ReplyAction="http://tempuri.org/IProductService/EditProductResponse")]
+        System.Threading.Tasks.Task<SharedLibs.DataContracts.Product> EditProductAsync(System.Guid guid, string name, double price);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProductService/DeleteProduct", ReplyAction="http://tempuri.org/IProductService/DeleteProductResponse")]
+        SharedLibs.DataContracts.Result DeleteProduct(System.Guid guid);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProductService/DeleteProduct", ReplyAction="http://tempuri.org/IProductService/DeleteProductResponse")]
+        System.Threading.Tasks.Task<SharedLibs.DataContracts.Result> DeleteProductAsync(System.Guid guid);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -97,6 +109,22 @@ namespace ServiceBus.ProductServiceProxyClass {
         
         public System.Threading.Tasks.Task<SharedLibs.DataContracts.Result> AddProductByObjectAsync(SharedLibs.DataContracts.Product product) {
             return base.Channel.AddProductByObjectAsync(product);
+        }
+        
+        public SharedLibs.DataContracts.Product EditProduct(System.Guid guid, string name, double price) {
+            return base.Channel.EditProduct(guid, name, price);
+        }
+        
+        public System.Threading.Tasks.Task<SharedLibs.DataContracts.Product> EditProductAsync(System.Guid guid, string name, double price) {
+            return base.Channel.EditProductAsync(guid, name, price);
+        }
+        
+        public SharedLibs.DataContracts.Result DeleteProduct(System.Guid guid) {
+            return base.Channel.DeleteProduct(guid);
+        }
+        
+        public System.Threading.Tasks.Task<SharedLibs.DataContracts.Result> DeleteProductAsync(System.Guid guid) {
+            return base.Channel.DeleteProductAsync(guid);
         }
     }
 }

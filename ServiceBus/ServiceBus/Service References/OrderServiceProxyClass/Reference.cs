@@ -28,10 +28,10 @@ namespace ServiceBus.OrderServiceProxyClass {
         System.Threading.Tasks.Task<SharedLibs.DataContracts.Orders> GetAllOrdersAsync();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IOrderService/AddOrder", ReplyAction="http://tempuri.org/IOrderService/AddOrderResponse")]
-        SharedLibs.DataContracts.Result AddOrder(System.Guid guid, SharedLibs.DataContracts.Basket basket, SharedLibs.DataContracts.Address address, SharedLibs.DataContracts.BillingInformation billingInformation, System.DateTime orderDate, System.DateTime deliveryDate);
+        SharedLibs.DataContracts.Result AddOrder(System.Guid guid, SharedLibs.DataContracts.Basket basket, SharedLibs.DataContracts.Address deliveryAddress, SharedLibs.DataContracts.BillingInformation billingInformation, System.DateTime orderDate, System.DateTime deliveryDate, SharedLibs.Enums.OrderStateType orderState);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IOrderService/AddOrder", ReplyAction="http://tempuri.org/IOrderService/AddOrderResponse")]
-        System.Threading.Tasks.Task<SharedLibs.DataContracts.Result> AddOrderAsync(System.Guid guid, SharedLibs.DataContracts.Basket basket, SharedLibs.DataContracts.Address address, SharedLibs.DataContracts.BillingInformation billingInformation, System.DateTime orderDate, System.DateTime deliveryDate);
+        System.Threading.Tasks.Task<SharedLibs.DataContracts.Result> AddOrderAsync(System.Guid guid, SharedLibs.DataContracts.Basket basket, SharedLibs.DataContracts.Address deliveryAddress, SharedLibs.DataContracts.BillingInformation billingInformation, System.DateTime orderDate, System.DateTime deliveryDate, SharedLibs.Enums.OrderStateType orderState);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IOrderService/AddOrderByObject", ReplyAction="http://tempuri.org/IOrderService/AddOrderByObjectResponse")]
         SharedLibs.DataContracts.Result AddOrderByObject(SharedLibs.DataContracts.Order order);
@@ -45,29 +45,76 @@ namespace ServiceBus.OrderServiceProxyClass {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IOrderService/EditOrder", ReplyAction="http://tempuri.org/IOrderService/EditOrderResponse")]
         System.Threading.Tasks.Task<SharedLibs.DataContracts.Order> EditOrderAsync(System.Guid guid, SharedLibs.DataContracts.Basket basket, SharedLibs.DataContracts.Address deliveryAddress, SharedLibs.DataContracts.BillingInformation billingInformation, System.DateTime deliveryDate, SharedLibs.Enums.OrderStateType orderState);
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IOrderService/ChangeOrderState", ReplyAction="http://tempuri.org/IOrderService/ChangeOrderStateResponse")]
+        SharedLibs.DataContracts.Result ChangeOrderState(System.Guid guid, SharedLibs.Enums.OrderStateType orderState);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IOrderService/ChangeOrderState", ReplyAction="http://tempuri.org/IOrderService/ChangeOrderStateResponse")]
+        System.Threading.Tasks.Task<SharedLibs.DataContracts.Result> ChangeOrderStateAsync(System.Guid guid, SharedLibs.Enums.OrderStateType orderState);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IOrderService/DeleteOrder", ReplyAction="http://tempuri.org/IOrderService/DeleteOrderResponse")]
         SharedLibs.DataContracts.Result DeleteOrder(System.Guid guid);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IOrderService/DeleteOrder", ReplyAction="http://tempuri.org/IOrderService/DeleteOrderResponse")]
         System.Threading.Tasks.Task<SharedLibs.DataContracts.Result> DeleteOrderAsync(System.Guid guid);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IOrderService/ChangeOrderState", ReplyAction="http://tempuri.org/IOrderService/ChangeOrderStateResponse")]
-        SharedLibs.DataContracts.Order ChangeOrderState(System.Guid guid, SharedLibs.Enums.OrderStateType orderState);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IOrderService/CreateEmail", ReplyAction="http://tempuri.org/IOrderService/CreateEmailResponse")]
+        SharedLibs.DataContracts.Result CreateEmail(SharedLibs.DataContracts.User user, SharedLibs.DataContracts.Order order, string emailText, string attachment);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IOrderService/ChangeOrderState", ReplyAction="http://tempuri.org/IOrderService/ChangeOrderStateResponse")]
-        System.Threading.Tasks.Task<SharedLibs.DataContracts.Order> ChangeOrderStateAsync(System.Guid guid, SharedLibs.Enums.OrderStateType orderState);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IOrderService/SendEmail", ReplyAction="http://tempuri.org/IOrderService/SendEmailResponse")]
-        SharedLibs.DataContracts.Result SendEmail(SharedLibs.DataContracts.User user, string emailText);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IOrderService/CreateEmail", ReplyAction="http://tempuri.org/IOrderService/CreateEmailResponse")]
+        System.Threading.Tasks.Task<SharedLibs.DataContracts.Result> CreateEmailAsync(SharedLibs.DataContracts.User user, SharedLibs.DataContracts.Order order, string emailText, string attachment);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IOrderService/SendEmail", ReplyAction="http://tempuri.org/IOrderService/SendEmailResponse")]
-        System.Threading.Tasks.Task<SharedLibs.DataContracts.Result> SendEmailAsync(SharedLibs.DataContracts.User user, string emailText);
+        SharedLibs.DataContracts.Result SendEmail(SharedLibs.DataContracts.User user, SharedLibs.DataContracts.Order order, string emailText, string attachment);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IOrderService/SendEmail", ReplyAction="http://tempuri.org/IOrderService/SendEmailResponse")]
+        System.Threading.Tasks.Task<SharedLibs.DataContracts.Result> SendEmailAsync(SharedLibs.DataContracts.User user, SharedLibs.DataContracts.Order order, string emailText, string attachment);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IOrderService/CreateInvoice", ReplyAction="http://tempuri.org/IOrderService/CreateInvoiceResponse")]
-        SharedLibs.DataContracts.Result CreateInvoice(SharedLibs.DataContracts.User user, SharedLibs.DataContracts.Order order);
+        ServiceBus.OrderServiceProxyClass.CreateInvoiceResponse CreateInvoice(ServiceBus.OrderServiceProxyClass.CreateInvoiceRequest request);
         
+        // CODEGEN: Generating message contract since the operation has multiple return values.
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IOrderService/CreateInvoice", ReplyAction="http://tempuri.org/IOrderService/CreateInvoiceResponse")]
-        System.Threading.Tasks.Task<SharedLibs.DataContracts.Result> CreateInvoiceAsync(SharedLibs.DataContracts.User user, SharedLibs.DataContracts.Order order);
+        System.Threading.Tasks.Task<ServiceBus.OrderServiceProxyClass.CreateInvoiceResponse> CreateInvoiceAsync(ServiceBus.OrderServiceProxyClass.CreateInvoiceRequest request);
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="CreateInvoice", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class CreateInvoiceRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        public SharedLibs.DataContracts.User user;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=1)]
+        public SharedLibs.DataContracts.Order order;
+        
+        public CreateInvoiceRequest() {
+        }
+        
+        public CreateInvoiceRequest(SharedLibs.DataContracts.User user, SharedLibs.DataContracts.Order order) {
+            this.user = user;
+            this.order = order;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="CreateInvoiceResponse", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class CreateInvoiceResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        public SharedLibs.DataContracts.Result CreateInvoiceResult;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=1)]
+        public string pdfFilePath;
+        
+        public CreateInvoiceResponse() {
+        }
+        
+        public CreateInvoiceResponse(SharedLibs.DataContracts.Result CreateInvoiceResult, string pdfFilePath) {
+            this.CreateInvoiceResult = CreateInvoiceResult;
+            this.pdfFilePath = pdfFilePath;
+        }
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -113,12 +160,12 @@ namespace ServiceBus.OrderServiceProxyClass {
             return base.Channel.GetAllOrdersAsync();
         }
         
-        public SharedLibs.DataContracts.Result AddOrder(System.Guid guid, SharedLibs.DataContracts.Basket basket, SharedLibs.DataContracts.Address address, SharedLibs.DataContracts.BillingInformation billingInformation, System.DateTime orderDate, System.DateTime deliveryDate) {
-            return base.Channel.AddOrder(guid, basket, address, billingInformation, orderDate, deliveryDate);
+        public SharedLibs.DataContracts.Result AddOrder(System.Guid guid, SharedLibs.DataContracts.Basket basket, SharedLibs.DataContracts.Address deliveryAddress, SharedLibs.DataContracts.BillingInformation billingInformation, System.DateTime orderDate, System.DateTime deliveryDate, SharedLibs.Enums.OrderStateType orderState) {
+            return base.Channel.AddOrder(guid, basket, deliveryAddress, billingInformation, orderDate, deliveryDate, orderState);
         }
         
-        public System.Threading.Tasks.Task<SharedLibs.DataContracts.Result> AddOrderAsync(System.Guid guid, SharedLibs.DataContracts.Basket basket, SharedLibs.DataContracts.Address address, SharedLibs.DataContracts.BillingInformation billingInformation, System.DateTime orderDate, System.DateTime deliveryDate) {
-            return base.Channel.AddOrderAsync(guid, basket, address, billingInformation, orderDate, deliveryDate);
+        public System.Threading.Tasks.Task<SharedLibs.DataContracts.Result> AddOrderAsync(System.Guid guid, SharedLibs.DataContracts.Basket basket, SharedLibs.DataContracts.Address deliveryAddress, SharedLibs.DataContracts.BillingInformation billingInformation, System.DateTime orderDate, System.DateTime deliveryDate, SharedLibs.Enums.OrderStateType orderState) {
+            return base.Channel.AddOrderAsync(guid, basket, deliveryAddress, billingInformation, orderDate, deliveryDate, orderState);
         }
         
         public SharedLibs.DataContracts.Result AddOrderByObject(SharedLibs.DataContracts.Order order) {
@@ -137,6 +184,14 @@ namespace ServiceBus.OrderServiceProxyClass {
             return base.Channel.EditOrderAsync(guid, basket, deliveryAddress, billingInformation, deliveryDate, orderState);
         }
         
+        public SharedLibs.DataContracts.Result ChangeOrderState(System.Guid guid, SharedLibs.Enums.OrderStateType orderState) {
+            return base.Channel.ChangeOrderState(guid, orderState);
+        }
+        
+        public System.Threading.Tasks.Task<SharedLibs.DataContracts.Result> ChangeOrderStateAsync(System.Guid guid, SharedLibs.Enums.OrderStateType orderState) {
+            return base.Channel.ChangeOrderStateAsync(guid, orderState);
+        }
+        
         public SharedLibs.DataContracts.Result DeleteOrder(System.Guid guid) {
             return base.Channel.DeleteOrder(guid);
         }
@@ -145,28 +200,38 @@ namespace ServiceBus.OrderServiceProxyClass {
             return base.Channel.DeleteOrderAsync(guid);
         }
         
-        public SharedLibs.DataContracts.Order ChangeOrderState(System.Guid guid, SharedLibs.Enums.OrderStateType orderState) {
-            return base.Channel.ChangeOrderState(guid, orderState);
+        public SharedLibs.DataContracts.Result CreateEmail(SharedLibs.DataContracts.User user, SharedLibs.DataContracts.Order order, string emailText, string attachment) {
+            return base.Channel.CreateEmail(user, order, emailText, attachment);
         }
         
-        public System.Threading.Tasks.Task<SharedLibs.DataContracts.Order> ChangeOrderStateAsync(System.Guid guid, SharedLibs.Enums.OrderStateType orderState) {
-            return base.Channel.ChangeOrderStateAsync(guid, orderState);
+        public System.Threading.Tasks.Task<SharedLibs.DataContracts.Result> CreateEmailAsync(SharedLibs.DataContracts.User user, SharedLibs.DataContracts.Order order, string emailText, string attachment) {
+            return base.Channel.CreateEmailAsync(user, order, emailText, attachment);
         }
         
-        public SharedLibs.DataContracts.Result SendEmail(SharedLibs.DataContracts.User user, string emailText) {
-            return base.Channel.SendEmail(user, emailText);
+        public SharedLibs.DataContracts.Result SendEmail(SharedLibs.DataContracts.User user, SharedLibs.DataContracts.Order order, string emailText, string attachment) {
+            return base.Channel.SendEmail(user, order, emailText, attachment);
         }
         
-        public System.Threading.Tasks.Task<SharedLibs.DataContracts.Result> SendEmailAsync(SharedLibs.DataContracts.User user, string emailText) {
-            return base.Channel.SendEmailAsync(user, emailText);
+        public System.Threading.Tasks.Task<SharedLibs.DataContracts.Result> SendEmailAsync(SharedLibs.DataContracts.User user, SharedLibs.DataContracts.Order order, string emailText, string attachment) {
+            return base.Channel.SendEmailAsync(user, order, emailText, attachment);
         }
         
-        public SharedLibs.DataContracts.Result CreateInvoice(SharedLibs.DataContracts.User user, SharedLibs.DataContracts.Order order) {
-            return base.Channel.CreateInvoice(user, order);
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        ServiceBus.OrderServiceProxyClass.CreateInvoiceResponse ServiceBus.OrderServiceProxyClass.IOrderService.CreateInvoice(ServiceBus.OrderServiceProxyClass.CreateInvoiceRequest request) {
+            return base.Channel.CreateInvoice(request);
         }
         
-        public System.Threading.Tasks.Task<SharedLibs.DataContracts.Result> CreateInvoiceAsync(SharedLibs.DataContracts.User user, SharedLibs.DataContracts.Order order) {
-            return base.Channel.CreateInvoiceAsync(user, order);
+        public SharedLibs.DataContracts.Result CreateInvoice(SharedLibs.DataContracts.User user, SharedLibs.DataContracts.Order order, out string pdfFilePath) {
+            ServiceBus.OrderServiceProxyClass.CreateInvoiceRequest inValue = new ServiceBus.OrderServiceProxyClass.CreateInvoiceRequest();
+            inValue.user = user;
+            inValue.order = order;
+            ServiceBus.OrderServiceProxyClass.CreateInvoiceResponse retVal = ((ServiceBus.OrderServiceProxyClass.IOrderService)(this)).CreateInvoice(inValue);
+            pdfFilePath = retVal.pdfFilePath;
+            return retVal.CreateInvoiceResult;
+        }
+        
+        public System.Threading.Tasks.Task<ServiceBus.OrderServiceProxyClass.CreateInvoiceResponse> CreateInvoiceAsync(ServiceBus.OrderServiceProxyClass.CreateInvoiceRequest request) {
+            return base.Channel.CreateInvoiceAsync(request);
         }
     }
 }

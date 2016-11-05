@@ -38,17 +38,23 @@
   <wsdl:message name="IOrderService_EditOrder_OutputMessage">
     <wsdl:part name="parameters" element="tns:EditOrderResponse" />
   </wsdl:message>
+  <wsdl:message name="IOrderService_ChangeOrderState_InputMessage">
+    <wsdl:part name="parameters" element="tns:ChangeOrderState" />
+  </wsdl:message>
+  <wsdl:message name="IOrderService_ChangeOrderState_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ChangeOrderStateResponse" />
+  </wsdl:message>
   <wsdl:message name="IOrderService_DeleteOrder_InputMessage">
     <wsdl:part name="parameters" element="tns:DeleteOrder" />
   </wsdl:message>
   <wsdl:message name="IOrderService_DeleteOrder_OutputMessage">
     <wsdl:part name="parameters" element="tns:DeleteOrderResponse" />
   </wsdl:message>
-  <wsdl:message name="IOrderService_ChangeOrderState_InputMessage">
-    <wsdl:part name="parameters" element="tns:ChangeOrderState" />
+  <wsdl:message name="IOrderService_CreateEmail_InputMessage">
+    <wsdl:part name="parameters" element="tns:CreateEmail" />
   </wsdl:message>
-  <wsdl:message name="IOrderService_ChangeOrderState_OutputMessage">
-    <wsdl:part name="parameters" element="tns:ChangeOrderStateResponse" />
+  <wsdl:message name="IOrderService_CreateEmail_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CreateEmailResponse" />
   </wsdl:message>
   <wsdl:message name="IOrderService_SendEmail_InputMessage">
     <wsdl:part name="parameters" element="tns:SendEmail" />
@@ -83,13 +89,17 @@
       <wsdl:input wsaw:Action="http://tempuri.org/IOrderService/EditOrder" message="tns:IOrderService_EditOrder_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IOrderService/EditOrderResponse" message="tns:IOrderService_EditOrder_OutputMessage" />
     </wsdl:operation>
+    <wsdl:operation name="ChangeOrderState">
+      <wsdl:input wsaw:Action="http://tempuri.org/IOrderService/ChangeOrderState" message="tns:IOrderService_ChangeOrderState_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IOrderService/ChangeOrderStateResponse" message="tns:IOrderService_ChangeOrderState_OutputMessage" />
+    </wsdl:operation>
     <wsdl:operation name="DeleteOrder">
       <wsdl:input wsaw:Action="http://tempuri.org/IOrderService/DeleteOrder" message="tns:IOrderService_DeleteOrder_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IOrderService/DeleteOrderResponse" message="tns:IOrderService_DeleteOrder_OutputMessage" />
     </wsdl:operation>
-    <wsdl:operation name="ChangeOrderState">
-      <wsdl:input wsaw:Action="http://tempuri.org/IOrderService/ChangeOrderState" message="tns:IOrderService_ChangeOrderState_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IOrderService/ChangeOrderStateResponse" message="tns:IOrderService_ChangeOrderState_OutputMessage" />
+    <wsdl:operation name="CreateEmail">
+      <wsdl:input wsaw:Action="http://tempuri.org/IOrderService/CreateEmail" message="tns:IOrderService_CreateEmail_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IOrderService/CreateEmailResponse" message="tns:IOrderService_CreateEmail_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation name="SendEmail">
       <wsdl:input wsaw:Action="http://tempuri.org/IOrderService/SendEmail" message="tns:IOrderService_SendEmail_InputMessage" />
@@ -147,6 +157,15 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="ChangeOrderState">
+      <soap:operation soapAction="http://tempuri.org/IOrderService/ChangeOrderState" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="DeleteOrder">
       <soap:operation soapAction="http://tempuri.org/IOrderService/DeleteOrder" style="document" />
       <wsdl:input>
@@ -156,8 +175,8 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="ChangeOrderState">
-      <soap:operation soapAction="http://tempuri.org/IOrderService/ChangeOrderState" style="document" />
+    <wsdl:operation name="CreateEmail">
+      <soap:operation soapAction="http://tempuri.org/IOrderService/CreateEmail" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

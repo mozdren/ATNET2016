@@ -30,16 +30,30 @@ namespace SharedLibs.Enums
 
 
         /// <summary>
-        /// State the order was finished
+        /// State the order is ready to send to customer
         /// </summary>
         [EnumMember]
-        Finished,
+        ReadyToSend,
+
+
+        /// <summary>
+        /// State the order was sent to customer
+        /// </summary>
+        [EnumMember]
+        Sent,
 
 
         /// <summary>
         /// State the order was paid
         /// </summary>
         [EnumMember]
-        Paid
+        Paid,
+
+
+        /// <summary>
+        /// State the order was finished
+        /// </summary>
+        [EnumMember]
+        Finished        
     }
 }

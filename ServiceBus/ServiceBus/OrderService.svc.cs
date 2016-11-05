@@ -5,6 +5,9 @@ using System.Linq;
 using SharedLibs.DataContracts;
 using SharedLibs.Enums;
 using System.Net.Mail;
+using System.IO;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
 
 namespace ServiceBus
 {
@@ -382,28 +385,147 @@ namespace ServiceBus
 
 
         /// <summary>
+        /// Create an e-mail for a client
+        /// In case an e-mail is automatic the emailText parameter has to be an empty string
+        /// Automatic e-mails are control by the state of order
+        /// In case a dealer want to send a handly written e-mail the text will be inserted to the emailText parameter
+        /// and to this e-mail will not be inserted an automatic generated text
+        /// </summary>
+        /// <param name="user">Reference to an user</param>
+        /// <param name="order">Reference to an order</param>
+        /// <param name="emailText">Formated text of an e-mail</param>
+        /// <param name="attachment">Attachment of an e-mail - name of file</param>
+        /// <returns>Result object</returns>
+        public SharedLibs.DataContracts.Result CreateEmail(User user, Order order, string emailText, string attachment)
+        {
+            try
+            {
+                if (user != null && order != null)
+                {
+                    // A case the e-mail is written handly
+                    if (!String.IsNullOrEmpty(emailText))
+                    {
+                        this.SendEmail(user, order, emailText, attachment);
+                    }
+                    // An automatic e-mail
+                    else
+                    {
+                        string variableText = "";
+
+                        switch (order.OrderState)
+                        {
+                            case OrderStateType.Canceled:
+                                {
+                                    variableText = " byla zrušena.";
+                                    break;
+                                }
+
+                            case OrderStateType.Created:
+                                {
+                                    variableText = " byla přijata.";
+                                    break;
+                                }
+
+                            case OrderStateType.Changed:
+                                {
+                                    variableText = " byla změněna.";
+                                    break;
+                                }
+
+                            case OrderStateType.ReadyToSend:
+                                {
+                                    variableText = " je připravena k odeslání.";
+                                    break;
+                                }
+
+                            case OrderStateType.Sent:
+                                {
+                                    variableText = " byla odeslána.";
+                                    break;
+                                }
+
+                            default:
+                                {
+                                    return SharedLibs.DataContracts.Result.ErrorFormat("OrderStateType in order ID number {0} is incorrect",
+                                                                                         order.Id);
+                                }
+                        }
+
+                        // May be better to write it as html
+                        string text = "Vážený zákazníku\n\n" +
+                                      "Vaše objednávka číslo " + order.Id + variableText + ".\n\n" +
+                                      "Informace o Vaší objednávce jsou v příloze e-mailu.\n\n" +
+                                      "Děkujeme, že jste využili služeb našeho internetového obchodu.\n" +
+                                      "V případě problému nás prosím kontaktujte na tel.: 123456789, \n" +
+                                      "nebo na e-mailu our_company@vsb.cz.\n\n\n\n" +
+                                      "Tým our_company_vsb";
+
+                        this.SendEmail(user, order, text, attachment);
+                    }
+
+                    return SharedLibs.DataContracts.Result.Success("E-mail was created correctly.");
+                }
+                else
+                {
+                    throw new Exception("User or order parameter is a null reference.");
+                }
+
+            }
+            catch (Exception exception)
+            {
+                return SharedLibs.DataContracts.Result.FatalFormat("In method OrderService.CreateEmail was thrown exception: {0}.",
+                                                                         exception.Message);
+            }
+        }
+
+
+        /// <summary>
         /// Send e-mail to client
         /// </summary>
         /// <param name="user">Reference to user</param>
+        /// <param name="order">Reference to an order</param>
         /// <param name="emailText">Formated text of e-mail</param>
+        /// <param name="attachment">Attachment of an e-mail - name of file</param>
         /// <returns>Result object</returns>
-        public SharedLibs.DataContracts.Result SendEmail(User user, Order order, string emailText)
+        public SharedLibs.DataContracts.Result SendEmail(User user, Order order, string emailText, string attachment)
         {
             try
             {
                 if (user != null && order != null && !String.IsNullOrEmpty(emailText))
                 {
                     string from = "our_company@vsb.cz";   // Temporary sender
-                    string subject = "Order number " + order.Id;
-                    string smtpServer = "smtpServer";
+                    string subject = "Objednávka číslo " + order.Id;
+                    string smtpServer = "smtpServer";   // Temporary server name
 
                     MailMessage message = new MailMessage(from, user.EmailAddress, subject, emailText);
-                    SmtpClient client = new SmtpClient(smtpServer); // Temporary server name
+                    SmtpClient client = new SmtpClient(smtpServer); 
 
                     if (message != null && client != null)
                     {
-                        client.Send(message);
-                        return SharedLibs.DataContracts.Result.SuccessFormat("E-mail was correctly sent to {0}.", user.EmailAddress);
+                        bool attachmentFailure = false;
+
+                        if (!String.IsNullOrEmpty(attachment))
+                        {
+                            try
+                            {
+                                message.Attachments.Add(new Attachment(attachment));
+                            }
+                            catch (Exception exception)
+                            {
+                                attachmentFailure = true;
+                                throw new Exception(exception.Message);
+                            }
+                        }
+
+                        if (!attachmentFailure)
+                        {
+                            client.Send(message);
+                            return SharedLibs.DataContracts.Result.SuccessFormat("E-mail was correctly sent to {0}.", user.EmailAddress);
+                        }
+                        else
+                        {
+                            return SharedLibs.DataContracts.Result.Error("E-mail was not sent. Attachment failure.");
+                        }
                     }
                     else
                     {
@@ -415,7 +537,6 @@ namespace ServiceBus
                     return SharedLibs.DataContracts.Result.ErrorFormat("Input parameters to create e-mail to {0} have not correct value.",
                                                                         user.EmailAddress);                                                                      
                 }
-
             }
             catch (Exception exception)
             {
@@ -426,19 +547,44 @@ namespace ServiceBus
 
 
         /// <summary>
-        /// Create invoice
+        /// Create invoice + delivery note
+        /// Pdf document will contain two paiges
+        /// The first such an invoice and the second such a delivery note
         /// </summary>
         /// <param name="user">Reference to user</param>
         /// <param name="order">Reference to order</param>
+        /// <param name="pdfFilePath">Return path to pdf file</param>
         /// <returns>Result object</returns>
-        public SharedLibs.DataContracts.Result CreateInvoice(User user, Order order)
+        public SharedLibs.DataContracts.Result CreateInvoice(User user, Order order, out string pdfFilePath)
         {
-            return Result.Fatal("Not finish");
+            try
+            {
+                pdfFilePath = "filePath + fileName"; // Temp. string
+
+                // Pdf creating in process
+                FileStream fs = new FileStream(pdfFilePath, FileMode.Create);
+                Document doc = new Document(PageSize.A4, 50, 50, 50, 50);
+                PdfWriter pdfw = PdfWriter.GetInstance(doc, fs);
+                doc.Open();
+                PdfContentByte shapes = pdfw.DirectContent;
+
+                doc.Add(new Paragraph("Ahoj vsichni"));
+
+                shapes.MoveTo(doc.PageSize.Width / 2, 0);
+                shapes.LineTo(doc.PageSize.Width / 2, doc.PageSize.Height);
+                shapes.Stroke();
+
+                doc.Close();
+                fs.Close();
+
+                return SharedLibs.DataContracts.Result.Success("Pdf document was created successfully");
+            }
+            catch (Exception exception)
+            {
+                pdfFilePath = "";
+                return SharedLibs.DataContracts.Result.FatalFormat("In method OrderService.CreateInvoice was thrown exception: {0}.",
+                                                                         exception.Message);
+            }
         }
-
-        // ********
-
-
-
     }
 }
