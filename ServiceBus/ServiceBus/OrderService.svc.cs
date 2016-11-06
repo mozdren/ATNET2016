@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity.Migrations;
-using System.Linq;
 using SharedLibs.DataContracts;
 using SharedLibs.Enums;
 using System.Net.Mail;
 using System.IO;
-using iTextSharp.text;
-using iTextSharp.text.pdf;
 
 namespace ServiceBus
 {
@@ -144,8 +140,12 @@ namespace ServiceBus
         /// <param name="deliveryDate">Order delivery date</param>
         /// </summary>
         /// <returns>Result object</returns>
-        public SharedLibs.DataContracts.Result AddOrder(Guid guid, Basket basket, Address deliveryAddress, BillingInformation billingInformation,
-                                                 DateTime orderDate, DateTime deliveryDate, OrderStateType orderState)
+        public SharedLibs.DataContracts.Result AddOrder(
+            Guid guid, 
+            SharedLibs.DataContracts.Basket basket, 
+            SharedLibs.DataContracts.Address deliveryAddress, 
+            SharedLibs.DataContracts.BillingInformation billingInformation,
+            DateTime orderDate, DateTime deliveryDate, OrderStateType orderState)
         {
             try
             {
@@ -189,7 +189,7 @@ namespace ServiceBus
         /// <param name="order">Order object</param>
         /// </summary>
         /// <returns>Result object</returns>
-        public SharedLibs.DataContracts.Result AddOrder(Order order)
+        public SharedLibs.DataContracts.Result AddOrder(SharedLibs.DataContracts.Order order)
         {
             return AddOrder(order.Id, order.Basket, order.DeliveryAddress, order.BillingInformation,
                             order.OrderDate, order.DeliveryDate, order.OrderState);
@@ -206,8 +206,11 @@ namespace ServiceBus
         /// <param name="deliveryDate">Order delivery date</param>
         /// <param name="orderState">Signals current state of order</param>
         /// <returns>New Order object</returns>
-        public SharedLibs.DataContracts.Order EditOrder(Guid guid, Basket basket, Address deliveryAddress, BillingInformation billingInformation,
-                                                        DateTime deliveryDate, OrderStateType orderState)
+        public SharedLibs.DataContracts.Order EditOrder(
+            Guid guid, SharedLibs.DataContracts.Basket basket,
+            SharedLibs.DataContracts.Address deliveryAddress,
+            SharedLibs.DataContracts.BillingInformation billingInformation,
+            DateTime deliveryDate, OrderStateType orderState)
         {
             try
             {
@@ -215,7 +218,7 @@ namespace ServiceBus
 
                 if (storedOrder.Result.ResultType == SharedLibs.Enums.ResultType.Success)
                 {
-                    var alteredOrder = new Order
+                    var alteredOrder = new SharedLibs.DataContracts.Order
                     {
                         Id = storedOrder.Id,
                         Basket = storedOrder.Basket,
@@ -301,7 +304,8 @@ namespace ServiceBus
         /// <param name="guid">ID of a order</param>
         /// <param name="state">State of order</param>
         /// /// <returns>Result object</returns>
-        public SharedLibs.DataContracts.Result ChangeOrderState(Guid guid, SharedLibs.Enums.OrderStateType orderState)
+        public SharedLibs.DataContracts.Result ChangeOrderState(
+            Guid guid, SharedLibs.Enums.OrderStateType orderState)
         {
             try
             {
@@ -309,7 +313,7 @@ namespace ServiceBus
 
                 if (storedOrder.Result.ResultType == SharedLibs.Enums.ResultType.Success)
                 {
-                    var alteredOrder = new Order
+                    var alteredOrder = new SharedLibs.DataContracts.Order
                     {
                         Id = storedOrder.Id,
                         Basket = storedOrder.Basket,
@@ -396,7 +400,10 @@ namespace ServiceBus
         /// <param name="emailText">Formated text of an e-mail</param>
         /// <param name="attachment">Attachment of an e-mail - name of file</param>
         /// <returns>Result object</returns>
-        public SharedLibs.DataContracts.Result CreateEmail(User user, Order order, string emailText, string attachment)
+        public SharedLibs.DataContracts.Result CreateEmail(
+            SharedLibs.DataContracts.User user,
+            SharedLibs.DataContracts.Order order, 
+            string emailText, string attachment)
         {
             try
             {
@@ -487,7 +494,10 @@ namespace ServiceBus
         /// <param name="emailText">Formated text of e-mail</param>
         /// <param name="attachment">Attachment of an e-mail - name of file</param>
         /// <returns>Result object</returns>
-        public SharedLibs.DataContracts.Result SendEmail(User user, Order order, string emailText, string attachment)
+        public SharedLibs.DataContracts.Result SendEmail(
+            SharedLibs.DataContracts.User user,
+            SharedLibs.DataContracts.Order order,
+            string emailText, string attachment)
         {
             try
             {
@@ -555,9 +565,14 @@ namespace ServiceBus
         /// <param name="order">Reference to order</param>
         /// <param name="pdfFilePath">Return path to pdf file</param>
         /// <returns>Result object</returns>
-        public SharedLibs.DataContracts.Result CreateInvoice(User user, Order order, out string pdfFilePath)
+        public SharedLibs.DataContracts.Result CreateInvoice(
+            SharedLibs.DataContracts.User user,
+            SharedLibs.DataContracts.Order order, 
+            out string pdfFilePath)
         {
-            try
+            // TODO: referenced dlls must be also added before uncommenting
+
+            /*try
             {
                 pdfFilePath = "filePath + fileName"; // Temp. string
 
@@ -584,7 +599,10 @@ namespace ServiceBus
                 pdfFilePath = "";
                 return SharedLibs.DataContracts.Result.FatalFormat("In method OrderService.CreateInvoice was thrown exception: {0}.",
                                                                          exception.Message);
-            }
+            }*/
+
+            pdfFilePath = string.Empty;
+            return SharedLibs.DataContracts.Result.Fatal("Libraries missing, must be added.");
         }
     }
 }

@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity.Migrations;
-using System.Linq;
 using SharedLibs.DataContracts;
 
 namespace ServiceBus
@@ -26,7 +23,7 @@ namespace ServiceBus
             };
         }
 
-        public SharedLibs.DataContracts.Result AddCampaign(Campaign campaign)
+        public SharedLibs.DataContracts.Result AddCampaign(SharedLibs.DataContracts.Campaign campaign)
         {
             //before continuing is necessary to add Campaign to ServiceBusDatabaseEntities
             return Result.Fatal("Not Implemented");
@@ -38,7 +35,7 @@ namespace ServiceBus
             return Result.Fatal("Not Implemented");
         }
 
-        public Campaign EditCampaign(Guid guid, string name, double discount)
+        public SharedLibs.DataContracts.Campaign EditCampaign(Guid guid, string name, double discount)
         {
             //before continuing is necessary to add Campaign to ServiceBusDatabaseEntities
             return new SharedLibs.DataContracts.Campaign

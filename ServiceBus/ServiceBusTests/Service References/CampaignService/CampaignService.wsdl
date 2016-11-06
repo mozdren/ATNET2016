@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="CampaignService" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://localhost:54222/CampaignService.svc?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://localhost:54222/CampaignService.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://localhost:54222/CampaignService.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" />
+      <xsd:import schemaLocation="http://localhost:54222/CampaignService.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/SharedLibs.Enums" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="ICampaignService_GetCampaign_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetCampaign" />
+  </wsdl:message>
+  <wsdl:message name="ICampaignService_GetCampaign_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetCampaignResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICampaignService_GetAllCampaigns_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllCampaigns" />
+  </wsdl:message>
+  <wsdl:message name="ICampaignService_GetAllCampaigns_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllCampaignsResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICampaignService_AddCampaign_InputMessage">
+    <wsdl:part name="parameters" element="tns:AddCampaign" />
+  </wsdl:message>
+  <wsdl:message name="ICampaignService_AddCampaign_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AddCampaignResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICampaignService_AddCampaignByObject_InputMessage">
+    <wsdl:part name="parameters" element="tns:AddCampaignByObject" />
+  </wsdl:message>
+  <wsdl:message name="ICampaignService_AddCampaignByObject_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AddCampaignByObjectResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICampaignService_EditCampaign_InputMessage">
+    <wsdl:part name="parameters" element="tns:EditCampaign" />
+  </wsdl:message>
+  <wsdl:message name="ICampaignService_EditCampaign_OutputMessage">
+    <wsdl:part name="parameters" element="tns:EditCampaignResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICampaignService_DeleteCampaign_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteCampaign" />
+  </wsdl:message>
+  <wsdl:message name="ICampaignService_DeleteCampaign_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteCampaignResponse" />
+  </wsdl:message>
+  <wsdl:portType name="ICampaignService">
+    <wsdl:operation name="GetCampaign">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICampaignService/GetCampaign" message="tns:ICampaignService_GetCampaign_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICampaignService/GetCampaignResponse" message="tns:ICampaignService_GetCampaign_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAllCampaigns">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICampaignService/GetAllCampaigns" message="tns:ICampaignService_GetAllCampaigns_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICampaignService/GetAllCampaignsResponse" message="tns:ICampaignService_GetAllCampaigns_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AddCampaign">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICampaignService/AddCampaign" message="tns:ICampaignService_AddCampaign_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICampaignService/AddCampaignResponse" message="tns:ICampaignService_AddCampaign_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AddCampaignByObject">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICampaignService/AddCampaignByObject" message="tns:ICampaignService_AddCampaignByObject_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICampaignService/AddCampaignByObjectResponse" message="tns:ICampaignService_AddCampaignByObject_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="EditCampaign">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICampaignService/EditCampaign" message="tns:ICampaignService_EditCampaign_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICampaignService/EditCampaignResponse" message="tns:ICampaignService_EditCampaign_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteCampaign">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICampaignService/DeleteCampaign" message="tns:ICampaignService_DeleteCampaign_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICampaignService/DeleteCampaignResponse" message="tns:ICampaignService_DeleteCampaign_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BasicHttpBinding_ICampaignService" type="tns:ICampaignService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetCampaign">
+      <soap:operation soapAction="http://tempuri.org/ICampaignService/GetCampaign" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllCampaigns">
+      <soap:operation soapAction="http://tempuri.org/ICampaignService/GetAllCampaigns" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddCampaign">
+      <soap:operation soapAction="http://tempuri.org/ICampaignService/AddCampaign" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddCampaignByObject">
+      <soap:operation soapAction="http://tempuri.org/ICampaignService/AddCampaignByObject" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EditCampaign">
+      <soap:operation soapAction="http://tempuri.org/ICampaignService/EditCampaign" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteCampaign">
+      <soap:operation soapAction="http://tempuri.org/ICampaignService/DeleteCampaign" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="CampaignService">
+    <wsdl:port name="BasicHttpBinding_ICampaignService" binding="tns:BasicHttpBinding_ICampaignService">
+      <soap:address location="http://localhost:54222/CampaignService.svc" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

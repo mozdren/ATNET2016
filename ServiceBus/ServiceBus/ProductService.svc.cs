@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Data.Entity.Migrations;
 using System.Linq;
 using SharedLibs.DataContracts;
 using SharedLibs.Enums;
@@ -36,7 +35,7 @@ namespace ServiceBus
                         Result = SharedLibs.DataContracts.Result.SuccessFormat("Product {0} found", guid),
                         ID = guid,
                         Name = product.Name,
-                        Price = product.Price
+                        Price = product.Price.HasValue ? product.Price.Value : 0.0
                     };
                 }
             }
@@ -67,7 +66,7 @@ namespace ServiceBus
                         {
                             ID = product.Id,
                             Name = product.Name,
-                            Price = product.Price
+                            Price = product.Price.HasValue ? product.Price.Value : 0.0
                         });
                     }
 
@@ -108,7 +107,7 @@ namespace ServiceBus
         {
             try
             {
-                if ((!String.IsNullOrWhiteSpace(name) && name.Length <= 50) && price >= 0)
+                if ((!string.IsNullOrWhiteSpace(name) && name.Length <= 50) && price >= 0)
                 {
                     using (var context = new ServiceBusDatabaseEntities())
                     {
@@ -183,7 +182,7 @@ namespace ServiceBus
                             {
                                 ID = editableProduct.Id,
                                 Name = editableProduct.Name,
-                                Price = editableProduct.Price,
+                                Price = editableProduct.Price.HasValue ? editableProduct.Price.Value : 0.0,
                                 Result = Result.Success()
                             };
                         }
