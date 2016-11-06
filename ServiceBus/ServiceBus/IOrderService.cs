@@ -41,8 +41,12 @@ namespace ServiceBus
         /// <param name="deliveryDate">Order delivery date</param>
         /// <returns>Result object</returns>
         [OperationContract]
-        SharedLibs.DataContracts.Result AddOrder(Guid guid, Basket basket, Address deliveryAddress, BillingInformation billingInformation,
-                                                 DateTime orderDate, DateTime deliveryDate, OrderStateType orderState);
+        SharedLibs.DataContracts.Result AddOrder(
+            Guid guid, 
+            SharedLibs.DataContracts.Basket basket,
+            SharedLibs.DataContracts.Address deliveryAddress,
+            SharedLibs.DataContracts.BillingInformation billingInformation,
+            DateTime orderDate, DateTime deliveryDate, OrderStateType orderState);
 
 
         /// <summary>
@@ -65,8 +69,12 @@ namespace ServiceBus
         /// <param name="orderState">Signals current state of order</param>
         /// <returns>New Order object</returns>
         [OperationContract]
-        SharedLibs.DataContracts.Order EditOrder(Guid guid, Basket basket, Address deliveryAddress, BillingInformation billingInformation,
-                                                 DateTime deliveryDate, OrderStateType orderState);
+        SharedLibs.DataContracts.Order EditOrder(
+            Guid guid,
+            SharedLibs.DataContracts.Basket basket,
+            SharedLibs.DataContracts.Address deliveryAddress,
+            SharedLibs.DataContracts.BillingInformation billingInformation,
+            DateTime deliveryDate, OrderStateType orderState);
                 
 
 
@@ -102,7 +110,10 @@ namespace ServiceBus
         /// <param name="attachment">Attachment of an e-mail - name of file</param>
         /// <returns>Result object</returns>
         [OperationContract]
-        SharedLibs.DataContracts.Result CreateEmail(User user, Order order, string emailText, string attachment);
+        SharedLibs.DataContracts.Result CreateEmail(
+            SharedLibs.DataContracts.User user,
+            SharedLibs.DataContracts.Order order, 
+            string emailText, string attachment);
 
 
         /// <summary>
@@ -114,7 +125,10 @@ namespace ServiceBus
         /// <param name="attachment">Attachment of an e-mail - name of file</param>
         /// <returns>Result object</returns>
         [OperationContract]
-        SharedLibs.DataContracts.Result SendEmail(User user, Order order, string emailText, string attachment);
+        SharedLibs.DataContracts.Result SendEmail(
+            SharedLibs.DataContracts.User user,
+            SharedLibs.DataContracts.Order order, 
+            string emailText, string attachment);
 
 
         /// <summary>
@@ -127,6 +141,9 @@ namespace ServiceBus
         /// <param name="pdfFilePath">Return path to pdf file</param>
         /// <returns>Result object</returns>
         [OperationContract]
-        SharedLibs.DataContracts.Result CreateInvoice(User user, Order order, out string pdfFilePath);
+        SharedLibs.DataContracts.Result CreateInvoice(
+            SharedLibs.DataContracts.User user,
+            SharedLibs.DataContracts.Order order, 
+            out string pdfFilePath);
     }
 }
