@@ -242,16 +242,16 @@ namespace ServiceBusTests.ProductService {
         System.Threading.Tasks.Task<ServiceBusTests.ProductService.Products> GetAllProductsAsync();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProductService/AddProduct", ReplyAction="http://tempuri.org/IProductService/AddProductResponse")]
-        ServiceBusTests.ProductService.Result AddProduct(string name, double price, System.Guid guid);
+        ServiceBusTests.ProductService.Result AddProduct(string name, double price, System.Guid guid, int pType, bool headliner);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProductService/AddProduct", ReplyAction="http://tempuri.org/IProductService/AddProductResponse")]
-        System.Threading.Tasks.Task<ServiceBusTests.ProductService.Result> AddProductAsync(string name, double price, System.Guid guid);
+        System.Threading.Tasks.Task<ServiceBusTests.ProductService.Result> AddProductAsync(string name, double price, System.Guid guid, int pType, bool headliner);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProductService/AddProductByObject", ReplyAction="http://tempuri.org/IProductService/AddProductByObjectResponse")]
-        ServiceBusTests.ProductService.Result AddProductByObject(ServiceBusTests.ProductService.Product product);
+        ServiceBusTests.ProductService.Result AddProductByObject(ServiceBusTests.ProductService.Product product, int pType, bool headliner);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProductService/AddProductByObject", ReplyAction="http://tempuri.org/IProductService/AddProductByObjectResponse")]
-        System.Threading.Tasks.Task<ServiceBusTests.ProductService.Result> AddProductByObjectAsync(ServiceBusTests.ProductService.Product product);
+        System.Threading.Tasks.Task<ServiceBusTests.ProductService.Result> AddProductByObjectAsync(ServiceBusTests.ProductService.Product product, int pType, bool headliner);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProductService/EditProduct", ReplyAction="http://tempuri.org/IProductService/EditProductResponse")]
         ServiceBusTests.ProductService.Product EditProduct(System.Guid guid, string name, double price);
@@ -309,20 +309,20 @@ namespace ServiceBusTests.ProductService {
             return base.Channel.GetAllProductsAsync();
         }
         
-        public ServiceBusTests.ProductService.Result AddProduct(string name, double price, System.Guid guid) {
-            return base.Channel.AddProduct(name, price, guid);
+        public ServiceBusTests.ProductService.Result AddProduct(string name, double price, System.Guid guid, int pType, bool headliner) {
+            return base.Channel.AddProduct(name, price, guid, pType, headliner);
         }
         
-        public System.Threading.Tasks.Task<ServiceBusTests.ProductService.Result> AddProductAsync(string name, double price, System.Guid guid) {
-            return base.Channel.AddProductAsync(name, price, guid);
+        public System.Threading.Tasks.Task<ServiceBusTests.ProductService.Result> AddProductAsync(string name, double price, System.Guid guid, int pType, bool headliner) {
+            return base.Channel.AddProductAsync(name, price, guid, pType, headliner);
         }
         
-        public ServiceBusTests.ProductService.Result AddProductByObject(ServiceBusTests.ProductService.Product product) {
-            return base.Channel.AddProductByObject(product);
+        public ServiceBusTests.ProductService.Result AddProductByObject(ServiceBusTests.ProductService.Product product, int pType, bool headliner) {
+            return base.Channel.AddProductByObject(product, pType, headliner);
         }
         
-        public System.Threading.Tasks.Task<ServiceBusTests.ProductService.Result> AddProductByObjectAsync(ServiceBusTests.ProductService.Product product) {
-            return base.Channel.AddProductByObjectAsync(product);
+        public System.Threading.Tasks.Task<ServiceBusTests.ProductService.Result> AddProductByObjectAsync(ServiceBusTests.ProductService.Product product, int pType, bool headliner) {
+            return base.Channel.AddProductByObjectAsync(product, pType, headliner);
         }
         
         public ServiceBusTests.ProductService.Product EditProduct(System.Guid guid, string name, double price) {

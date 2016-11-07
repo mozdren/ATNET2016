@@ -6,6 +6,7 @@ namespace SharedLibs.DataContracts
     /// <summary>
     /// Datacontract for product
     /// </summary>
+    //TODO Is obsolote datacontract or not? 
     [DataContract]
     public class Product : DTO
     {
