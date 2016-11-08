@@ -108,7 +108,7 @@ namespace ServiceBus
         /// <param name="pType">ID of a product type</param>
         /// <param name="headliner">Is this product supposed to be main product?</param>
         /// <returns>Result object</returns>
-        public Result AddProduct(string name, double price, Guid guid, int pType, bool headliner=false)
+        public Result AddProduct(string name, double price, Guid guid, int pType, bool headliner = false)
         {
             try
             {
@@ -143,6 +143,8 @@ namespace ServiceBus
         /// <param name="price">New price for a product</param>
         /// <param name="pType">Type of a product</param>
         /// <returns>Modified product</returns>
+        //TODO: Rewrite! 
+        
         public SharedLibs.DataContracts.Product EditProduct(Guid guid, string name, double price, ProductType pType = null, bool enabled = true, bool headliner = false)
         {
             try
