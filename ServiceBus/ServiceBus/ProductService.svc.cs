@@ -36,6 +36,7 @@ namespace ServiceBus
                         ID = guid,
                         Name = product.Name,
                         Price = product.Price.HasValue ? product.Price.Value : 0.0
+                        
                     };
                 }
             }
@@ -87,23 +88,27 @@ namespace ServiceBus
         }
 
         /// <summary>
-        /// This method adds product into the datasource
+        /// This method adds product into the datasource. Defaultly product is not main product.
         /// </summary>
         /// <param name="product">Product object</param>
+        /// <param name="pType">ID of a product type</param>
+        /// <param name="headliner">Is this product supposed to be main product?</param>
         /// <returns>Result object</returns>
-        public Result AddProduct(SharedLibs.DataContracts.Product product)
+        public Result AddProduct(SharedLibs.DataContracts.Product product, int pType, bool headliner = false)
         {
-            return AddProduct(product.Name, product.Price, product.ID);
+            return AddProduct(product.Name, product.Price, product.ID, pType, headliner);
         }
 
         /// <summary>
-        /// This method adds product into datasource
+        /// This method adds product into datasource. Defaultly product is not main product. 
         /// </summary>
         /// <param name="name">Name of a new product</param>
         /// <param name="price">Price of a new product</param>
         /// <param name="guid">ID of a new prodcut</param>
+        /// <param name="pType">ID of a product type</param>
+        /// <param name="headliner">Is this product supposed to be main product?</param>
         /// <returns>Result object</returns>
-        public Result AddProduct(string name, double price, Guid guid)
+        public Result AddProduct(string name, double price, Guid guid, int pType, bool headliner = false)
         {
             try
             {
@@ -111,8 +116,8 @@ namespace ServiceBus
                 {
                     using (var context = new ServiceBusDatabaseEntities())
                     {
-
-                        context.Products.Add(new Product() { Id = guid, Name = name, Price = price});
+                        //TODO: AddProductType / GetProductType method are not ready yet.
+                        context.Products.Add(new Product() { Id = guid, Name = name, Price = price, Headliner = headliner, ProductType = new ProductType() {Type = "IAmOutOfIdeas"} });
                         context.SaveChanges();
 
                         return Result.SuccessFormat("Product {0} | {1} has been added", guid, name);
@@ -136,63 +141,76 @@ namespace ServiceBus
         /// <param name="guid">ID of a product</param>
         /// <param name="name">New name for a product</param>
         /// <param name="price">New price for a product</param>
+        /// <param name="pType">Type of a product</param>
         /// <returns>Modified product</returns>
-        public SharedLibs.DataContracts.Product EditProduct(Guid guid, string name, double price)
+        //TODO: Rewrite! 
+        
+        public SharedLibs.DataContracts.Product EditProduct(Guid guid, string name, double price, ProductType pType = null, bool enabled = true, bool headliner = false)
         {
             try
             {
-                var originalProduct = GetProduct(guid);
-
-                if (originalProduct.Result.ResultType == ResultType.Success)
-                {
-                    var editableProduct = new Product()
-                    {
-                        Id = originalProduct.ID,
-                        Name = originalProduct.Name,
-                        Price = originalProduct.Price
-                    };
-
                     using (var context = new ServiceBusDatabaseEntities())
                     {
-                        context.Products.Attach(editableProduct);
+                        var product = context.Products.FirstOrDefault(p => p.Id == guid);
 
-                        //is new name valid and different than the stored one?
-                        if (!String.IsNullOrWhiteSpace(name) && name.Length <= 50 && name != editableProduct.Name)
-                        {
-                            editableProduct.Name = name;
-                        }
-
-                        //is price valid and different from the stored one?
-                        if (price != editableProduct.Price && price >= 0)
-                        {
-                            editableProduct.Price = price;
-                        }
-
-                        //No changes? No need to update
-                        if (context.Entry(editableProduct).State == EntityState.Unchanged)
-                        {
-                            originalProduct.Result = Result.WarningFormat("Product {0} was not modified.", originalProduct.ID);
-                            return originalProduct;
-                        }
-                        //Otherwise update db and return what you should return
-                        else
-                        {
-                            context.SaveChanges();
-                            return new SharedLibs.DataContracts.Product()
+                        if (product != null)
                             {
-                                ID = editableProduct.Id,
-                                Name = editableProduct.Name,
-                                Price = editableProduct.Price.HasValue ? editableProduct.Price.Value : 0.0,
-                                Result = Result.Success()
-                            };
-                        }
-                    }
+                                context.Products.Attach(product);
 
-                }
-                else
-                {
-                    return originalProduct;
-                }
+                                //is new name valid and different than the stored one?
+                                if (!String.IsNullOrWhiteSpace(name) && name.Length <= 50 && name != product.Name)
+                                {
+                                    product.Name = name;
+                                }
+
+                                //is price valid and different from the stored one?
+                                if (price != product.Price && price >= 0)
+                                {
+                                    product.Price = price;
+                                }
+                            
+                                if (pType != null && pType.Id != product.ProductType.Id)
+                                {
+                                    
+                                    product.ProductType = context.ProductTypes.FirstOrDefault(p => p.Id == pType.Id);
+                                   //TODO Why this doesn't make it EntityState.Changed ?
+                                }
+
+                                /*
+                                //Well what else must be done when this is changed? This won't be trivial I guess.
+                                if (!headliner)
+                                {
+                                    product.Headliner = true;
+                                }
+
+                                if (!enabled)
+                                {
+                                    product.Enabled = false;
+                                }
+                                */
+                                //No changes? No need to update
+                                if (context.Entry(product).State == EntityState.Unchanged && context.Entry(product.ProductType).State == EntityState.Unchanged)
+                                {
+                                    return new SharedLibs.DataContracts.Product()
+                                        {
+                                            Result = Result.WarningFormat("No attributes has been changed. {0} was not modified", product.Id)
+                                        };
+                                }
+                                //Otherwise update db and return what you should return
+                                else
+                                {
+                                    context.SaveChanges();
+                                    return new SharedLibs.DataContracts.Product()
+                                    {
+                                        ID = product.Id,
+                                        Name = product.Name,
+                                        Price = product.Price.HasValue ? product.Price.Value : 0.0,
+                                        Result = Result.Success()
+                                    };
+                                } 
+                        }
+                        return new SharedLibs.DataContracts.Product() {Result = Result.ErrorFormat("Product {0} was not found", guid)};
+                    }
             }
             catch (Exception exception)
             {
@@ -217,9 +235,9 @@ namespace ServiceBus
                 {
                     var product = context.Products.FirstOrDefault(p => p.Id == guid);
 
-                    if (product != null)
+                    if (product != null && product.Enabled == true)
                     {
-                        context.Products.Remove(product);
+                        product.Enabled = false;
                         context.SaveChanges();
 
                         return Result.SuccessFormat("Product {0} - {1} has been deleted.", product.Id, product.Name);
