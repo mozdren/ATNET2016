@@ -62,11 +62,11 @@
   <wsdl:message name="IOrderService_SendEmail_OutputMessage">
     <wsdl:part name="parameters" element="tns:SendEmailResponse" />
   </wsdl:message>
-  <wsdl:message name="IOrderService_CreateInvoice_InputMessage">
-    <wsdl:part name="parameters" element="tns:CreateInvoice" />
+  <wsdl:message name="IOrderService_CreatePDFDocument_InputMessage">
+    <wsdl:part name="parameters" element="tns:CreatePDFDocument" />
   </wsdl:message>
-  <wsdl:message name="IOrderService_CreateInvoice_OutputMessage">
-    <wsdl:part name="parameters" element="tns:CreateInvoiceResponse" />
+  <wsdl:message name="IOrderService_CreatePDFDocument_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CreatePDFDocumentResponse" />
   </wsdl:message>
   <wsdl:portType name="IOrderService">
     <wsdl:operation name="GetOrder">
@@ -105,9 +105,9 @@
       <wsdl:input wsaw:Action="http://tempuri.org/IOrderService/SendEmail" message="tns:IOrderService_SendEmail_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IOrderService/SendEmailResponse" message="tns:IOrderService_SendEmail_OutputMessage" />
     </wsdl:operation>
-    <wsdl:operation name="CreateInvoice">
-      <wsdl:input wsaw:Action="http://tempuri.org/IOrderService/CreateInvoice" message="tns:IOrderService_CreateInvoice_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IOrderService/CreateInvoiceResponse" message="tns:IOrderService_CreateInvoice_OutputMessage" />
+    <wsdl:operation name="CreatePDFDocument">
+      <wsdl:input wsaw:Action="http://tempuri.org/IOrderService/CreatePDFDocument" message="tns:IOrderService_CreatePDFDocument_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IOrderService/CreatePDFDocumentResponse" message="tns:IOrderService_CreatePDFDocument_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="BasicHttpBinding_IOrderService" type="tns:IOrderService">
@@ -193,8 +193,8 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="CreateInvoice">
-      <soap:operation soapAction="http://tempuri.org/IOrderService/CreateInvoice" style="document" />
+    <wsdl:operation name="CreatePDFDocument">
+      <soap:operation soapAction="http://tempuri.org/IOrderService/CreatePDFDocument" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

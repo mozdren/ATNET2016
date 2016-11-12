@@ -69,18 +69,18 @@ namespace ServiceBus.OrderServiceProxyClass {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IOrderService/SendEmail", ReplyAction="http://tempuri.org/IOrderService/SendEmailResponse")]
         System.Threading.Tasks.Task<SharedLibs.DataContracts.Result> SendEmailAsync(SharedLibs.DataContracts.User user, SharedLibs.DataContracts.Order order, string emailText, string attachment);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IOrderService/CreateInvoice", ReplyAction="http://tempuri.org/IOrderService/CreateInvoiceResponse")]
-        ServiceBus.OrderServiceProxyClass.CreateInvoiceResponse CreateInvoice(ServiceBus.OrderServiceProxyClass.CreateInvoiceRequest request);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IOrderService/CreatePDFDocument", ReplyAction="http://tempuri.org/IOrderService/CreatePDFDocumentResponse")]
+        ServiceBus.OrderServiceProxyClass.CreatePDFDocumentResponse CreatePDFDocument(ServiceBus.OrderServiceProxyClass.CreatePDFDocumentRequest request);
         
         // CODEGEN: Generating message contract since the operation has multiple return values.
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IOrderService/CreateInvoice", ReplyAction="http://tempuri.org/IOrderService/CreateInvoiceResponse")]
-        System.Threading.Tasks.Task<ServiceBus.OrderServiceProxyClass.CreateInvoiceResponse> CreateInvoiceAsync(ServiceBus.OrderServiceProxyClass.CreateInvoiceRequest request);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IOrderService/CreatePDFDocument", ReplyAction="http://tempuri.org/IOrderService/CreatePDFDocumentResponse")]
+        System.Threading.Tasks.Task<ServiceBus.OrderServiceProxyClass.CreatePDFDocumentResponse> CreatePDFDocumentAsync(ServiceBus.OrderServiceProxyClass.CreatePDFDocumentRequest request);
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="CreateInvoice", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
-    public partial class CreateInvoiceRequest {
+    [System.ServiceModel.MessageContractAttribute(WrapperName="CreatePDFDocument", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class CreatePDFDocumentRequest {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
         public SharedLibs.DataContracts.User user;
@@ -88,31 +88,35 @@ namespace ServiceBus.OrderServiceProxyClass {
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=1)]
         public SharedLibs.DataContracts.Order order;
         
-        public CreateInvoiceRequest() {
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=2)]
+        public SharedLibs.Enums.PDFDocumentType documentType;
+        
+        public CreatePDFDocumentRequest() {
         }
         
-        public CreateInvoiceRequest(SharedLibs.DataContracts.User user, SharedLibs.DataContracts.Order order) {
+        public CreatePDFDocumentRequest(SharedLibs.DataContracts.User user, SharedLibs.DataContracts.Order order, SharedLibs.Enums.PDFDocumentType documentType) {
             this.user = user;
             this.order = order;
+            this.documentType = documentType;
         }
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="CreateInvoiceResponse", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
-    public partial class CreateInvoiceResponse {
+    [System.ServiceModel.MessageContractAttribute(WrapperName="CreatePDFDocumentResponse", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class CreatePDFDocumentResponse {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
-        public SharedLibs.DataContracts.Result CreateInvoiceResult;
+        public SharedLibs.DataContracts.Result CreatePDFDocumentResult;
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=1)]
         public string pdfFilePath;
         
-        public CreateInvoiceResponse() {
+        public CreatePDFDocumentResponse() {
         }
         
-        public CreateInvoiceResponse(SharedLibs.DataContracts.Result CreateInvoiceResult, string pdfFilePath) {
-            this.CreateInvoiceResult = CreateInvoiceResult;
+        public CreatePDFDocumentResponse(SharedLibs.DataContracts.Result CreatePDFDocumentResult, string pdfFilePath) {
+            this.CreatePDFDocumentResult = CreatePDFDocumentResult;
             this.pdfFilePath = pdfFilePath;
         }
     }
@@ -217,21 +221,22 @@ namespace ServiceBus.OrderServiceProxyClass {
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        ServiceBus.OrderServiceProxyClass.CreateInvoiceResponse ServiceBus.OrderServiceProxyClass.IOrderService.CreateInvoice(ServiceBus.OrderServiceProxyClass.CreateInvoiceRequest request) {
-            return base.Channel.CreateInvoice(request);
+        ServiceBus.OrderServiceProxyClass.CreatePDFDocumentResponse ServiceBus.OrderServiceProxyClass.IOrderService.CreatePDFDocument(ServiceBus.OrderServiceProxyClass.CreatePDFDocumentRequest request) {
+            return base.Channel.CreatePDFDocument(request);
         }
         
-        public SharedLibs.DataContracts.Result CreateInvoice(SharedLibs.DataContracts.User user, SharedLibs.DataContracts.Order order, out string pdfFilePath) {
-            ServiceBus.OrderServiceProxyClass.CreateInvoiceRequest inValue = new ServiceBus.OrderServiceProxyClass.CreateInvoiceRequest();
+        public SharedLibs.DataContracts.Result CreatePDFDocument(SharedLibs.DataContracts.User user, SharedLibs.DataContracts.Order order, SharedLibs.Enums.PDFDocumentType documentType, out string pdfFilePath) {
+            ServiceBus.OrderServiceProxyClass.CreatePDFDocumentRequest inValue = new ServiceBus.OrderServiceProxyClass.CreatePDFDocumentRequest();
             inValue.user = user;
             inValue.order = order;
-            ServiceBus.OrderServiceProxyClass.CreateInvoiceResponse retVal = ((ServiceBus.OrderServiceProxyClass.IOrderService)(this)).CreateInvoice(inValue);
+            inValue.documentType = documentType;
+            ServiceBus.OrderServiceProxyClass.CreatePDFDocumentResponse retVal = ((ServiceBus.OrderServiceProxyClass.IOrderService)(this)).CreatePDFDocument(inValue);
             pdfFilePath = retVal.pdfFilePath;
-            return retVal.CreateInvoiceResult;
+            return retVal.CreatePDFDocumentResult;
         }
         
-        public System.Threading.Tasks.Task<ServiceBus.OrderServiceProxyClass.CreateInvoiceResponse> CreateInvoiceAsync(ServiceBus.OrderServiceProxyClass.CreateInvoiceRequest request) {
-            return base.Channel.CreateInvoiceAsync(request);
+        public System.Threading.Tasks.Task<ServiceBus.OrderServiceProxyClass.CreatePDFDocumentResponse> CreatePDFDocumentAsync(ServiceBus.OrderServiceProxyClass.CreatePDFDocumentRequest request) {
+            return base.Channel.CreatePDFDocumentAsync(request);
         }
     }
 }

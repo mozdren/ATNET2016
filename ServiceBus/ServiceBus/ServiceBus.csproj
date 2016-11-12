@@ -121,7 +121,7 @@
     <None Include="Service References\OrderServiceProxyClass\OrderService3.xsd">
       <SubType>Designer</SubType>
     </None>
-    <Content Include="Service References\OrderServiceProxyClass\ServiceBus.OrderServiceProxyClass.CreateInvoiceResponse.datasource">
+    <Content Include="Service References\OrderServiceProxyClass\ServiceBus.OrderServiceProxyClass.CreatePDFDocumentResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
     <None Include="Service References\ProductServiceProxyClass\ProductService.disco" />
