@@ -55,6 +55,7 @@
     <Compile Include="DataContracts\Result.cs" />
     <Compile Include="DataContracts\User.cs" />
     <Compile Include="Enums\OrderStateEnums.cs" />
+    <Compile Include="Enums\PDFDocumentEnums.cs" />
     <Compile Include="Enums\ResultEnums.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

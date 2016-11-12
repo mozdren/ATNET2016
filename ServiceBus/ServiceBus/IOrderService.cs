@@ -132,18 +132,20 @@ namespace ServiceBus
 
 
         /// <summary>
-        /// Create invoice + delivery note
-        /// Pdf document will contain two paiges
-        /// The first as invoice and the second as delivery note
+        /// Create order overview or invoice or delivery note
+        /// Pdf document will contain requested items according to chosen PDF document type
+        /// The chosen PDF document type affects the displayed format of document
         /// </summary>
         /// <param name="user">Reference to user</param>
         /// <param name="order">Reference to order</param>
+        /// <param name="documentType">Type of PDF document</param>
         /// <param name="pdfFilePath">Return path to pdf file</param>
         /// <returns>Result object</returns>
         [OperationContract]
-        SharedLibs.DataContracts.Result CreateInvoice(
+        SharedLibs.DataContracts.Result CreatePDFDocument(
             SharedLibs.DataContracts.User user,
-            SharedLibs.DataContracts.Order order, 
+            SharedLibs.DataContracts.Order order,
+            SharedLibs.Enums.PDFDocumentType documentType, 
             out string pdfFilePath);
     }
 }

@@ -53,7 +53,7 @@ namespace SharedLibs.DataContracts
 
         /// <summary>
         /// Order state
-        /// Keeps actual state of order - implicit value NoState which is used in case there is no state
+        /// Keeps actual state of order
         /// </summary>
         [DataMember]
         public SharedLibs.Enums.OrderStateType OrderState { set; get; }
