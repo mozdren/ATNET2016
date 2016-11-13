@@ -32,21 +32,21 @@ namespace ServiceBus
         /// <param name="name">Name of a new product</param>
         /// <param name="price">Price of a new product</param>
         /// <param name="guid">ID of a new prodcut</param>
-        /// <param name="pType">ID of a product type</param>
+        /// <param name="productType">ID of a product type</param>
         /// <param name="headliner">Is this product supposed to be main product?</param>
         /// <returns>Result object</returns>
         [OperationContract (Name = "AddProduct")]
-        SharedLibs.DataContracts.Result AddProduct(string name, double price, Guid guid, int pType, bool headliner);
+        SharedLibs.DataContracts.Result AddProduct(string name, double price, Guid guid, int productType, bool headliner);
 
         /// <summary>
         /// This method adds product into the datasource. Defaultly product is not main product.
         /// </summary>
         /// <param name="product">Product object</param>
-        /// <param name="pType">ID of a product type</param>
+        /// <param name="productType">ID of a product type</param>
         /// <param name="headliner">Is this product supposed to be main product?</param>
         /// <returns>Result object</returns>
         [OperationContract (Name = "AddProductByObject")]
-        SharedLibs.DataContracts.Result AddProduct(SharedLibs.DataContracts.Product product, int pType, bool headliner);
+        SharedLibs.DataContracts.Result AddProduct(SharedLibs.DataContracts.Product product, int productType, bool headliner);
 
         /// <summary>
         /// This method edits product in case product exists
@@ -55,11 +55,11 @@ namespace ServiceBus
         /// <param name="name">New name for a product</param>
         /// <param name="price">New price for a product</param>
         /// <param name="headliner">Is this product supposed to be main product?</param>
-        /// <param name="pType">Type of a product</param>
+        /// <param name="productType">Type of a product</param>
         /// <param name="enabled">Is the product still available for use?</param>
         /// <returns>Modified product</returns>
         [OperationContract]
-        SharedLibs.DataContracts.Product EditProduct(Guid guid, string name, double price, ProductType pType, bool headliner, bool enabled);
+        SharedLibs.DataContracts.Product EditProduct(Guid guid, string name, double price, ProductType productType, bool headliner, bool enabled);
 
         /// <summary>
         /// Delete product item from datasource

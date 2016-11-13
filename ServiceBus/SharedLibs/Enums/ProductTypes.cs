@@ -17,7 +17,7 @@ namespace SharedLibs.Enums
         /// Product doesn't have special category
         /// </summary>
         [EnumMember]
-        Miscellaous = 0,
+        Miscellaous = 1,
 
         /// <summary>
         /// Do it yourself category

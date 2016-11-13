@@ -11,7 +11,7 @@ namespace SharedLibs.DataContracts
     /// Datacontract for storage items
     /// </summary>
     [DataContract]
-    public class StorageItem
+    public class StorageItem : DTO
     {
         //TODO: Fill according to db contex.
     }

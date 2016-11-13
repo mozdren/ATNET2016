@@ -14,10 +14,10 @@ namespace ServiceBus.Mock
         /// Adds product
         /// </summary>
         /// <param name="product">product to be added</param>
-        /// <param name="pType">ID of a product type</param>
+        /// <param name="productType">ID of a product type</param>
         /// <param name="headliner">Is this product supposed to be main product?</param>
         /// <returns>success if added sucessfuly</returns>
-        public Result AddProduct(SharedLibs.DataContracts.Product product, int pType, bool headliner = false)
+        public Result AddProduct(SharedLibs.DataContracts.Product product, int productType, bool headliner = false)
         {
             return Result.SuccessFormat("Product added");
         }
@@ -26,10 +26,10 @@ namespace ServiceBus.Mock
         /// Adds product
         /// </summary>
         /// <param name="product">product to be added</param>
-        /// <param name="pType">ID of a product type</param>
+        /// <param name="productType">ID of a product type</param>
         /// <param name="headliner">Is this product supposed to be main product?</param>
         /// <returns>success if added successfully</returns>
-        public Result AddProduct(string name, double price, Guid guid, int pType, bool headliner= false)
+        public Result AddProduct(string name, double price, Guid guid, int productType, bool headliner= false)
         {
             return Result.SuccessFormat("Product added");
         }
@@ -51,7 +51,7 @@ namespace ServiceBus.Mock
         /// <param name="name">product name</param>
         /// <param name="price">produt price</param>
         /// <returns>edited product</returns>
-        public SharedLibs.DataContracts.Product EditProduct(Guid guid, string name, double price, ProductType pType = null, bool enabled = true, bool headliner = false)
+        public SharedLibs.DataContracts.Product EditProduct(Guid guid, string name, double price, ProductType productType = null, bool enabled = true, bool headliner = false)
         {
             return new SharedLibs.DataContracts.Product
             {

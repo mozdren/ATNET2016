@@ -30,13 +30,67 @@ namespace ServiceBus
                         };
                     }
 
+                    #region FillBasketItems
+                    var queryBasketItems = from contextItem in product.BasketItems
+                        select new SharedLibs.DataContracts.BasketItem()
+                        {
+                            Id = contextItem.Id,
+                            Quantity = contextItem.Quantity,
+                            Product = new SharedLibs.DataContracts.Product() { ID = contextItem.ProductId }, 
+                                    // TODO: or = null ? Since it must be this method param.
+                            Result = Result.Success()
+                        };
+
+                    var listOfBasketItems = queryBasketItems.ToList();
+                    #endregion            
+                    
+                    #region FillRepairs
+
+                    var queryRepairs = from contextItem in product.Repairs
+                        select new SharedLibs.DataContracts.Repair()
+                        {
+                            Result = Result.Success() //TODO: Finish the respective DTO.
+                        };
+
+                    var listOfRepairs = queryRepairs.ToList();
+                    #endregion
+
+                    #region FillReservations    
+
+                    var queryReservations = from contextItem in product.Reservations
+                        select new SharedLibs.DataContracts.Reservation()
+                        {
+                            Result = Result.Success() //TODO: Finish the respective DTO.
+                        };
+
+                    var listOfReservations = queryReservations.ToList();
+
+                    #endregion
+
+                    #region FillStorageItems
+
+                    var queryStorageItems = from contextItem in product.StorageItems
+                        select new SharedLibs.DataContracts.StorageItem()
+                        {
+                            Result = Result.Success() //TODO: Finish the respective DTO.
+                        };
+
+                    var listOfStorageItems = queryStorageItems.ToList();
+                    #endregion
+
                     return new SharedLibs.DataContracts.Product
                     {
                         Result = SharedLibs.DataContracts.Result.SuccessFormat("Product {0} found", guid),
                         ID = guid,
                         Name = product.Name,
-                        Price = product.Price.HasValue ? product.Price.Value : 0.0
-                        
+                        Price = product.Price.HasValue ? product.Price.Value : 0.0,
+                        Enabled = product.Enabled,
+                        Headliner = product.Headliner,
+                        ProductType = null, //TODO: GetProductType()?
+                        BasketItems = listOfBasketItems,
+                        Repairs = listOfRepairs,
+                        Reservations = listOfReservations,
+                        StorageItems = listOfStorageItems
                     };
                 }
             }
@@ -63,12 +117,7 @@ namespace ServiceBus
 
                     foreach (var product in context.Products)
                     {
-                        returnCollection.Add(new SharedLibs.DataContracts.Product
-                        {
-                            ID = product.Id,
-                            Name = product.Name,
-                            Price = product.Price.HasValue ? product.Price.Value : 0.0
-                        });
+                        returnCollection.Add(GetProduct(product.Id));
                     }
 
                     return new SharedLibs.DataContracts.Products
@@ -91,12 +140,12 @@ namespace ServiceBus
         /// This method adds product into the datasource. Defaultly product is not main product.
         /// </summary>
         /// <param name="product">Product object</param>
-        /// <param name="pType">ID of a product type</param>
+        /// <param name="productType">ID of a product type</param>
         /// <param name="headliner">Is this product supposed to be main product?</param>
         /// <returns>Result object</returns>
-        public Result AddProduct(SharedLibs.DataContracts.Product product, int pType, bool headliner = false)
+        public Result AddProduct(SharedLibs.DataContracts.Product product, int productType, bool headliner = false)
         {
-            return AddProduct(product.Name, product.Price, product.ID, pType, headliner);
+            return AddProduct(product.Name, product.Price, product.ID, productType, headliner);
         }
 
         /// <summary>
@@ -105,10 +154,10 @@ namespace ServiceBus
         /// <param name="name">Name of a new product</param>
         /// <param name="price">Price of a new product</param>
         /// <param name="guid">ID of a new prodcut</param>
-        /// <param name="pType">ID of a product type</param>
+        /// <param name="productType">ID of a product type</param>
         /// <param name="headliner">Is this product supposed to be main product?</param>
         /// <returns>Result object</returns>
-        public Result AddProduct(string name, double price, Guid guid, int pType, bool headliner = false)
+        public Result AddProduct(string name, double price, Guid guid, int productType, bool headliner = false)
         {
             try
             {
@@ -141,11 +190,11 @@ namespace ServiceBus
         /// <param name="guid">ID of a product</param>
         /// <param name="name">New name for a product</param>
         /// <param name="price">New price for a product</param>
-        /// <param name="pType">Type of a product</param>
+        /// <param name="productType">Type of a product</param>
         /// <returns>Modified product</returns>
         //TODO: Rewrite! 
         
-        public SharedLibs.DataContracts.Product EditProduct(Guid guid, string name, double price, ProductType pType = null, bool enabled = true, bool headliner = false)
+        public SharedLibs.DataContracts.Product EditProduct(Guid guid, string name, double price, ProductType productType = null, bool enabled = true, bool headliner = false)
         {
             try
             {
@@ -169,10 +218,10 @@ namespace ServiceBus
                                     product.Price = price;
                                 }
                             
-                                if (pType != null && pType.Id != product.ProductType.Id)
+                                if (productType != null && productType.Id != product.ProductType.Id)
                                 {
                                     
-                                    product.ProductType = context.ProductTypes.FirstOrDefault(p => p.Id == pType.Id);
+                                    product.ProductType = context.ProductTypes.FirstOrDefault(p => p.Id == productType.Id);
                                    //TODO Why this doesn't make it EntityState.Changed ?
                                 }
 

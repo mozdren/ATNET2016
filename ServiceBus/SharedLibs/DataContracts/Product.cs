@@ -51,7 +51,7 @@ namespace SharedLibs.DataContracts
         /// All items added to basket of this specific product 
         /// </summary>
         [DataMember]
-        public List<BasketItems> BasketItems { get; set; }
+        public List<BasketItem> BasketItems { get; set; }
 
         /// <summary>
         /// All items under repair process of this specific product
