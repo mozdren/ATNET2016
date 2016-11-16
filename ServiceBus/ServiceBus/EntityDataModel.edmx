@@ -131,7 +131,7 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Discount" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Discount" Type="float" Nullable="true" />
     <Property Name="StartDate" Type="datetime" Nullable="true" />
     <Property Name="EndDate" Type="datetime" Nullable="true" />
     <Property Name="Active" Type="bit" Nullable="false" />
@@ -244,7 +244,7 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Type" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Type" Type="nvarchar" Nullable="false" MaxLength="50" />
   </EntityType>
   <EntityType Name="OrderStatus">
     <Key>
@@ -642,7 +642,7 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" />
-          <Property Name="Discount" Type="String" Nullable="true" />
+          <Property Name="Discount" Type="Double" Nullable="true" />
           <Property Name="StartDate" Type="DateTime" Nullable="true" />
           <Property Name="EndDate" Type="DateTime" Nullable="true" />
           <NavigationProperty Name="CampaignItems" Relationship="DatabaseModel.CampaignCampaignItem" FromRole="Campaign" ToRole="CampaignItem" />
@@ -974,7 +974,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Type" Type="String" Nullable="false" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="50" />
           <NavigationProperty Name="Product" Relationship="DatabaseModel.ProductProductType" FromRole="ProductType" ToRole="Product" />
           <NavigationProperty Name="Campaign" Relationship="DatabaseModel.CampaignProductType" FromRole="ProductType" ToRole="Campaign" />
         </EntityType>

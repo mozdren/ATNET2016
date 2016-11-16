@@ -2,13 +2,14 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 11/02/2016 11:18:21
--- Generated from EDMX file: C:\Users\Sokrates\Source\Repos\ATNET2016\ServiceBus\ServiceBus\EntityDataModel.edmx
+-- Date Created: 11/16/2016 20:38:22
+-- Generated from EDMX file: D:\Visual Studio workplace\ATNET2016\ServiceBus\ServiceBus\EntityDataModel.edmx
 -- --------------------------------------------------
 
+select * from ProductTypes
 SET QUOTED_IDENTIFIER OFF;
 GO
---USE [D:Vi];
+---USE [Database];
 GO
 IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
 GO
@@ -17,13 +18,118 @@ GO
 -- Dropping existing FOREIGN KEY constraints
 -- --------------------------------------------------
 
+IF OBJECT_ID(N'[dbo].[FK_ProductBasketItem]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[BasketItems] DROP CONSTRAINT [FK_ProductBasketItem];
+GO
+IF OBJECT_ID(N'[dbo].[FK_BasketBasketItem]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[BasketItems] DROP CONSTRAINT [FK_BasketBasketItem];
+GO
+IF OBJECT_ID(N'[dbo].[FK_BillingInformationAddress]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[BillingInformations] DROP CONSTRAINT [FK_BillingInformationAddress];
+GO
+IF OBJECT_ID(N'[dbo].[FK_AddressOrder]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Orders] DROP CONSTRAINT [FK_AddressOrder];
+GO
+IF OBJECT_ID(N'[dbo].[FK_BillingInformationOrder]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Orders] DROP CONSTRAINT [FK_BillingInformationOrder];
+GO
+IF OBJECT_ID(N'[dbo].[FK_OrderBasket]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Orders] DROP CONSTRAINT [FK_OrderBasket];
+GO
+IF OBJECT_ID(N'[dbo].[FK_UserOrder]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Orders] DROP CONSTRAINT [FK_UserOrder];
+GO
+IF OBJECT_ID(N'[dbo].[FK_ProductRepair]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Repairs] DROP CONSTRAINT [FK_ProductRepair];
+GO
+IF OBJECT_ID(N'[dbo].[FK_UserReservation]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Reservations] DROP CONSTRAINT [FK_UserReservation];
+GO
+IF OBJECT_ID(N'[dbo].[FK_UserRepair]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Repairs] DROP CONSTRAINT [FK_UserRepair];
+GO
+IF OBJECT_ID(N'[dbo].[FK_StorageReservation]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Reservations] DROP CONSTRAINT [FK_StorageReservation];
+GO
+IF OBJECT_ID(N'[dbo].[FK_StorageRepair]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Repairs] DROP CONSTRAINT [FK_StorageRepair];
+GO
+IF OBJECT_ID(N'[dbo].[FK_ProductReservation]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Reservations] DROP CONSTRAINT [FK_ProductReservation];
+GO
+IF OBJECT_ID(N'[dbo].[FK_ProductStorageItem]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[StorageItems] DROP CONSTRAINT [FK_ProductStorageItem];
+GO
+IF OBJECT_ID(N'[dbo].[FK_StorageStorageItem]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[StorageItems] DROP CONSTRAINT [FK_StorageStorageItem];
+GO
+IF OBJECT_ID(N'[dbo].[FK_StorageAddress]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Storages] DROP CONSTRAINT [FK_StorageAddress];
+GO
+IF OBJECT_ID(N'[dbo].[FK_BasketCampaignItem]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[CampaignItems] DROP CONSTRAINT [FK_BasketCampaignItem];
+GO
+IF OBJECT_ID(N'[dbo].[FK_CampaignCampaignItem]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[CampaignItems] DROP CONSTRAINT [FK_CampaignCampaignItem];
+GO
+IF OBJECT_ID(N'[dbo].[FK_ProductProductType]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Products] DROP CONSTRAINT [FK_ProductProductType];
+GO
+IF OBJECT_ID(N'[dbo].[FK_CampaignProductType]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Campaigns] DROP CONSTRAINT [FK_CampaignProductType];
+GO
+IF OBJECT_ID(N'[dbo].[FK_OrderStatusOrder]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Orders] DROP CONSTRAINT [FK_OrderStatusOrder];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
 -- --------------------------------------------------
 
-IF OBJECT_ID(N'[dbo].[Product]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Product];
+IF OBJECT_ID(N'[dbo].[Products]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Products];
+GO
+IF OBJECT_ID(N'[dbo].[Baskets]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Baskets];
+GO
+IF OBJECT_ID(N'[dbo].[Campaigns]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Campaigns];
+GO
+IF OBJECT_ID(N'[dbo].[BasketItems]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[BasketItems];
+GO
+IF OBJECT_ID(N'[dbo].[Users]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Users];
+GO
+IF OBJECT_ID(N'[dbo].[BillingInformations]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[BillingInformations];
+GO
+IF OBJECT_ID(N'[dbo].[Addresses]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Addresses];
+GO
+IF OBJECT_ID(N'[dbo].[Orders]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Orders];
+GO
+IF OBJECT_ID(N'[dbo].[Reservations]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Reservations];
+GO
+IF OBJECT_ID(N'[dbo].[Repairs]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Repairs];
+GO
+IF OBJECT_ID(N'[dbo].[Storages]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Storages];
+GO
+IF OBJECT_ID(N'[dbo].[StorageItems]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[StorageItems];
+GO
+IF OBJECT_ID(N'[dbo].[CampaignItems]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[CampaignItems];
+GO
+IF OBJECT_ID(N'[dbo].[ProductTypes]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[ProductTypes];
+GO
+IF OBJECT_ID(N'[dbo].[OrderStatus]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[OrderStatus];
 GO
 
 -- --------------------------------------------------
@@ -53,7 +159,7 @@ GO
 CREATE TABLE [dbo].[Campaigns] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Name] nvarchar(max)  NOT NULL,
-    [Discount] nvarchar(max)  NULL,
+    [Discount] float  NULL,
     [StartDate] datetime  NULL,
     [EndDate] datetime  NULL,
     [Active] bit  NOT NULL,
@@ -166,7 +272,7 @@ GO
 -- Creating table 'ProductTypes'
 CREATE TABLE [dbo].[ProductTypes] (
     [Id] int IDENTITY(1,1) NOT NULL,
-    [Type] nvarchar(max)  NOT NULL
+    [Type] nvarchar(50)  NOT NULL
 );
 GO
 

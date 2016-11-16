@@ -22,7 +22,7 @@ namespace ServiceBus
     
         public int Id { get; set; }
         public string Name { get; set; }
-        public string Discount { get; set; }
+        public Nullable<double> Discount { get; set; }
         public Nullable<System.DateTime> StartDate { get; set; }
         public Nullable<System.DateTime> EndDate { get; set; }
         public bool Active { get; set; }

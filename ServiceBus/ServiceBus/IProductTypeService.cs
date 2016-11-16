@@ -7,7 +7,11 @@ using System.Text;
 
 namespace ServiceBus
 {
-    // NOTE: You can use the "Rename" command on the "Refactor" menu to change the interface name "IProductTypeService" in both code and config file together.
+    /// <summary>
+    /// This is a product type service, which should serve as an entrypoint for everything that has
+    /// something directly in common with products types.
+    /// Once again this is for product TYPEs.
+    /// </summary>
     [ServiceContract]
     public interface IProductTypeService
     {
@@ -25,6 +29,6 @@ namespace ServiceBus
         /// <param name="productTypeId">Identifier of a product</param>
         /// <returns></returns>
         [OperationContract]
-        SharedLibs.DataContracts.ProductType GetProductType(int productTypeId);
+        SharedLibs.DataContracts.ProductType GetProductType(SharedLibs.Enums.ProductTypes productTypeE);
     }
 }

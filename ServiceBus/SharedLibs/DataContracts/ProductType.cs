@@ -11,7 +11,7 @@ namespace SharedLibs.DataContracts
     /// Datacontract for product type
     /// </summary>
     [DataContract]
-    public class ProductType
+    public class ProductType : DTO
     {
         /// <summary>
         /// Identifier of the product type
