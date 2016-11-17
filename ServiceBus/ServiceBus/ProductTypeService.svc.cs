@@ -6,11 +6,17 @@ using System.ServiceModel;
 using System.Text;
 using SharedLibs.DataContracts;
 
+using SharedLibs.Enums;
+
 namespace ServiceBus
 {
 	public class ProductTypeService : IProductTypeService
 	{
-
+        /// <summary>
+        /// Adds new product type
+        /// </summary>
+        /// <param name="typeName">Name for a new type</param>
+        /// <returns></returns>
 	    public Result AddProductType(string typeName)
 	    {
             try
@@ -34,7 +40,12 @@ namespace ServiceBus
             }
 	    }
 
-	    public SharedLibs.DataContracts.ProductType GetProductType(SharedLibs.Enums.ProductTypes productTypeE)
+        /// <summary>
+        /// Gets product type by its ID
+        /// </summary>
+        /// <param name="productTypeE">Identifier of a product</param>
+        /// <returns></returns>
+	    public SharedLibs.DataContracts.ProductType GetProductType(ProductTypes productTypeE)
 	    {
 	        try
 	        {
@@ -49,7 +60,8 @@ namespace ServiceBus
 	                        {
 	                            ID = contextItem.Id,
 	                            Name = contextItem.Name,
-	                            Price = contextItem.Price.HasValue ? contextItem.Price.Value : 0
+	                            Price = contextItem.Price.HasValue ? contextItem.Price.Value : 0,
+                                Result = Result.Success()
 	                            //TODO: I'll leave it like this since I do not know whether I do have to return all the stuff.
 	                        };
 	                    var listOfProductTypeProducts = queryProductTypeProducts.ToList();
@@ -58,7 +70,7 @@ namespace ServiceBus
 	                        select new SharedLibs.DataContracts.Campaign()
 	                        {
 	                            Discount = contextItem.Discount.HasValue ? contextItem.Discount.Value : 0,
-	                            //TODO: FIX. //Id = contextItem.Id,
+	                            //TODO: FIX. Id = contextItem.Id,
 	                            Name = contextItem.Name,
 	                            Result = Result.Success()
 

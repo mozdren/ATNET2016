@@ -20,6 +20,7 @@ namespace ServiceBus
             {
                 using (var context = new ServiceBusDatabaseEntities())
                 {
+                    var service = new ProductTypeServiceProxyClass.ProductTypeServiceClient();
                     var product = context.Products.FirstOrDefault(p => p.Id == guid);
 
                     if (product == null)
@@ -86,7 +87,7 @@ namespace ServiceBus
                         Price = product.Price.HasValue ? product.Price.Value : 0.0,
                         Enabled = product.Enabled,
                         Headliner = product.Headliner,
-                        ProductType = null, //TODO: GetProductType()?
+                        ProductType = service.GetProductType((ProductTypes) product.ProductType.Id),
                         BasketItems = listOfBasketItems,
                         Repairs = listOfRepairs,
                         Reservations = listOfReservations,
@@ -143,7 +144,7 @@ namespace ServiceBus
         /// <param name="productType">ID of a product type</param>
         /// <param name="headliner">Is this product supposed to be main product?</param>
         /// <returns>Result object</returns>
-        public Result AddProduct(SharedLibs.DataContracts.Product product, int productType, bool headliner = false)
+        public Result AddProduct(SharedLibs.DataContracts.Product product, ProductTypes productType, bool headliner = false)
         {
             return AddProduct(product.Name, product.Price, product.ID, productType, headliner);
         }
@@ -157,7 +158,7 @@ namespace ServiceBus
         /// <param name="productType">ID of a product type</param>
         /// <param name="headliner">Is this product supposed to be main product?</param>
         /// <returns>Result object</returns>
-        public Result AddProduct(string name, double price, Guid guid, int productType, bool headliner = false)
+        public Result AddProduct(string name, double price, Guid guid, ProductTypes productType, bool headliner = false )
         {
             try
             {
@@ -165,9 +166,26 @@ namespace ServiceBus
                 {
                     using (var context = new ServiceBusDatabaseEntities())
                     {
-                        //TODO: AddProductType / GetProductType method are not ready yet.
-                        context.Products.Add(new Product() { Id = guid, Name = name, Price = price, Headliner = headliner, ProductType = new ProductType() {Type = "IAmOutOfIdeas"} });
+                        //TODO: It does not work.
+                        /* This always trys to store new product type, so when I forced type name to be unique it fails
+                         * Why it stores new type when already existing type is sucessfully returned from db context?
+                        context.Products.Add(new Product() { Id = guid, Name = name, Price = price, Headliner = headliner, ProductType = ProductType.GetProductType((int)productType) }); 
                         context.SaveChanges();
+                        */
+
+                        var product = new Product();
+
+                        product.Id = guid;
+                        product.Enabled = true;
+                        product.Headliner = headliner;
+                        product.Name = name;
+                        product.Price = price;
+                        product.ProductType = ProductType.GetProductType((int)productType);
+
+                        context.Products.Add(product);
+                        context.SaveChanges();
+
+                        
 
                         return Result.SuccessFormat("Product {0} | {1} has been added", guid, name);
                     }
@@ -179,7 +197,7 @@ namespace ServiceBus
             }
             catch (Exception ex)
             {
-                return Result.FatalFormat("ProductService.AddProduct Exception: {0}", ex.Message);
+                return Result.FatalFormat("ProductService.AddProduct Exception: {0}", ex.InnerException.Message);
             }
             
         }

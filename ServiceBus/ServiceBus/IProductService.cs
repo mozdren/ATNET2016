@@ -2,6 +2,8 @@
 using System;
 using System.Web.Services;
 
+using SharedLibs.Enums;
+
 namespace ServiceBus
 {
     /// <summary>
@@ -36,7 +38,7 @@ namespace ServiceBus
         /// <param name="headliner">Is this product supposed to be main product?</param>
         /// <returns>Result object</returns>
         [OperationContract (Name = "AddProduct")]
-        SharedLibs.DataContracts.Result AddProduct(string name, double price, Guid guid, int productType, bool headliner);
+        SharedLibs.DataContracts.Result AddProduct(string name, double price, Guid guid, ProductTypes productType, bool headliner);
 
         /// <summary>
         /// This method adds product into the datasource. Defaultly product is not main product.
@@ -46,7 +48,7 @@ namespace ServiceBus
         /// <param name="headliner">Is this product supposed to be main product?</param>
         /// <returns>Result object</returns>
         [OperationContract (Name = "AddProductByObject")]
-        SharedLibs.DataContracts.Result AddProduct(SharedLibs.DataContracts.Product product, int productType, bool headliner);
+        SharedLibs.DataContracts.Result AddProduct(SharedLibs.DataContracts.Product product, ProductTypes productType, bool headliner);
 
         /// <summary>
         /// This method edits product in case product exists

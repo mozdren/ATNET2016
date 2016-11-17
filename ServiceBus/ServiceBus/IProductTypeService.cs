@@ -5,6 +5,8 @@ using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
 
+using SharedLibs.Enums;
+
 namespace ServiceBus
 {
     /// <summary>
@@ -26,9 +28,9 @@ namespace ServiceBus
         /// <summary>
         /// Gets product type by its ID
         /// </summary>
-        /// <param name="productTypeId">Identifier of a product</param>
+        /// <param name="productTypeE">Identifier of a product</param>
         /// <returns></returns>
         [OperationContract]
-        SharedLibs.DataContracts.ProductType GetProductType(SharedLibs.Enums.ProductTypes productTypeE);
+        SharedLibs.DataContracts.ProductType GetProductType(ProductTypes productTypeE);
     }
 }

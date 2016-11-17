@@ -97,6 +97,7 @@
     <Content Include="Properties\DataSources\SharedLibs.DataContracts.Result.datasource" />
     <Content Include="Properties\DataSources\SharedLibs.DataContracts.Order.datasource" />
     <Content Include="Properties\DataSources\SharedLibs.DataContracts.Orders.datasource" />
+    <Content Include="Properties\DataSources\SharedLibs.DataContracts.ProductType.datasource" />
     <None Include="Service References\OrderServiceProxyClass\OrderService.wsdl" />
     <None Include="Service References\OrderServiceProxyClass\OrderService.xsd">
       <SubType>Designer</SubType>
@@ -125,6 +126,13 @@
     <None Include="Service References\OrderServiceProxyClass\configuration91.svcinfo" />
     <None Include="Service References\OrderServiceProxyClass\configuration.svcinfo" />
     <None Include="Service References\OrderServiceProxyClass\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Service References\ProductTypeServiceProxyClass\ProductTypeService.disco" />
+    <None Include="Service References\ProductTypeServiceProxyClass\configuration91.svcinfo" />
+    <None Include="Service References\ProductTypeServiceProxyClass\configuration.svcinfo" />
+    <None Include="Service References\ProductTypeServiceProxyClass\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
@@ -192,6 +200,7 @@
     <Compile Include="ProductType.cs">
       <DependentUpon>EntityDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="ProductTypeBehaviour.cs" />
     <Compile Include="ProductTypeService.svc.cs">
       <DependentUpon>ProductTypeService.svc</DependentUpon>
     </Compile>
@@ -201,6 +210,11 @@
     </Compile>
     <Compile Include="Reservation.cs">
       <DependentUpon>EntityDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\ProductTypeServiceProxyClass\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
     <Compile Include="Storage.cs">
       <DependentUpon>EntityDataModel.tt</DependentUpon>
@@ -249,6 +263,19 @@
     <None Include="Service References\ProductServiceProxyClass\ProductService3.xsd">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Service References\ProductTypeServiceProxyClass\ProductTypeService.wsdl" />
+    <None Include="Service References\ProductTypeServiceProxyClass\ProductTypeService.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ProductTypeServiceProxyClass\ProductTypeService1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ProductTypeServiceProxyClass\ProductTypeService2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ProductTypeServiceProxyClass\ProductTypeService3.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -271,6 +298,7 @@
   <ItemGroup>
     <WCFMetadataStorage Include="Service References\OrderServiceProxyClass\" />
     <WCFMetadataStorage Include="Service References\ProductServiceProxyClass\" />
+    <WCFMetadataStorage Include="Service References\ProductTypeServiceProxyClass\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
