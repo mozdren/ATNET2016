@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
 using SharedLibs.DataContracts;
 using SharedLibs.Enums;
 using System.Net.Mail;
@@ -26,8 +28,7 @@ namespace ServiceBus
             {
                 using (var context = new ServiceBusDatabaseEntities())
                 {
-                    /************************************************************hidden code**********************
-                    var order = context.Orders.FirstOrDefault(o => o.ID == guid);
+                    var order = context.Orders.FirstOrDefault(o => o.Id == guid);
 
                     if (order == null)
                     {
@@ -49,7 +50,7 @@ namespace ServiceBus
                         Result = SharedLibs.DataContracts.Result.SuccessFormat("Requested order ID number {0} was found.", guid)
 
                     };
-                    */
+                    
                 }
             }
             catch (Exception exception)
@@ -63,10 +64,12 @@ namespace ServiceBus
             }
 
 //********* delete this code after finishing implementation method GetOrder ************
+/*
             return new SharedLibs.DataContracts.Order
             {
                 Result = Result.Fatal("Not finish")
             };
+            */
         }
 
 
@@ -81,7 +84,7 @@ namespace ServiceBus
                 using (var context = new ServiceBusDatabaseEntities())
                 {
                     var orderList = new List<Order>();
-                    /***********************************************hidden code***************************
+
                     foreach (var order in context.Orders)
                     {
                         orderList.Add(new SharedLibs.DataContracts.Order
@@ -112,7 +115,7 @@ namespace ServiceBus
                             Items = orderList
                         };
                     }
-                    */
+                    
                 }
             }
             catch (Exception exception)
@@ -125,10 +128,12 @@ namespace ServiceBus
             }
 
 //********* delete this code after finishing implementation method GetOrder ************
+/*
             return new SharedLibs.DataContracts.Orders
             {
                 Result = Result.Fatal("Not finish")
             };
+            */
         }
 
 
@@ -167,7 +172,7 @@ namespace ServiceBus
                             OrderState = orderState
                         };
 
-//********************* context.Orders.Add(newOrder); ************************hidden code***********************
+                        context.Orders.Add(newOrder);
                         context.SaveChanges();
 
                         return SharedLibs.DataContracts.Result.SuccessFormat("New order ID number {0} was stored successfully.", guid);
@@ -234,7 +239,7 @@ namespace ServiceBus
 
                     using (var context = new ServiceBusDatabaseEntities())
                     {
-//********************* context.Orders.Attach(alteredOrder); *****************hidden code***************
+                        context.Orders.Attach(alteredOrder);
 
                         // Test data for change of basket object
                         if (basket != null && basket != storedOrder.Basket)
@@ -328,8 +333,8 @@ namespace ServiceBus
 
                     using (var context = new ServiceBusDatabaseEntities())
                     {
-                        
-//********************* context.Orders.Attach(alteredOrder); ***********************hidden code*******************
+                       
+                        context.Orders.Attach(alteredOrder);
 
                         alteredOrder.OrderState = orderState;
 
@@ -376,7 +381,7 @@ namespace ServiceBus
                         return SharedLibs.DataContracts.Result.ErrorFormat("Requested order ID number {0} was not found.", guid);
                     }
 
-//***************** context.Orders.Remove(storedOrder); ***********************hidden code*******************
+                    context.Orders.Remove(storedOrder);
                     context.SaveChanges();
 
                     return SharedLibs.DataContracts.Result.SuccessFormat("Requested order ID number {0} was deleted successfully.", guid);
@@ -460,7 +465,6 @@ namespace ServiceBus
                                 }
                         }
 
-                        // May be better to write it as html
                         string text = "Vážený zákazníku\n\n" +
                                       "Vaše objednávka číslo " + order.Id + variableText + ".\n\n" +
                                       "Informace o Vaší objednávce jsou v příloze e-mailu.\n\n" +
@@ -501,6 +505,7 @@ namespace ServiceBus
             SharedLibs.DataContracts.Order order,
             string emailText, string attachment)
         {
+            
             try
             {
                 if (user != null && order != null && !String.IsNullOrEmpty(emailText))
@@ -574,9 +579,7 @@ namespace ServiceBus
             SharedLibs.Enums.PDFDocumentType documentType,
             out string pdfFilePath)
         {
-            // TODO: referenced dlls must be also added before uncommenting
-
-            int itemsCount = order.Basket.BasketItems.Count;
+            // constants and help fields      
             const int ORDER_ITEMS_AT_FIRST_PAGE_COUNT = 23;
             const int ORDER_ITEMS_AT_OTHER_PAGE_COUNT = 25;
             const int INVOICE_ITEMS_AT_FIRST_PAGE_COUNT = 12;
@@ -593,7 +596,8 @@ namespace ServiceBus
             float[] invoiceColumnWidths = new float[INVOICE_HEADER_COLUMN_COUNT] { 80.0f, 230.0f, 100.0f, 80.0f, 100.0f };
             float[] deliveryNoteInfoTableColumnWidths = new float[DELIVERY_NOTE_INFO_COLUMN_COUNT] { 40.0f, 40.0f, 20.0f };
             float[] deliveryNoteHeaderTableColumnWidths = new float[DELIVERY_NOTE_HEADER_COLUMN_COUNT] { 40.0f, 80.0f, 300.0f, 100.0f, 80.0f, 100.0f };
-            int generalItemsAtPageCount = 0;
+            int itemsCount = order.Basket.BasketItems.Count;
+            int generalItemsPerPageCount = 0;
             int itemsPerPageCount = 0;
             int pageNumber = 1;
             int itemNumber = 0;
@@ -646,35 +650,34 @@ namespace ServiceBus
             if (documentType == PDFDocumentType.Order)
             {
                 itemsPerPageCount = ORDER_ITEMS_AT_FIRST_PAGE_COUNT;
-                generalItemsAtPageCount = ORDER_ITEMS_AT_OTHER_PAGE_COUNT;
+                generalItemsPerPageCount = ORDER_ITEMS_AT_OTHER_PAGE_COUNT;
             }
 
             if (documentType == PDFDocumentType.Invoice)
             {
                 itemsPerPageCount = INVOICE_ITEMS_AT_FIRST_PAGE_COUNT;
-                generalItemsAtPageCount = INVOICE_ITEMS_AT_OTHER_PAGE_COUNT;
+                generalItemsPerPageCount = INVOICE_ITEMS_AT_OTHER_PAGE_COUNT;
             }
 
             if (documentType == PDFDocumentType.DeliveryNote)
             {
                 itemsPerPageCount = DELIVERY_NOTE_ITEMS_AT_FIRST_PAGE_COUNT;
-                generalItemsAtPageCount = DELIVERY_NOTE_ITEMS_AT_OTHER_PAGE_COUNT;
+                generalItemsPerPageCount = DELIVERY_NOTE_ITEMS_AT_OTHER_PAGE_COUNT;
             }
 
-            int pagesCount = (itemsCount <= itemsPerPageCount) ? 1 : ((itemsCount - itemsPerPageCount - 1) / generalItemsAtPageCount) + 2;
+            int pagesCount = (itemsCount <= itemsPerPageCount) ? 1 : ((itemsCount - itemsPerPageCount - 1) / generalItemsPerPageCount) + 2;
+            Document doc = null;
 
             try
             {
                 pdfFilePath = string.Empty;
 
-                // Pdf creating in process
                 if (!Directory.Exists(DIRECTORY_PATH))
                 {
                     Directory.CreateDirectory(DIRECTORY_PATH);
                 }
 
                 FileStream fs = new FileStream(filePath, FileMode.Create);
-                Document doc;
 
                 if (documentType == PDFDocumentType.DeliveryNote)
                 {
@@ -891,7 +894,6 @@ namespace ServiceBus
                             itemsTable.SpacingBefore = 10.0f;
                             itemsTable.WidthPercentage = 100.0f;
                             itemsTable.SetWidths(orderColumnWidths);
-
                         }
 
                         if (documentType == PDFDocumentType.Invoice)
@@ -1029,7 +1031,7 @@ namespace ServiceBus
                     itemsTable.AddCell(cell4);
                     itemsTable.AddCell(cell5);
 
-                    sumaPrice += item.Product.Price * item.Quantity;
+                    sumaPrice += item.Product.Price.HasValue ? item.Product.Price.Value * item.Quantity : 0.0;
                     itemNumber += 1;
 
                     if (itemNumber == itemsPerPageCount || sumaItemNumber == itemsCount)
@@ -1062,10 +1064,17 @@ namespace ServiceBus
 
                     if (setFullItemsPerPageCount == true)
                     {
-                        itemsPerPageCount = generalItemsAtPageCount;
+                        itemsPerPageCount = generalItemsPerPageCount;
                         setFullItemsPerPageCount = false;
                     }
                 }
+
+                if (doc.IsOpen())
+                {
+                    doc.Close();
+                }
+
+                pdfFilePath = filePath;
 
                 return SharedLibs.DataContracts.Result.Success("Pdf document was created successfully");
             }
@@ -1075,6 +1084,14 @@ namespace ServiceBus
                 return SharedLibs.DataContracts.Result.FatalFormat("In method OrderService.CreateInvoice was thrown exception: {0}.",
                                                                          exception.Message);
             }
+            finally
+            {
+                if (doc.IsOpen())
+                {
+                    doc.Close();
+                }                
+            }
+            
             /*
             pdfFilePath = string.Empty;
             return SharedLibs.DataContracts.Result.Fatal("Libraries missing, must be added.");
