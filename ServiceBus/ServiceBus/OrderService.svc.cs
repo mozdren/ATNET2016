@@ -22,7 +22,7 @@ namespace ServiceBus
         /// </summary>
         /// <param name="guid">Order ID number</param>
         /// <returns>Order object</returns>
-        public SharedLibs.DataContracts.Order GetOrder(Guid guid)
+        public Order GetOrder(Guid guid)
         {
             /*try
             {
@@ -65,7 +65,7 @@ namespace ServiceBus
 
 //********* delete this code after finishing implementation method GetOrder ************
 */
-            return new SharedLibs.DataContracts.Order
+            return new Order
             {
                 Result = Result.Fatal("Not finish")
             };
@@ -77,7 +77,7 @@ namespace ServiceBus
         /// Method returns list of orders in collection
         /// </summary>
         /// <returns>List of orders</returns>
-        public SharedLibs.DataContracts.Orders GetAllOrders()
+        public Orders GetAllOrders()
         {
             /*try
             {
@@ -146,11 +146,11 @@ namespace ServiceBus
         /// <param name="deliveryDate">Order delivery date</param>
         /// </summary>
         /// <returns>Result object</returns>
-        public SharedLibs.DataContracts.Result AddOrder(
-            Guid guid, 
-            SharedLibs.DataContracts.Basket basket, 
-            SharedLibs.DataContracts.Address deliveryAddress, 
-            SharedLibs.DataContracts.BillingInformation billingInformation,
+        public Result AddOrder(
+            Guid guid,
+            Basket basket,
+            Address deliveryAddress,
+            BillingInformation billingInformation,
             DateTime orderDate, DateTime deliveryDate, OrderStateType orderState)
         {
             /*try
@@ -196,7 +196,7 @@ namespace ServiceBus
         /// <param name="order">Order object</param>
         /// </summary>
         /// <returns>Result object</returns>
-        public SharedLibs.DataContracts.Result AddOrder(SharedLibs.DataContracts.Order order)
+        public Result AddOrder(Order order)
         {
             return AddOrder(order.Id, order.Basket, order.DeliveryAddress, order.BillingInformation,
                             order.OrderDate, order.DeliveryDate, order.OrderState);
@@ -213,10 +213,10 @@ namespace ServiceBus
         /// <param name="deliveryDate">Order delivery date</param>
         /// <param name="orderState">Signals current state of order</param>
         /// <returns>New Order object</returns>
-        public SharedLibs.DataContracts.Order EditOrder(
-            Guid guid, SharedLibs.DataContracts.Basket basket,
-            SharedLibs.DataContracts.Address deliveryAddress,
-            SharedLibs.DataContracts.BillingInformation billingInformation,
+        public Order EditOrder(
+            Guid guid, Basket basket,
+            Address deliveryAddress,
+            BillingInformation billingInformation,
             DateTime deliveryDate, OrderStateType orderState)
         {
             /*try
@@ -303,7 +303,7 @@ namespace ServiceBus
                 };
             }*/
 
-            return new SharedLibs.DataContracts.Order
+            return new Order
             {
                 Result = Result.Fatal("Not finished")
             };
@@ -316,8 +316,8 @@ namespace ServiceBus
         /// <param name="guid">ID of a order</param>
         /// <param name="state">State of order</param>
         /// /// <returns>Result object</returns>
-        public SharedLibs.DataContracts.Result ChangeOrderState(
-            Guid guid, SharedLibs.Enums.OrderStateType orderState)
+        public Result ChangeOrderState(
+            Guid guid, OrderStateType orderState)
         {
             /*try
             {
@@ -374,7 +374,7 @@ namespace ServiceBus
         /// </summary>
         /// <param name="guid">guid of a order</param>
         /// <returns>Result object</returns>
-        public SharedLibs.DataContracts.Result DeleteOrder(Guid guid)
+        public Result DeleteOrder(Guid guid)
         {
             /*try
             {
@@ -414,9 +414,9 @@ namespace ServiceBus
         /// <param name="emailText">Formated text of an e-mail</param>
         /// <param name="attachment">Attachment of an e-mail - name of file</param>
         /// <returns>Result object</returns>
-        public SharedLibs.DataContracts.Result CreateEmail(
-            SharedLibs.DataContracts.User user,
-            SharedLibs.DataContracts.Order order, 
+        public Result CreateEmail(
+            User user,
+            Order order, 
             string emailText, string attachment)
         {
             try
@@ -424,9 +424,9 @@ namespace ServiceBus
                 if (user != null && order != null)
                 {
                     // A case the e-mail is written handly
-                    if (!String.IsNullOrEmpty(emailText))
+                    if (!string.IsNullOrEmpty(emailText))
                     {
-                        this.SendEmail(user, order, emailText, attachment);
+                        SendEmail(user, order, emailText, attachment);
                     }
                     // An automatic e-mail
                     else
@@ -467,8 +467,7 @@ namespace ServiceBus
 
                             default:
                                 {
-                                    return SharedLibs.DataContracts.Result.ErrorFormat("OrderStateType in order ID number {0} is incorrect",
-                                                                                         order.Id);
+                                    return Result.ErrorFormat("OrderStateType in order ID number {0} is incorrect", order.Id);
                                 }
                         }
 
@@ -483,7 +482,7 @@ namespace ServiceBus
                         this.SendEmail(user, order, text, attachment);
                     }
 
-                    return SharedLibs.DataContracts.Result.Success("E-mail was created correctly.");
+                    return Result.Success("E-mail was created correctly.");
                 }
                 else
                 {
@@ -493,8 +492,7 @@ namespace ServiceBus
             }
             catch (Exception exception)
             {
-                return SharedLibs.DataContracts.Result.FatalFormat("In method OrderService.CreateEmail was thrown exception: {0}.",
-                                                                         exception.Message);
+                return Result.FatalFormat("In method OrderService.CreateEmail was thrown exception: {0}.", exception.Message);
             }
         }
 
@@ -507,9 +505,9 @@ namespace ServiceBus
         /// <param name="emailText">Formated text of e-mail</param>
         /// <param name="attachment">Attachment of an e-mail - name of file</param>
         /// <returns>Result object</returns>
-        public SharedLibs.DataContracts.Result SendEmail(
-            SharedLibs.DataContracts.User user,
-            SharedLibs.DataContracts.Order order,
+        public Result SendEmail(
+            User user,
+            Order order,
             string emailText, string attachment)
         {
             
@@ -528,7 +526,7 @@ namespace ServiceBus
                     {
                         bool attachmentFailure = false;
 
-                        if (!String.IsNullOrEmpty(attachment))
+                        if (!string.IsNullOrEmpty(attachment))
                         {
                             try
                             {
@@ -544,11 +542,11 @@ namespace ServiceBus
                         if (!attachmentFailure)
                         {
                             client.Send(message);
-                            return SharedLibs.DataContracts.Result.SuccessFormat("E-mail was correctly sent to {0}.", user.EmailAddress);
+                            return Result.SuccessFormat("E-mail was correctly sent to {0}.", user.EmailAddress);
                         }
                         else
                         {
-                            return SharedLibs.DataContracts.Result.Error("E-mail was not sent. Attachment failure.");
+                            return Result.Error("E-mail was not sent. Attachment failure.");
                         }
                     }
                     else
@@ -558,14 +556,12 @@ namespace ServiceBus
                 }
                 else
                 {
-                    return SharedLibs.DataContracts.Result.ErrorFormat("Input parameters to create e-mail to {0} have not correct value.",
-                                                                        user.EmailAddress);                                                                      
+                    return Result.ErrorFormat("Input parameters to create e-mail to {0} have not correct value.", user.EmailAddress);                                                                      
                 }
             }
             catch (Exception exception)
             {
-                return SharedLibs.DataContracts.Result.FatalFormat("In method OrderService.SendEmail was thrown exception: {0}.",
-                                                                         exception.Message);
+                return Result.FatalFormat("In method OrderService.SendEmail was thrown exception: {0}.", exception.Message);
             }
         }
 
@@ -580,12 +576,13 @@ namespace ServiceBus
         /// <param name="documentType">Type of PDF document</param>
         /// <param name="pdfFilePath">Return path to pdf file</param>
         /// <returns>Result object</returns>
-        public SharedLibs.DataContracts.Result CreatePDFDocument(
-            SharedLibs.DataContracts.User user,
-            SharedLibs.DataContracts.Order order,
-            SharedLibs.Enums.PDFDocumentType documentType,
+        public Result CreatePDFDocument(
+            User user,
+            Order order,
+            PDFDocumentType documentType,
             out string pdfFilePath)
         {
+            // TODO: those constants could be in separate file (looks bad in method code)
             // constants and help fields      
             const int ORDER_ITEMS_AT_FIRST_PAGE_COUNT = 23;
             const int ORDER_ITEMS_AT_OTHER_PAGE_COUNT = 25;
@@ -623,20 +620,20 @@ namespace ServiceBus
             bool setFullItemsPerPageCount = false;
 
             string userAddressStreet = user.UserAddress.Street + " " + user.UserAddress.HouseNumber +
-                (String.IsNullOrEmpty(user.UserAddress.HouseNumberExtension) ? string.Empty : "/" + user.UserAddress.HouseNumberExtension) +
-                (String.IsNullOrEmpty(user.UserAddress.DoorNumber) ? string.Empty : " dveře č. " + user.UserAddress.DoorNumber);
+                (string.IsNullOrEmpty(user.UserAddress.HouseNumberExtension) ? string.Empty : "/" + user.UserAddress.HouseNumberExtension) +
+                (string.IsNullOrEmpty(user.UserAddress.DoorNumber) ? string.Empty : " dveře č. " + user.UserAddress.DoorNumber);
 
             string deliveryAddressStreet = order.BillingInformation.BillingAddress.Street + " " + order.BillingInformation.BillingAddress.HouseNumber +
-                (String.IsNullOrEmpty(order.BillingInformation.BillingAddress.HouseNumberExtension) ? string.Empty :
+                (string.IsNullOrEmpty(order.BillingInformation.BillingAddress.HouseNumberExtension) ? string.Empty :
                 "/" + order.BillingInformation.BillingAddress.HouseNumberExtension) +
-                (String.IsNullOrEmpty(order.BillingInformation.BillingAddress.DoorNumber) ? string.Empty :
+                (string.IsNullOrEmpty(order.BillingInformation.BillingAddress.DoorNumber) ? string.Empty :
                 " dveře č. " + order.BillingInformation.BillingAddress.DoorNumber);
 
             string userAddressTown = user.UserAddress.City + " PSČ: " + user.UserAddress.PostCode +
-                (String.IsNullOrEmpty(user.UserAddress.District) ? string.Empty : " okres " + user.UserAddress.District);
+                (string.IsNullOrEmpty(user.UserAddress.District) ? string.Empty : " okres " + user.UserAddress.District);
 
             string deliveryAddressTown = order.BillingInformation.BillingAddress.City + " PSČ: " + order.BillingInformation.BillingAddress.PostCode +
-                (String.IsNullOrEmpty(order.BillingInformation.BillingAddress.District) ? string.Empty :
+                (string.IsNullOrEmpty(order.BillingInformation.BillingAddress.District) ? string.Empty :
                 " okres " + order.BillingInformation.BillingAddress.District);
 
 
@@ -707,7 +704,7 @@ namespace ServiceBus
                 PdfPCell cell4 = null;
                 PdfPCell cell5 = null;
 
-                foreach (SharedLibs.DataContracts.BasketItem item in order.Basket.BasketItems)
+                foreach (BasketItem item in order.Basket.BasketItems)
                 {
                     if (itemNumber == 0)
                     {
@@ -1083,12 +1080,12 @@ namespace ServiceBus
 
                 pdfFilePath = filePath;
 
-                return SharedLibs.DataContracts.Result.Success("Pdf document was created successfully");
+                return Result.Success("Pdf document was created successfully");
             }
             catch (Exception exception)
             {
                 pdfFilePath = string.Empty;
-                return SharedLibs.DataContracts.Result.FatalFormat("In method OrderService.CreateInvoice was thrown exception: {0}.",
+                return Result.FatalFormat("In method OrderService.CreateInvoice was thrown exception: {0}.",
                                                                          exception.Message);
             }
             finally

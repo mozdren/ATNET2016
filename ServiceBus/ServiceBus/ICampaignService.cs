@@ -1,6 +1,6 @@
 ﻿using System.ServiceModel;
 using System;
-using System.Web.Services;
+using SharedLibs.DataContracts;
 
 namespace ServiceBus
 {
@@ -17,14 +17,14 @@ namespace ServiceBus
         /// <param name="guid">guid of a campaign</param>
         /// <returns>requested campaign</returns>
         [OperationContract]
-        SharedLibs.DataContracts.Campaign GetCampaign(Guid guid);
+        Campaign GetCampaign(Guid guid);
 
         /// <summary>
         /// Returns all campaigns
         /// </summary>
         /// <returns>collection of all campaigns</returns>
         [OperationContract]
-        SharedLibs.DataContracts.Campaigns GetAllCampaigns();
+        Campaigns GetAllCampaigns();
 
         /// <summary>
         /// Adds campaign into database
@@ -34,7 +34,7 @@ namespace ServiceBus
         /// <param name="discount">Discount of a campaign</param>
         /// <returns>Result object</returns>
         [OperationContract]
-        SharedLibs.DataContracts.Result AddCampaign(Guid guid, string name, double discount);
+        Result AddCampaign(Guid guid, string name, double discount);
 
         /// <summary>
         /// Adds campaign into database
@@ -42,7 +42,7 @@ namespace ServiceBus
         /// <param name="campaign">Campaign object</param>
         /// <returns>Result object</returns>
         [OperationContract(Name = "AddCampaignByObject")]
-        SharedLibs.DataContracts.Result AddCampaign(SharedLibs.DataContracts.Campaign campaign);
+        Result AddCampaign(SharedLibs.DataContracts.Campaign campaign);
 
         /// <summary>
         /// Edits campaign with specific Guid
@@ -52,7 +52,7 @@ namespace ServiceBus
         /// <param name="discount">New discount of a campaign</param>
         /// <returns>Edited campaign</returns>
         [OperationContract]
-        SharedLibs.DataContracts.Campaign EditCampaign(Guid guid, string name, double discount);
+        Campaign EditCampaign(Guid guid, string name, double discount);
 
         /// <summary>
         /// Delete campaign from database
@@ -60,6 +60,6 @@ namespace ServiceBus
         /// <param name="guid">ID of a campaign</param>
         /// <returns>Result object</returns>
         [OperationContract]
-        SharedLibs.DataContracts.Result DeleteCampaign(Guid guid);
+        Result DeleteCampaign(Guid guid);
     }
 }

@@ -18,7 +18,7 @@ namespace ServiceBus
         {
             try
             {
-                using (var context = new ServiceBusDatabaseEntities())
+                using (var context = new EntityModels.ServiceBusDatabaseEntities())
                 {
                     var product = context.Products.FirstOrDefault(p => p.Id == guid);
 
@@ -56,7 +56,7 @@ namespace ServiceBus
         {
             try
             {
-                using (var context = new ServiceBusDatabaseEntities())
+                using (var context = new EntityModels.ServiceBusDatabaseEntities())
                 {
                     var returnCollection = new List<SharedLibs.DataContracts.Product>();
 
@@ -109,10 +109,10 @@ namespace ServiceBus
             {
                 if ((!string.IsNullOrWhiteSpace(name) && name.Length <= 50) && price >= 0)
                 {
-                    using (var context = new ServiceBusDatabaseEntities())
+                    using (var context = new EntityModels.ServiceBusDatabaseEntities())
                     {
 
-                        context.Products.Add(new Product() { Id = guid, Name = name, Price = price});
+                        context.Products.Add(new EntityModels.Product() { Id = guid, Name = name, Price = price});
                         context.SaveChanges();
 
                         return Result.SuccessFormat("Product {0} | {1} has been added", guid, name);
@@ -145,14 +145,14 @@ namespace ServiceBus
 
                 if (originalProduct.Result.ResultType == ResultType.Success)
                 {
-                    var editableProduct = new Product()
+                    var editableProduct = new EntityModels.Product()
                     {
                         Id = originalProduct.ID,
                         Name = originalProduct.Name,
                         Price = originalProduct.Price
                     };
 
-                    using (var context = new ServiceBusDatabaseEntities())
+                    using (var context = new EntityModels.ServiceBusDatabaseEntities())
                     {
                         context.Products.Attach(editableProduct);
 
@@ -213,7 +213,7 @@ namespace ServiceBus
         {
             try
             {   
-                using (var context = new ServiceBusDatabaseEntities())
+                using (var context = new EntityModels.ServiceBusDatabaseEntities())
                 {
                     var product = context.Products.FirstOrDefault(p => p.Id == guid);
 

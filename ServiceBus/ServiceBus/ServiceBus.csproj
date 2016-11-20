@@ -85,13 +85,13 @@
     <Content Include="App_Data\Database_log.ldf">
       <DependentUpon>Database.mdf</DependentUpon>
     </Content>
-    <Content Include="EntityDataModel.Context.tt">
+    <Content Include="EntityModels\EntityDataModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>EntityDataModel.edmx</DependentUpon>
       <LastGenOutput>EntityDataModel.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="EntityDataModel.edmx.sql" />
-    <Content Include="EntityDataModel.tt">
+    <Content Include="EntityModels\EntityDataModel.edmx.sql" />
+    <Content Include="EntityModels\EntityDataModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>EntityDataModel.edmx</DependentUpon>
       <LastGenOutput>EntityDataModel.cs</LastGenOutput>
@@ -139,35 +139,35 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Address.cs">
+    <Compile Include="EntityModels\Address.cs">
       <DependentUpon>EntityDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Basket.cs">
+    <Compile Include="EntityModels\Basket.cs">
       <DependentUpon>EntityDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="BasketItem.cs">
+    <Compile Include="EntityModels\BasketItem.cs">
       <DependentUpon>EntityDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="BillingInformation.cs">
+    <Compile Include="EntityModels\BillingInformation.cs">
       <DependentUpon>EntityDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Campaign.cs">
+    <Compile Include="EntityModels\Campaign.cs">
       <DependentUpon>EntityDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="CampaignItem.cs">
+    <Compile Include="EntityModels\CampaignItem.cs">
       <DependentUpon>EntityDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="EntityDataModel.Context.cs">
+    <Compile Include="EntityModels\EntityDataModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>EntityDataModel.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="EntityDataModel.cs">
+    <Compile Include="EntityModels\EntityDataModel.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>EntityDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="EntityDataModel.Designer.cs">
+    <Compile Include="EntityModels\EntityDataModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>EntityDataModel.edmx</DependentUpon>
@@ -184,35 +184,35 @@
     <Compile Include="OrderService.svc.cs">
       <DependentUpon>OrderService.svc</DependentUpon>
     </Compile>
-    <Compile Include="Order.cs">
+    <Compile Include="EntityModels\Order.cs">
       <DependentUpon>EntityDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="OrderStatus.cs">
+    <Compile Include="EntityModels\OrderStatus.cs">
       <DependentUpon>EntityDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Product.cs">
+    <Compile Include="EntityModels\Product.cs">
       <DependentUpon>EntityDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="ProductService.svc.cs">
       <DependentUpon>ProductService.svc</DependentUpon>
     </Compile>
-    <Compile Include="ProductType.cs">
+    <Compile Include="EntityModels\ProductType.cs">
       <DependentUpon>EntityDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repair.cs">
+    <Compile Include="EntityModels\Repair.cs">
       <DependentUpon>EntityDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Reservation.cs">
+    <Compile Include="EntityModels\Reservation.cs">
       <DependentUpon>EntityDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Storage.cs">
+    <Compile Include="EntityModels\Storage.cs">
       <DependentUpon>EntityDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="StorageItem.cs">
+    <Compile Include="EntityModels\StorageItem.cs">
       <DependentUpon>EntityDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="User.cs">
+    <Compile Include="EntityModels\User.cs">
       <DependentUpon>EntityDataModel.tt</DependentUpon>
     </Compile>
   </ItemGroup>
@@ -233,11 +233,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
-    <EntityDeploy Include="EntityDataModel.edmx">
+    <EntityDeploy Include="EntityModels\EntityDataModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>EntityDataModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="EntityDataModel.edmx.diagram">
+    <Content Include="EntityModels\EntityDataModel.edmx.diagram">
       <DependentUpon>EntityDataModel.edmx</DependentUpon>
     </Content>
     <None Include="Service References\ProductServiceProxyClass\ProductService.wsdl" />

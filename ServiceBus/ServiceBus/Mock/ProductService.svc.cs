@@ -47,9 +47,9 @@ namespace ServiceBus.Mock
         /// <param name="name">product name</param>
         /// <param name="price">produt price</param>
         /// <returns>edited product</returns>
-        public SharedLibs.DataContracts.Product EditProduct(Guid guid, string name, double price)
+        public Product EditProduct(Guid guid, string name, double price)
         {
-            return new SharedLibs.DataContracts.Product
+            return new Product
             {
                 Result = Result.SuccessFormat("Product Edited"),
                 ID = guid,
@@ -67,13 +67,13 @@ namespace ServiceBus.Mock
             return new Products
             {
                 Result = Result.Success("Products found"),
-                Items = new List<SharedLibs.DataContracts.Product> {
-                    new SharedLibs.DataContracts.Product { ID = Guid.Empty, Name = "Mock 1", Price = 10.0 },
-                    new SharedLibs.DataContracts.Product { ID = Guid.Empty, Name = "Mock 2", Price = 20.0 },
-                    new SharedLibs.DataContracts.Product { ID = Guid.Empty, Name = "Mock 3", Price = 30.0 },
-                    new SharedLibs.DataContracts.Product { ID = Guid.Empty, Name = "Mock 4", Price = 40.0 },
-                    new SharedLibs.DataContracts.Product { ID = Guid.Empty, Name = "Mock 5", Price = 50.0 },
-                    new SharedLibs.DataContracts.Product { ID = Guid.Empty, Name = "Mock 6", Price = 60.0 }
+                Items = new List<Product> {
+                    new Product { ID = Guid.Empty, Name = "Mock 1", Price = 10.0 },
+                    new Product { ID = Guid.Empty, Name = "Mock 2", Price = 20.0 },
+                    new Product { ID = Guid.Empty, Name = "Mock 3", Price = 30.0 },
+                    new Product { ID = Guid.Empty, Name = "Mock 4", Price = 40.0 },
+                    new Product { ID = Guid.Empty, Name = "Mock 5", Price = 50.0 },
+                    new Product { ID = Guid.Empty, Name = "Mock 6", Price = 60.0 }
                 }
             };
         }
@@ -83,9 +83,9 @@ namespace ServiceBus.Mock
         /// </summary>
         /// <param name="guid">guid of the product</param>
         /// <returns>product with specific Guid if found</returns>
-        public SharedLibs.DataContracts.Product GetProduct(Guid guid)
+        public Product GetProduct(Guid guid)
         {
-            return new SharedLibs.DataContracts.Product { Result = Result.Success("Product found"), ID = guid, Name = "Mock", Price = 10.0 };
+            return new Product { Result = Result.Success("Product found"), ID = guid, Name = "Mock", Price = 10.0 };
         }
     }
 }

@@ -19,7 +19,7 @@ namespace ServiceBus
         /// <param name="guid">guid of a order</param>
         /// <returns>requested order</returns>
         [OperationContract]
-        SharedLibs.DataContracts.Order GetOrder(Guid guid);
+        Order GetOrder(Guid guid);
 
 
         /// <summary>
@@ -27,7 +27,7 @@ namespace ServiceBus
         /// </summary>
         /// <returns>list of orders</returns>
         [OperationContract]
-        SharedLibs.DataContracts.Orders GetAllOrders();
+        Orders GetAllOrders();
 
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace ServiceBus
         /// <param name="deliveryDate">Order delivery date</param>
         /// <returns>Result object</returns>
         [OperationContract]
-        SharedLibs.DataContracts.Result AddOrder(
+        Result AddOrder(
             Guid guid, 
             SharedLibs.DataContracts.Basket basket,
             SharedLibs.DataContracts.Address deliveryAddress,
@@ -55,7 +55,7 @@ namespace ServiceBus
         /// <param name="order">Order object</param>
         /// <returns>Result object</returns>
         [OperationContract(Name = "AddOrderByObject")]
-        SharedLibs.DataContracts.Result AddOrder(SharedLibs.DataContracts.Order order);
+        Result AddOrder(SharedLibs.DataContracts.Order order);
 
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace ServiceBus
         /// <param name="orderState">Signals current state of order</param>
         /// <returns>New Order object</returns>
         [OperationContract]
-        SharedLibs.DataContracts.Order EditOrder(
+        Order EditOrder(
             Guid guid,
             SharedLibs.DataContracts.Basket basket,
             SharedLibs.DataContracts.Address deliveryAddress,
@@ -85,7 +85,7 @@ namespace ServiceBus
         /// <param name="state">State of an order</param>
         /// /// <returns>Result object</returns>
         [OperationContract]
-        SharedLibs.DataContracts.Result ChangeOrderState(Guid guid, SharedLibs.Enums.OrderStateType orderState);
+        Result ChangeOrderState(Guid guid, SharedLibs.Enums.OrderStateType orderState);
 
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace ServiceBus
         /// <param name="guid">Guid of a order</param>
         /// <returns>Result object</returns>
         [OperationContract]
-        SharedLibs.DataContracts.Result DeleteOrder(Guid guid);
+        Result DeleteOrder(Guid guid);
 
 
         /// <summary>
@@ -110,9 +110,9 @@ namespace ServiceBus
         /// <param name="attachment">Attachment of an e-mail - name of file</param>
         /// <returns>Result object</returns>
         [OperationContract]
-        SharedLibs.DataContracts.Result CreateEmail(
-            SharedLibs.DataContracts.User user,
-            SharedLibs.DataContracts.Order order, 
+        Result CreateEmail(
+            User user,
+            Order order, 
             string emailText, string attachment);
 
 
@@ -125,9 +125,9 @@ namespace ServiceBus
         /// <param name="attachment">Attachment of an e-mail - name of file</param>
         /// <returns>Result object</returns>
         [OperationContract]
-        SharedLibs.DataContracts.Result SendEmail(
-            SharedLibs.DataContracts.User user,
-            SharedLibs.DataContracts.Order order, 
+        Result SendEmail(
+            User user,
+            Order order, 
             string emailText, string attachment);
 
 
@@ -142,10 +142,10 @@ namespace ServiceBus
         /// <param name="pdfFilePath">Return path to pdf file</param>
         /// <returns>Result object</returns>
         [OperationContract]
-        SharedLibs.DataContracts.Result CreatePDFDocument(
-            SharedLibs.DataContracts.User user,
-            SharedLibs.DataContracts.Order order,
-            SharedLibs.Enums.PDFDocumentType documentType, 
+        Result CreatePDFDocument(
+            User user,
+            Order order,
+            PDFDocumentType documentType, 
             out string pdfFilePath);
     }
 }

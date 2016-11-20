@@ -49,9 +49,9 @@ namespace ServiceBus.Mock
         /// <param name="name">product name</param>
         /// <param name="discount">produt price</param>
         /// <returns>edited campaign</returns>
-        public SharedLibs.DataContracts.Campaign EditCampaign(Guid guid, string name, double discount)
+        public Campaign EditCampaign(Guid guid, string name, double discount)
         {
-            return new SharedLibs.DataContracts.Campaign
+            return new Campaign
             {
                 Result = Result.SuccessFormat("Campaign Edited"),
                 Id = guid,
@@ -70,12 +70,12 @@ namespace ServiceBus.Mock
             {
                 Result = Result.Success("Campaigns found"),
                 Items = new List<SharedLibs.DataContracts.Campaign> {
-                    new SharedLibs.DataContracts.Campaign { Id = Guid.Empty, Name = "Mock 1", Discount = 1.5 },
-                    new SharedLibs.DataContracts.Campaign { Id = Guid.Empty, Name = "Mock 2", Discount = 2.0 },
-                    new SharedLibs.DataContracts.Campaign { Id = Guid.Empty, Name = "Mock 3", Discount = 3.5 },
-                    new SharedLibs.DataContracts.Campaign { Id = Guid.Empty, Name = "Mock 4", Discount = 4.0 },
-                    new SharedLibs.DataContracts.Campaign { Id = Guid.Empty, Name = "Mock 5", Discount = 5.5 },
-                    new SharedLibs.DataContracts.Campaign { Id = Guid.Empty, Name = "Mock 6", Discount = 6.0 }
+                    new Campaign { Id = Guid.Empty, Name = "Mock 1", Discount = 1.5 },
+                    new Campaign { Id = Guid.Empty, Name = "Mock 2", Discount = 2.0 },
+                    new Campaign { Id = Guid.Empty, Name = "Mock 3", Discount = 3.5 },
+                    new Campaign { Id = Guid.Empty, Name = "Mock 4", Discount = 4.0 },
+                    new Campaign { Id = Guid.Empty, Name = "Mock 5", Discount = 5.5 },
+                    new Campaign { Id = Guid.Empty, Name = "Mock 6", Discount = 6.0 }
                 }
             };
         }
@@ -85,9 +85,9 @@ namespace ServiceBus.Mock
         /// </summary>
         /// <param name="guid">guid of the campaign</param>
         /// <returns>campaign with specific Guid if found</returns>
-        public SharedLibs.DataContracts.Campaign GetCampaign(Guid guid)
+        public Campaign GetCampaign(Guid guid)
         {
-            return new SharedLibs.DataContracts.Campaign { Result = Result.Success("Campaign found"), Id = guid, Name = "Mock", Discount = 1.5 };
+            return new Campaign { Result = Result.Success("Campaign found"), Id = guid, Name = "Mock", Discount = 1.5 };
         }
     }
 }
