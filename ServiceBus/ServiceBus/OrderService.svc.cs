@@ -24,7 +24,7 @@ namespace ServiceBus
         /// <returns>Order object</returns>
         public SharedLibs.DataContracts.Order GetOrder(Guid guid)
         {
-            try
+            /*try
             {
                 using (var context = new ServiceBusDatabaseEntities())
                 {
@@ -64,12 +64,12 @@ namespace ServiceBus
             }
 
 //********* delete this code after finishing implementation method GetOrder ************
-/*
+*/
             return new SharedLibs.DataContracts.Order
             {
                 Result = Result.Fatal("Not finish")
             };
-            */
+            
         }
 
 
@@ -79,7 +79,7 @@ namespace ServiceBus
         /// <returns>List of orders</returns>
         public SharedLibs.DataContracts.Orders GetAllOrders()
         {
-            try
+            /*try
             {
                 using (var context = new ServiceBusDatabaseEntities())
                 {
@@ -125,15 +125,14 @@ namespace ServiceBus
                     Result = SharedLibs.DataContracts.Result.FatalFormat("In method OrderService.GetAllOrders was thrown exception: {0}",
                                                                          exception.Message)
                 };
-            }
+            }*/
 
 //********* delete this code after finishing implementation method GetOrder ************
-/*
+
             return new SharedLibs.DataContracts.Orders
             {
                 Result = Result.Fatal("Not finish")
             };
-            */
         }
 
 
@@ -154,7 +153,7 @@ namespace ServiceBus
             SharedLibs.DataContracts.BillingInformation billingInformation,
             DateTime orderDate, DateTime deliveryDate, OrderStateType orderState)
         {
-            try
+            /*try
             {
                 using (var context = new ServiceBusDatabaseEntities())
                 {
@@ -187,7 +186,8 @@ namespace ServiceBus
             {
                 return SharedLibs.DataContracts.Result.FatalFormat("In method OrderService.AddOrder was thrown exception: {0}",
                                                                          exception.Message);
-            }           
+            } */
+            return Result.Fatal("Not finished");
         }
 
 
@@ -219,7 +219,7 @@ namespace ServiceBus
             SharedLibs.DataContracts.BillingInformation billingInformation,
             DateTime deliveryDate, OrderStateType orderState)
         {
-            try
+            /*try
             {
                 var storedOrder = this.GetOrder(guid);
 
@@ -301,7 +301,12 @@ namespace ServiceBus
                     Result = SharedLibs.DataContracts.Result.FatalFormat("In method OrderService.EditOrder was thrown exception: {0}.",
                                                                          exception.Message)
                 };
-            }
+            }*/
+
+            return new SharedLibs.DataContracts.Order
+            {
+                Result = Result.Fatal("Not finished")
+            };
         }
 
 
@@ -314,7 +319,7 @@ namespace ServiceBus
         public SharedLibs.DataContracts.Result ChangeOrderState(
             Guid guid, SharedLibs.Enums.OrderStateType orderState)
         {
-            try
+            /*try
             {
                 var storedOrder = this.GetOrder(guid);
 
@@ -359,7 +364,8 @@ namespace ServiceBus
             {
                 return SharedLibs.DataContracts.Result.FatalFormat("In method OrderService.ChangeOrderState was thrown exception: {0}",
                                                                         exception.Message);           
-            }
+            }*/
+            return Result.Fatal("Not finished");
         }
 
 
@@ -370,7 +376,7 @@ namespace ServiceBus
         /// <returns>Result object</returns>
         public SharedLibs.DataContracts.Result DeleteOrder(Guid guid)
         {
-            try
+            /*try
             {
                 using (var context = new ServiceBusDatabaseEntities())
                 {
@@ -391,7 +397,8 @@ namespace ServiceBus
             {
                 return SharedLibs.DataContracts.Result.FatalFormat("In method OrderService.DeleteOrder was thrown exception: {0}.",
                                                                          exception.Message);
-            }
+            }*/
+            return Result.Fatal("Not finished");
         }
 
 
@@ -1031,7 +1038,7 @@ namespace ServiceBus
                     itemsTable.AddCell(cell4);
                     itemsTable.AddCell(cell5);
 
-                    sumaPrice += item.Product.Price.HasValue ? item.Product.Price.Value * item.Quantity : 0.0;
+                    sumaPrice += item.Product.Price * item.Quantity;
                     itemNumber += 1;
 
                     if (itemNumber == itemsPerPageCount || sumaItemNumber == itemsCount)

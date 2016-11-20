@@ -49,17 +49,14 @@
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="itextsharp, Version=5.5.10.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\itextsharp.dll</HintPath>
+    <Reference Include="itextsharp">
+      <HintPath>ExternLibs\itextsharp.dll</HintPath>
     </Reference>
-    <Reference Include="itextsharp.pdfa, Version=5.5.10.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\itextsharp.pdfa.dll</HintPath>
+    <Reference Include="itextsharp.pdfa">
+      <HintPath>ExternLibs\itextsharp.pdfa.dll</HintPath>
     </Reference>
-    <Reference Include="itextsharp.xtra, Version=5.5.10.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\itextsharp.xtra.dll</HintPath>
+    <Reference Include="itextsharp.xtra">
+      <HintPath>ExternLibs\itextsharp.xtra.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -264,12 +261,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SharedLibs\SharedLibs.csproj">
-      <Project>{d9c3eaff-89ab-49d4-9880-21b7430dec22}</Project>
-      <Name>SharedLibs</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
@@ -278,6 +269,12 @@
   <ItemGroup>
     <WCFMetadataStorage Include="Service References\OrderServiceProxyClass\" />
     <WCFMetadataStorage Include="Service References\ProductServiceProxyClass\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SharedLibs\SharedLibs.csproj">
+      <Project>{d9c3eaff-89ab-49d4-9880-21b7430dec22}</Project>
+      <Name>SharedLibs</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
