@@ -85,6 +85,7 @@
     <Content Include="App_Data\Database_log.ldf">
       <DependentUpon>Database.mdf</DependentUpon>
     </Content>
+    <Content Include="BasketService.svc" />
     <Content Include="EntityModels\EntityDataModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>EntityDataModel.edmx</DependentUpon>
@@ -139,6 +140,9 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BasketService.svc.cs">
+      <DependentUpon>BasketService.svc</DependentUpon>
+    </Compile>
     <Compile Include="EntityModels\Address.cs">
       <DependentUpon>EntityDataModel.tt</DependentUpon>
     </Compile>
@@ -172,6 +176,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>EntityDataModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="IBasketService.cs" />
     <Compile Include="ICampaignService.cs" />
     <Compile Include="IOrderService.cs" />
     <Compile Include="IProductService.cs" />
