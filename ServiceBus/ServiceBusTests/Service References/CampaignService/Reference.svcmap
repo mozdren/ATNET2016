@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="54a3a711-e588-4ca1-b190-4889ed5c48d1" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:54222/CampaignService.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="CampaignService.xsd" MetadataType="Schema" ID="d0a1db31-ae8e-4885-b19b-90215399bf7a" SourceId="1" SourceUrl="http://localhost:54222/CampaignService.svc?xsd=xsd1" />
+    <MetadataFile FileName="CampaignService1.xsd" MetadataType="Schema" ID="ea478d87-01f9-497a-81f5-f2055fa44aae" SourceId="1" SourceUrl="http://localhost:54222/CampaignService.svc?xsd=xsd0" />
+    <MetadataFile FileName="CampaignService2.xsd" MetadataType="Schema" ID="0e187f01-1b84-4b8d-ad60-025b03ba4cde" SourceId="1" SourceUrl="http://localhost:54222/CampaignService.svc?xsd=xsd3" />
+    <MetadataFile FileName="CampaignService.wsdl" MetadataType="Wsdl" ID="b7ae1224-6b25-43c5-a03c-b73d7bdb52b5" SourceId="1" SourceUrl="http://localhost:54222/CampaignService.svc?wsdl" />
+    <MetadataFile FileName="CampaignService.disco" MetadataType="Disco" ID="34ed064d-c337-499a-bc3e-83b932dc6b01" SourceId="1" SourceUrl="http://localhost:54222/CampaignService.svc?disco" />
+    <MetadataFile FileName="CampaignService3.xsd" MetadataType="Schema" ID="6028e004-751f-441d-918a-04566a744360" SourceId="1" SourceUrl="http://localhost:54222/CampaignService.svc?xsd=xsd2" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

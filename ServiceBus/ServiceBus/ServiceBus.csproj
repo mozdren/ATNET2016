@@ -49,8 +49,18 @@
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="itextsharp">
+      <HintPath>ExternLibs\itextsharp.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp.pdfa">
+      <HintPath>ExternLibs\itextsharp.pdfa.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp.xtra">
+      <HintPath>ExternLibs\itextsharp.xtra.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -75,99 +85,179 @@
     <Content Include="App_Data\Database_log.ldf">
       <DependentUpon>Database.mdf</DependentUpon>
     </Content>
-    <Content Include="EntityDataModel.Context.tt">
+    <Content Include="BasketService.svc" />
+    <Content Include="EntityModels\EntityDataModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>EntityDataModel.edmx</DependentUpon>
       <LastGenOutput>EntityDataModel.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="EntityDataModel.edmx.sql" />
-    <Content Include="EntityDataModel.tt">
+    <Content Include="EntityModels\EntityDataModel.edmx.sql" />
+    <Content Include="EntityModels\EntityDataModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>EntityDataModel.edmx</DependentUpon>
       <LastGenOutput>EntityDataModel.cs</LastGenOutput>
     </Content>
+    <Content Include="Mock\CampaignService.svc" />
+    <Content Include="Mock\ProductService.svc" />
+    <Content Include="OrderService.svc" />
     <Content Include="ProductService.svc" />
+    <Content Include="Properties\DataSources\SharedLibs.DataContracts.Product.datasource" />
+    <Content Include="Properties\DataSources\SharedLibs.DataContracts.Products.datasource" />
+    <Content Include="Properties\DataSources\SharedLibs.DataContracts.Result.datasource" />
+    <Content Include="Properties\DataSources\SharedLibs.DataContracts.Order.datasource" />
+    <Content Include="Properties\DataSources\SharedLibs.DataContracts.Orders.datasource" />
+    <None Include="Service References\OrderServiceProxyClass\OrderService.wsdl" />
+    <None Include="Service References\OrderServiceProxyClass\OrderService.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\OrderServiceProxyClass\OrderService1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\OrderServiceProxyClass\OrderService2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\OrderServiceProxyClass\OrderService3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <Content Include="Service References\OrderServiceProxyClass\ServiceBus.OrderServiceProxyClass.CreatePDFDocumentResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <None Include="Service References\ProductServiceProxyClass\ProductService.disco" />
+    <None Include="Service References\ProductServiceProxyClass\configuration91.svcinfo" />
+    <None Include="Service References\ProductServiceProxyClass\configuration.svcinfo" />
+    <None Include="Service References\ProductServiceProxyClass\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <Content Include="CampaignService.svc" />
+    <None Include="Service References\OrderServiceProxyClass\OrderService.disco" />
+    <None Include="Service References\OrderServiceProxyClass\configuration91.svcinfo" />
+    <None Include="Service References\OrderServiceProxyClass\configuration.svcinfo" />
+    <None Include="Service References\OrderServiceProxyClass\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Address.cs">
+    <Compile Include="BasketService.svc.cs">
+      <DependentUpon>BasketService.svc</DependentUpon>
+    </Compile>
+    <Compile Include="EntityModels\Address.cs">
       <DependentUpon>EntityDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Basket.cs">
+    <Compile Include="EntityModels\Basket.cs">
       <DependentUpon>EntityDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="BasketItem.cs">
+    <Compile Include="EntityModels\BasketItem.cs">
       <DependentUpon>EntityDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="BillingInformation.cs">
+    <Compile Include="EntityModels\BillingInformation.cs">
       <DependentUpon>EntityDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Campaign.cs">
+    <Compile Include="EntityModels\Campaign.cs">
       <DependentUpon>EntityDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="CampaignItem.cs">
+    <Compile Include="EntityModels\CampaignItem.cs">
       <DependentUpon>EntityDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="EntityDataModel.Context.cs">
+    <Compile Include="EntityModels\EntityDataModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>EntityDataModel.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="EntityDataModel.cs">
+    <Compile Include="EntityModels\EntityDataModel.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>EntityDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="EntityDataModel.Designer.cs">
+    <Compile Include="EntityModels\EntityDataModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>EntityDataModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="IBasketService.cs" />
+    <Compile Include="ICampaignService.cs" />
+    <Compile Include="IOrderService.cs" />
     <Compile Include="IProductService.cs" />
-    <Compile Include="Order.cs">
+    <Compile Include="Mock\CampaignService.svc.cs">
+      <DependentUpon>CampaignService.svc</DependentUpon>
+    </Compile>
+    <Compile Include="Mock\ProductService.svc.cs">
+      <DependentUpon>ProductService.svc</DependentUpon>
+    </Compile>
+    <Compile Include="OrderService.svc.cs">
+      <DependentUpon>OrderService.svc</DependentUpon>
+    </Compile>
+    <Compile Include="EntityModels\Order.cs">
       <DependentUpon>EntityDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="OrderStatus.cs">
+    <Compile Include="EntityModels\OrderStatus.cs">
       <DependentUpon>EntityDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Product.cs">
+    <Compile Include="EntityModels\Product.cs">
       <DependentUpon>EntityDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="ProductService.svc.cs">
       <DependentUpon>ProductService.svc</DependentUpon>
     </Compile>
-    <Compile Include="ProductType.cs">
+    <Compile Include="EntityModels\ProductType.cs">
       <DependentUpon>EntityDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repair.cs">
+    <Compile Include="EntityModels\Repair.cs">
       <DependentUpon>EntityDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Reservation.cs">
+    <Compile Include="EntityModels\Reservation.cs">
       <DependentUpon>EntityDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Storage.cs">
+    <Compile Include="EntityModels\Storage.cs">
       <DependentUpon>EntityDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="StorageItem.cs">
+    <Compile Include="EntityModels\StorageItem.cs">
       <DependentUpon>EntityDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="User.cs">
+    <Compile Include="EntityModels\User.cs">
       <DependentUpon>EntityDataModel.tt</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Product\" />
+    <Compile Include="Service References\OrderServiceProxyClass\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\ProductServiceProxyClass\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="CampaignService.svc.cs">
+      <DependentUpon>CampaignService.svc</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
-    <EntityDeploy Include="EntityDataModel.edmx">
+    <EntityDeploy Include="EntityModels\EntityDataModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>EntityDataModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="EntityDataModel.edmx.diagram">
+    <Content Include="EntityModels\EntityDataModel.edmx.diagram">
       <DependentUpon>EntityDataModel.edmx</DependentUpon>
     </Content>
+    <None Include="Service References\ProductServiceProxyClass\ProductService.wsdl" />
+    <None Include="Service References\ProductServiceProxyClass\ProductService.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ProductServiceProxyClass\ProductService1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ProductServiceProxyClass\ProductService2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ProductServiceProxyClass\ProductService3.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -176,13 +266,20 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\OrderServiceProxyClass\" />
+    <WCFMetadataStorage Include="Service References\ProductServiceProxyClass\" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\SharedLibs\SharedLibs.csproj">
       <Project>{d9c3eaff-89ab-49d4-9880-21b7430dec22}</Project>
       <Name>SharedLibs</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:ser="http://schemas.microsoft.com/2003/10/Serialization/" xmlns:tns="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://localhost:54222/OrderService.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+  <xs:import schemaLocation="http://localhost:54222/OrderService.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/SharedLibs.Enums" />
+  <xs:complexType name="Order">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:DTO">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Basket" nillable="true" type="tns:Basket" />
+          <xs:element minOccurs="0" name="BillingInformation" nillable="true" type="tns:BillingInformation" />
+          <xs:element minOccurs="0" name="DeliveryAddress" nillable="true" type="tns:Address" />
+          <xs:element minOccurs="0" name="DeliveryDate" type="xs:dateTime" />
+          <xs:element minOccurs="0" name="Id" type="ser:guid" />
+          <xs:element minOccurs="0" name="OrderDate" type="xs:dateTime" />
+          <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/SharedLibs.Enums" minOccurs="0" name="OrderState" type="q1:OrderStateType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="Order" nillable="true" type="tns:Order" />
+  <xs:complexType name="DTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Result" nillable="true" type="tns:Result" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="DTO" nillable="true" type="tns:DTO" />
+  <xs:complexType name="Result">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Message" nillable="true" type="xs:string" />
+      <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/SharedLibs.Enums" minOccurs="0" name="ResultType" type="q2:ResultType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Result" nillable="true" type="tns:Result" />
+  <xs:complexType name="Basket">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:DTO">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="BasketCampaings" nillable="true" type="tns:ArrayOfCampaign" />
+          <xs:element minOccurs="0" name="BasketItems" nillable="true" type="tns:ArrayOfBasketItem" />
+          <xs:element minOccurs="0" name="Id" type="ser:guid" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="Basket" nillable="true" type="tns:Basket" />
+  <xs:complexType name="ArrayOfCampaign">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Campaign" nillable="true" type="tns:Campaign" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfCampaign" nillable="true" type="tns:ArrayOfCampaign" />
+  <xs:complexType name="Campaign">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:DTO">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Discount" type="xs:double" />
+          <xs:element minOccurs="0" name="Id" type="ser:guid" />
+          <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="Campaign" nillable="true" type="tns:Campaign" />
+  <xs:complexType name="ArrayOfBasketItem">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="BasketItem" nillable="true" type="tns:BasketItem" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfBasketItem" nillable="true" type="tns:ArrayOfBasketItem" />
+  <xs:complexType name="BasketItem">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:DTO">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Active" type="xs:boolean" />
+          <xs:element minOccurs="0" name="Id" type="ser:guid" />
+          <xs:element minOccurs="0" name="Product" nillable="true" type="tns:Product" />
+          <xs:element minOccurs="0" name="Quantity" type="xs:int" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="BasketItem" nillable="true" type="tns:BasketItem" />
+  <xs:complexType name="Product">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:DTO">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="ID" type="ser:guid" />
+          <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Price" type="xs:double" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="Product" nillable="true" type="tns:Product" />
+  <xs:complexType name="BillingInformation">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:DTO">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="BIC" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="BillingAddress" nillable="true" type="tns:Address" />
+          <xs:element minOccurs="0" name="IBAN" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Id" type="ser:guid" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="BillingInformation" nillable="true" type="tns:BillingInformation" />
+  <xs:complexType name="Address">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:DTO">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="City" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="District" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="DoorNumber" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="HouseNumber" type="xs:int" />
+          <xs:element minOccurs="0" name="HouseNumberExtension" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Id" type="ser:guid" />
+          <xs:element minOccurs="0" name="PostCode" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Street" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="Address" nillable="true" type="tns:Address" />
+  <xs:complexType name="Orders">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:PluralizedOfOrdergUMYyf5D">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="Orders" nillable="true" type="tns:Orders" />
+  <xs:complexType name="PluralizedOfOrdergUMYyf5D">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="PluralizedOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="Order" Namespace="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:DTO">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Items" nillable="true" type="tns:ArrayOfOrder" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="PluralizedOfOrdergUMYyf5D" nillable="true" type="tns:PluralizedOfOrdergUMYyf5D" />
+  <xs:complexType name="ArrayOfOrder">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Order" nillable="true" type="tns:Order" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfOrder" nillable="true" type="tns:ArrayOfOrder" />
+  <xs:complexType name="User">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:DTO">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="CompanyName" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="EmailAddress" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Id" type="ser:guid" />
+          <xs:element minOccurs="0" name="IdentificationCompanyNumber" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Login" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Password" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="PhoneNumber" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Surname" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="TaxIdentificationCompanyNumber" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="UserAddress" nillable="true" type="tns:Address" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="User" nillable="true" type="tns:User" />
+</xs:schema>

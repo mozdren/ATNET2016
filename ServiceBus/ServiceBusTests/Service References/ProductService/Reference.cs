@@ -17,6 +17,7 @@ namespace ServiceBusTests.ProductService {
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
     [System.Runtime.Serialization.DataContractAttribute(Name="DTO", Namespace="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts")]
     [System.SerializableAttribute()]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(ServiceBusTests.ProductService.PluralizedOfProductgUMYyf5D))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(ServiceBusTests.ProductService.Products))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(ServiceBusTests.ProductService.Product))]
     public partial class DTO : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
@@ -123,9 +124,10 @@ namespace ServiceBusTests.ProductService {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="Products", Namespace="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="PluralizedOfProductgUMYyf5D", Namespace="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts")]
     [System.SerializableAttribute()]
-    public partial class Products : ServiceBusTests.ProductService.DTO {
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(ServiceBusTests.ProductService.Products))]
+    public partial class PluralizedOfProductgUMYyf5D : ServiceBusTests.ProductService.DTO {
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private ServiceBusTests.ProductService.Product[] ItemsField;
@@ -142,6 +144,13 @@ namespace ServiceBusTests.ProductService {
                 }
             }
         }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="Products", Namespace="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts")]
+    [System.SerializableAttribute()]
+    public partial class Products : ServiceBusTests.ProductService.PluralizedOfProductgUMYyf5D {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -231,6 +240,30 @@ namespace ServiceBusTests.ProductService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProductService/GetAllProducts", ReplyAction="http://tempuri.org/IProductService/GetAllProductsResponse")]
         System.Threading.Tasks.Task<ServiceBusTests.ProductService.Products> GetAllProductsAsync();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProductService/AddProduct", ReplyAction="http://tempuri.org/IProductService/AddProductResponse")]
+        ServiceBusTests.ProductService.Result AddProduct(string name, double price, System.Guid guid);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProductService/AddProduct", ReplyAction="http://tempuri.org/IProductService/AddProductResponse")]
+        System.Threading.Tasks.Task<ServiceBusTests.ProductService.Result> AddProductAsync(string name, double price, System.Guid guid);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProductService/AddProductByObject", ReplyAction="http://tempuri.org/IProductService/AddProductByObjectResponse")]
+        ServiceBusTests.ProductService.Result AddProductByObject(ServiceBusTests.ProductService.Product product);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProductService/AddProductByObject", ReplyAction="http://tempuri.org/IProductService/AddProductByObjectResponse")]
+        System.Threading.Tasks.Task<ServiceBusTests.ProductService.Result> AddProductByObjectAsync(ServiceBusTests.ProductService.Product product);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProductService/EditProduct", ReplyAction="http://tempuri.org/IProductService/EditProductResponse")]
+        ServiceBusTests.ProductService.Product EditProduct(System.Guid guid, string name, double price);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProductService/EditProduct", ReplyAction="http://tempuri.org/IProductService/EditProductResponse")]
+        System.Threading.Tasks.Task<ServiceBusTests.ProductService.Product> EditProductAsync(System.Guid guid, string name, double price);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProductService/DeleteProduct", ReplyAction="http://tempuri.org/IProductService/DeleteProductResponse")]
+        ServiceBusTests.ProductService.Result DeleteProduct(System.Guid guid);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProductService/DeleteProduct", ReplyAction="http://tempuri.org/IProductService/DeleteProductResponse")]
+        System.Threading.Tasks.Task<ServiceBusTests.ProductService.Result> DeleteProductAsync(System.Guid guid);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -274,6 +307,38 @@ namespace ServiceBusTests.ProductService {
         
         public System.Threading.Tasks.Task<ServiceBusTests.ProductService.Products> GetAllProductsAsync() {
             return base.Channel.GetAllProductsAsync();
+        }
+        
+        public ServiceBusTests.ProductService.Result AddProduct(string name, double price, System.Guid guid) {
+            return base.Channel.AddProduct(name, price, guid);
+        }
+        
+        public System.Threading.Tasks.Task<ServiceBusTests.ProductService.Result> AddProductAsync(string name, double price, System.Guid guid) {
+            return base.Channel.AddProductAsync(name, price, guid);
+        }
+        
+        public ServiceBusTests.ProductService.Result AddProductByObject(ServiceBusTests.ProductService.Product product) {
+            return base.Channel.AddProductByObject(product);
+        }
+        
+        public System.Threading.Tasks.Task<ServiceBusTests.ProductService.Result> AddProductByObjectAsync(ServiceBusTests.ProductService.Product product) {
+            return base.Channel.AddProductByObjectAsync(product);
+        }
+        
+        public ServiceBusTests.ProductService.Product EditProduct(System.Guid guid, string name, double price) {
+            return base.Channel.EditProduct(guid, name, price);
+        }
+        
+        public System.Threading.Tasks.Task<ServiceBusTests.ProductService.Product> EditProductAsync(System.Guid guid, string name, double price) {
+            return base.Channel.EditProductAsync(guid, name, price);
+        }
+        
+        public ServiceBusTests.ProductService.Result DeleteProduct(System.Guid guid) {
+            return base.Channel.DeleteProduct(guid);
+        }
+        
+        public System.Threading.Tasks.Task<ServiceBusTests.ProductService.Result> DeleteProductAsync(System.Guid guid) {
+            return base.Channel.DeleteProductAsync(guid);
         }
     }
 }

@@ -11,6 +11,7 @@ namespace SharedLibs.DataContracts
     {
         /// <summary>
         /// Order ID
+        /// Every order must have unique Order ID
         /// </summary>
         [DataMember]
         public Guid Id { set; get; }
@@ -30,20 +31,31 @@ namespace SharedLibs.DataContracts
 
         /// <summary>
         /// Billing information
+        /// Informations about billing address, BIC and IBAN.
+        /// NOTE: Instead BIC and IBAN can be use bank code and account number
         /// </summary>
         [DataMember]
         public BillingInformation BillingInformation { set; get; }
 
         /// <summary>
         /// Date of order
+        /// Can be automatically set to current date
         /// </summary>
         [DataMember]
         public DateTime OrderDate { get; set; }
 
         /// <summary>
         /// Wished date of delivery
+        /// Can be automatically set to current date + 1
         /// </summary>
         [DataMember]
         public DateTime DeliveryDate { get; set; }
+
+        /// <summary>
+        /// Order state
+        /// Keeps actual state of order
+        /// </summary>
+        [DataMember]
+        public SharedLibs.Enums.OrderStateType OrderState { set; get; }
     }
 }
