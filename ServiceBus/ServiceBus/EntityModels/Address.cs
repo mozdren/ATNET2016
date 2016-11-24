@@ -27,7 +27,7 @@ public partial class Address
     }
 
 
-    public int Id { get; set; }
+    public System.Guid Id { get; set; }
 
     public string PostCode { get; set; }
 

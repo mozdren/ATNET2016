@@ -2,13 +2,13 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 11/02/2016 11:18:21
--- Generated from EDMX file: C:\Users\Sokrates\Source\Repos\ATNET2016\ServiceBus\ServiceBus\EntityDataModel.edmx
+-- Date Created: 11/23/2016 22:27:22
+-- Generated from EDMX file: C:\Users\Kamil\Source\Repos\ATNET2016\ServiceBus\ServiceBus\EntityModels\EntityDataModel.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
 GO
-USE [Database];
+USE [C:\Users\Kamil\Source\Repos\ATNET2016\ServiceBus\ServiceBus\App_Data\Database.mdf];
 GO
 IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
 GO
@@ -17,13 +17,118 @@ GO
 -- Dropping existing FOREIGN KEY constraints
 -- --------------------------------------------------
 
+IF OBJECT_ID(N'[dbo].[FK_ProductBasketItem]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[BasketItems] DROP CONSTRAINT [FK_ProductBasketItem];
+GO
+IF OBJECT_ID(N'[dbo].[FK_BasketBasketItem]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[BasketItems] DROP CONSTRAINT [FK_BasketBasketItem];
+GO
+IF OBJECT_ID(N'[dbo].[FK_BillingInformationAddress]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[BillingInformations] DROP CONSTRAINT [FK_BillingInformationAddress];
+GO
+IF OBJECT_ID(N'[dbo].[FK_AddressOrder]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Orders] DROP CONSTRAINT [FK_AddressOrder];
+GO
+IF OBJECT_ID(N'[dbo].[FK_BillingInformationOrder]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Orders] DROP CONSTRAINT [FK_BillingInformationOrder];
+GO
+IF OBJECT_ID(N'[dbo].[FK_OrderBasket]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Orders] DROP CONSTRAINT [FK_OrderBasket];
+GO
+IF OBJECT_ID(N'[dbo].[FK_UserOrder]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Orders] DROP CONSTRAINT [FK_UserOrder];
+GO
+IF OBJECT_ID(N'[dbo].[FK_ProductRepair]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Repairs] DROP CONSTRAINT [FK_ProductRepair];
+GO
+IF OBJECT_ID(N'[dbo].[FK_UserReservation]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Reservations] DROP CONSTRAINT [FK_UserReservation];
+GO
+IF OBJECT_ID(N'[dbo].[FK_UserRepair]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Repairs] DROP CONSTRAINT [FK_UserRepair];
+GO
+IF OBJECT_ID(N'[dbo].[FK_StorageReservation]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Reservations] DROP CONSTRAINT [FK_StorageReservation];
+GO
+IF OBJECT_ID(N'[dbo].[FK_StorageRepair]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Repairs] DROP CONSTRAINT [FK_StorageRepair];
+GO
+IF OBJECT_ID(N'[dbo].[FK_ProductReservation]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Reservations] DROP CONSTRAINT [FK_ProductReservation];
+GO
+IF OBJECT_ID(N'[dbo].[FK_ProductStorageItem]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[StorageItems] DROP CONSTRAINT [FK_ProductStorageItem];
+GO
+IF OBJECT_ID(N'[dbo].[FK_StorageStorageItem]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[StorageItems] DROP CONSTRAINT [FK_StorageStorageItem];
+GO
+IF OBJECT_ID(N'[dbo].[FK_StorageAddress]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Storages] DROP CONSTRAINT [FK_StorageAddress];
+GO
+IF OBJECT_ID(N'[dbo].[FK_BasketCampaignItem]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[CampaignItems] DROP CONSTRAINT [FK_BasketCampaignItem];
+GO
+IF OBJECT_ID(N'[dbo].[FK_CampaignCampaignItem]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[CampaignItems] DROP CONSTRAINT [FK_CampaignCampaignItem];
+GO
+IF OBJECT_ID(N'[dbo].[FK_ProductProductType]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Products] DROP CONSTRAINT [FK_ProductProductType];
+GO
+IF OBJECT_ID(N'[dbo].[FK_CampaignProductType]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Campaigns] DROP CONSTRAINT [FK_CampaignProductType];
+GO
+IF OBJECT_ID(N'[dbo].[FK_OrderStatusOrder]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Orders] DROP CONSTRAINT [FK_OrderStatusOrder];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
 -- --------------------------------------------------
 
-IF OBJECT_ID(N'[dbo].[Product]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Product];
+IF OBJECT_ID(N'[dbo].[Products]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Products];
+GO
+IF OBJECT_ID(N'[dbo].[Baskets]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Baskets];
+GO
+IF OBJECT_ID(N'[dbo].[Campaigns]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Campaigns];
+GO
+IF OBJECT_ID(N'[dbo].[BasketItems]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[BasketItems];
+GO
+IF OBJECT_ID(N'[dbo].[Users]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Users];
+GO
+IF OBJECT_ID(N'[dbo].[BillingInformations]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[BillingInformations];
+GO
+IF OBJECT_ID(N'[dbo].[Addresses]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Addresses];
+GO
+IF OBJECT_ID(N'[dbo].[Orders]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Orders];
+GO
+IF OBJECT_ID(N'[dbo].[Reservations]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Reservations];
+GO
+IF OBJECT_ID(N'[dbo].[Repairs]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Repairs];
+GO
+IF OBJECT_ID(N'[dbo].[Storages]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Storages];
+GO
+IF OBJECT_ID(N'[dbo].[StorageItems]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[StorageItems];
+GO
+IF OBJECT_ID(N'[dbo].[CampaignItems]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[CampaignItems];
+GO
+IF OBJECT_ID(N'[dbo].[ProductTypes]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[ProductTypes];
+GO
+IF OBJECT_ID(N'[dbo].[OrderStatus]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[OrderStatus];
 GO
 
 -- --------------------------------------------------
@@ -37,34 +142,34 @@ CREATE TABLE [dbo].[Products] (
     [Price] float  NULL,
     [Enabled] bit  NOT NULL,
     [Headliner] bit  NOT NULL,
-    [ProductType_Id] int  NOT NULL
+    [ProductType_Id] uniqueidentifier  NOT NULL
 );
 GO
 
 -- Creating table 'Baskets'
 CREATE TABLE [dbo].[Baskets] (
-    [Id] int IDENTITY(1,1) NOT NULL,
-    [CampaignId] int  NULL,
+    [Id] uniqueidentifier  NOT NULL,
+    [CampaignId] uniqueidentifier  NULL,
     [TotalPrice] float  NOT NULL
 );
 GO
 
 -- Creating table 'Campaigns'
 CREATE TABLE [dbo].[Campaigns] (
-    [Id] int IDENTITY(1,1) NOT NULL,
+    [Id] uniqueidentifier  NOT NULL,
     [Name] nvarchar(max)  NOT NULL,
     [Discount] nvarchar(max)  NULL,
     [StartDate] datetime  NULL,
     [EndDate] datetime  NULL,
     [Active] bit  NOT NULL,
-    [ProductType_Id] int  NULL
+    [ProductType_Id] uniqueidentifier  NULL
 );
 GO
 
 -- Creating table 'BasketItems'
 CREATE TABLE [dbo].[BasketItems] (
     [ProductId] uniqueidentifier  NOT NULL,
-    [BasketId] int  NOT NULL,
+    [BasketId] uniqueidentifier  NOT NULL,
     [Quantity] int  NOT NULL,
     [Id] uniqueidentifier  NOT NULL
 );
@@ -72,7 +177,7 @@ GO
 
 -- Creating table 'Users'
 CREATE TABLE [dbo].[Users] (
-    [Id] int IDENTITY(1,1) NOT NULL,
+    [Id] uniqueidentifier  NOT NULL,
     [Email] nvarchar(max)  NOT NULL,
     [Phone] nvarchar(max)  NULL,
     [Hash] nvarchar(max)  NOT NULL,
@@ -82,16 +187,16 @@ GO
 
 -- Creating table 'BillingInformations'
 CREATE TABLE [dbo].[BillingInformations] (
-    [Id] int IDENTITY(1,1) NOT NULL,
+    [Id] uniqueidentifier  NOT NULL,
     [BIC] nvarchar(max)  NULL,
     [IBAN] nvarchar(max)  NULL,
-    [Address_Id] int  NOT NULL
+    [Address_Id] uniqueidentifier  NOT NULL
 );
 GO
 
 -- Creating table 'Addresses'
 CREATE TABLE [dbo].[Addresses] (
-    [Id] int IDENTITY(1,1) NOT NULL,
+    [Id] uniqueidentifier  NOT NULL,
     [PostCode] nvarchar(max)  NOT NULL,
     [HouseNumber] int  NOT NULL,
     [HouseNumberExtension] nvarchar(max)  NULL,
@@ -104,76 +209,77 @@ GO
 
 -- Creating table 'Orders'
 CREATE TABLE [dbo].[Orders] (
-    [Id] int IDENTITY(1,1) NOT NULL,
+    [Id] uniqueidentifier  NOT NULL,
     [OrderDate] datetime  NULL,
     [DeliveryDate] datetime  NULL,
-    [AddressId] int  NULL,
-    [BillingInformationId] int  NULL,
-    [UserId] int  NULL,
+    [AddressId] uniqueidentifier  NULL,
+    [BillingInformationId] uniqueidentifier  NULL,
+    [UserId] uniqueidentifier  NULL,
     [InvoiceNr] nvarchar(max)  NULL,
-    [OrderStatusId] int  NOT NULL,
+    [OrderStatusId] uniqueidentifier  NOT NULL,
     [CustNotes] nvarchar(max)  NOT NULL,
-    [Basket_Id] int  NOT NULL
+    [OrderNumber] nvarchar(max)  NOT NULL,
+    [Basket_Id] uniqueidentifier  NOT NULL
 );
 GO
 
 -- Creating table 'Reservations'
 CREATE TABLE [dbo].[Reservations] (
-    [Id] int IDENTITY(1,1) NOT NULL,
+    [Id] uniqueidentifier  NOT NULL,
     [Count] int  NOT NULL,
-    [UserId] int  NOT NULL,
-    [StorageId] int  NOT NULL,
+    [UserId] uniqueidentifier  NOT NULL,
+    [StorageId] uniqueidentifier  NOT NULL,
     [ProductId] uniqueidentifier  NOT NULL
 );
 GO
 
 -- Creating table 'Repairs'
 CREATE TABLE [dbo].[Repairs] (
-    [Id] int IDENTITY(1,1) NOT NULL,
+    [Id] uniqueidentifier  NOT NULL,
     [ProductId] uniqueidentifier  NOT NULL,
     [Serial] nvarchar(max)  NOT NULL,
     [Description] nvarchar(max)  NOT NULL,
-    [UserId] int  NOT NULL,
-    [StorageId] int  NOT NULL
+    [UserId] uniqueidentifier  NOT NULL,
+    [StorageId] uniqueidentifier  NOT NULL
 );
 GO
 
 -- Creating table 'Storages'
 CREATE TABLE [dbo].[Storages] (
-    [Id] int IDENTITY(1,1) NOT NULL,
+    [Id] uniqueidentifier  NOT NULL,
     [Name] nvarchar(max)  NOT NULL,
-    [Address_Id] int  NOT NULL
+    [Address_Id] uniqueidentifier  NOT NULL
 );
 GO
 
 -- Creating table 'StorageItems'
 CREATE TABLE [dbo].[StorageItems] (
-    [Id] int IDENTITY(1,1) NOT NULL,
+    [Id] uniqueidentifier  NOT NULL,
     [ProductId] uniqueidentifier  NOT NULL,
-    [StorageId] int  NOT NULL,
-    [Quantity] int  NOT NULL
+    [StorageId] uniqueidentifier  NOT NULL,
+    [Quantity] uniqueidentifier  NOT NULL
 );
 GO
 
 -- Creating table 'CampaignItems'
 CREATE TABLE [dbo].[CampaignItems] (
-    [Id] int IDENTITY(1,1) NOT NULL,
-    [BasketId] int  NOT NULL,
-    [CampaignId] int  NOT NULL
+    [Id] uniqueidentifier  NOT NULL,
+    [BasketId] uniqueidentifier  NOT NULL,
+    [CampaignId] uniqueidentifier  NOT NULL
 );
 GO
 
 -- Creating table 'ProductTypes'
 CREATE TABLE [dbo].[ProductTypes] (
-    [Id] int IDENTITY(1,1) NOT NULL,
+    [Id] uniqueidentifier  NOT NULL,
     [Type] nvarchar(max)  NOT NULL
 );
 GO
 
 -- Creating table 'OrderStatus'
 CREATE TABLE [dbo].[OrderStatus] (
-    [Id] int IDENTITY(1,1) NOT NULL,
-    [Status] nvarchar(max)  NOT NULL
+    [Id] uniqueidentifier  NOT NULL,
+    [Status] int  NOT NULL
 );
 GO
 

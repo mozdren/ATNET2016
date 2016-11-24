@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using SharedLibs.DataContracts;
 using SharedLibs.Enums;
+using SharedLibs;
 using System.Net.Mail;
 using System.IO;
 using iTextSharp.text;
@@ -22,11 +23,12 @@ namespace ServiceBus
         /// </summary>
         /// <param name="guid">Order ID number</param>
         /// <returns>Order object</returns>
+
         public Order GetOrder(Guid guid)
         {
-            /*try
+            try
             {
-                using (var context = new ServiceBusDatabaseEntities())
+                using (var context = new EntityModels.ServiceBusDatabaseEntities())
                 {
                     var order = context.Orders.FirstOrDefault(o => o.Id == guid);
 
@@ -38,38 +40,126 @@ namespace ServiceBus
                         };
                     }
 
+                    // tests nullable properties
+                    bool basketValue = true;
+                    bool addressValue = true;
+                    bool billingInformationValue = true;
+                    bool billingAddressValue = true;
+                    bool basketItemValue = true;
+                    bool campaignItemValue = true;
+
+                    var orderStatus = context.OrderStatus.FirstOrDefault(os => os.Id == order.OrderStatus.Id);                    
+                    var basket = context.Baskets.FirstOrDefault(b => b.Id == order.Basket.Id);
+
+                    if (basket == null)
+                    {
+                        basketValue = false;
+                    }
+
+                    var deliveryAddress = context.Addresses.FirstOrDefault(da => da.Id == order.Address.Id);
+
+                    if (deliveryAddress == null)
+                    {
+                        addressValue = false;
+                    }
+
+                    var billingInformation = context.BillingInformations.FirstOrDefault(bi => bi.Id == order.BillingInformation.Id);
+
+                    if (billingInformation == null)
+                    {
+                        billingInformationValue = false;
+                    }
+
+                    var billingAddress = context.Addresses.FirstOrDefault(ba => ba.Id == billingInformation.Address.Id);
+
+                    if (billingAddress == null)
+                    {
+                        billingAddressValue = false;
+                    }
+
+                    var basketItemsList = context.BasketItems.Where(bil => bil.BasketId == basket.Id);
+
+                    if (basketItemsList == null)
+                    {
+                        basketItemValue = false;
+                    }
+
+                    var campaignItem = context.CampaignItems.Where(ci => ci.BasketId == basket.Id);
+                    var campaignItemsList = context.Campaigns.Where(cil => campaignItem.Any(ci => ci.CampaignId == cil.Id));
+
+                    if (campaignItem == null || campaignItemsList == null)
+                    {
+                        campaignItemValue = false;
+                    }
+
+                    List<BasketItem> basketItemList = new List<BasketItem>();
+                    foreach (var bait in basketItemsList)
+                    {
+                        var product = context.Products.FirstOrDefault(p => p.Id == bait.ProductId);
+                        Product productItem = new Product() { ID = product.Id, Name = product.Name, Price = product.Price.HasValue ? product.Price.Value : 0.0 };
+                        basketItemList.Add(new BasketItem() { Id = bait.Id, Product = productItem, Quantity = bait.Quantity, Active = true }); // Table basketItem does not contain property Active
+                    }
+                    List<Campaign> campaignItemList = new List<Campaign>();
+                    foreach (var cait in campaignItemsList)
+                    {
+                        campaignItemList.Add(new Campaign() { Id = cait.Id, Name = cait.Name, Discount = cait.Discount.HasValue ? cait.Discount.Value : 0.0 });
+                    }
+
                     return new SharedLibs.DataContracts.Order
                     {
                         Id = guid,
-                        Basket = order.Basket,
-                        DeliveryAddress = order.DeliveryAddress,
-                        BillingInformation = order.BillingInformation,
-                        OrderDate = order.OrderDate,
-                        DeliveryDate = order.DeliveryDate,
-                        OrderState = order.OrderState,
+                        Basket = (basketValue == true) ? new Basket()
+                        {
+                            Id = basket.Id,
+                            BasketItems = (basketItemValue == true) ? basketItemList : null,
+                            BasketCampaings = (campaignItemValue == true) ? campaignItemList : null
+                        } : null,
+                        DeliveryAddress = (addressValue == true) ? new Address()
+                        {
+                            Id = deliveryAddress.Id,
+                            PostCode = deliveryAddress.PostCode,
+                            HouseNumber = deliveryAddress.HouseNumber,
+                            HouseNumberExtension = deliveryAddress.HouseNumberExtension,
+                            Street = deliveryAddress.Street,
+                            City = deliveryAddress.City,
+                            District = deliveryAddress.District,
+                            DoorNumber = deliveryAddress.DoorNumber
+                        } : null,
+                        BillingInformation = (billingInformationValue == true) ? new BillingInformation()
+                        {
+                            Id = billingInformation.Id,
+                            BillingAddress = (billingAddressValue == true) ? new Address()
+                            {
+                                Id = billingAddress.Id,
+                                PostCode = billingAddress.PostCode,
+                                HouseNumber = billingAddress.HouseNumber,
+                                HouseNumberExtension = billingAddress.HouseNumberExtension,
+                                Street = billingAddress.Street,
+                                City = billingAddress.City,
+                                District = billingAddress.District,
+                                DoorNumber = billingAddress.DoorNumber
+                            } : null,
+                            BIC = billingInformation.BIC,
+                            IBAN = billingInformation.IBAN
+                        } : null,
+                        OrderDate = (DateTime)(order.OrderDate.HasValue ? order.OrderDate.Value : Convert.ToDateTime("1.1.2010")),
+                        DeliveryDate = (DateTime)(order.DeliveryDate.HasValue ? order.DeliveryDate.Value : Convert.ToDateTime("1.1.2010")),
+                        OrderState = (OrderStateType)orderStatus.Status,
                         Result = SharedLibs.DataContracts.Result.SuccessFormat("Requested order ID number {0} was found.", guid)
 
                     };
-                    
+
                 }
             }
             catch (Exception exception)
             {
-                
+
                 return new SharedLibs.DataContracts.Order
                 {
                     Result = SharedLibs.DataContracts.Result.FatalFormat("In method OrderService.GetOrder was thrown exception: {0}", exception.Message)
                 };
-                
-            }
 
-//********* delete this code after finishing implementation method GetOrder ************
-*/
-            return new Order
-            {
-                Result = Result.Fatal("Not finish")
-            };
-            
+            }
         }
 
 
@@ -582,39 +672,8 @@ namespace ServiceBus
             PDFDocumentType documentType,
             out string pdfFilePath)
         {
-            // TODO: those constants could be in separate file (looks bad in method code)
-            // constants and help fields      
-            const int ORDER_ITEMS_AT_FIRST_PAGE_COUNT = 23;
-            const int ORDER_ITEMS_AT_OTHER_PAGE_COUNT = 25;
-            const int INVOICE_ITEMS_AT_FIRST_PAGE_COUNT = 12;
-            const int INVOICE_ITEMS_AT_OTHER_PAGE_COUNT = 25;
-            const int DELIVERY_NOTE_ITEMS_AT_FIRST_PAGE_COUNT = 11;
-            const int DELIVERY_NOTE_ITEMS_AT_OTHER_PAGE_COUNT = 15;
-            const int ORDER_COLUMN_COUNT = 4;
-            const int INVOICE_HEADER_COLUMN_COUNT = 5;
-            const int INVOICE_CUSTOMER_COLUMN_COUNT = 2;
-            const int INVOICE_INFO_COLUMN_COUNT = 2;
-            const int DELIVERY_NOTE_INFO_COLUMN_COUNT = 3;
-            const int DELIVERY_NOTE_HEADER_COLUMN_COUNT = 6;
-            float[] orderColumnWidths = new float[ORDER_COLUMN_COUNT] { 330.0f, 100.0f, 80.0f, 80.0f };
-            float[] invoiceColumnWidths = new float[INVOICE_HEADER_COLUMN_COUNT] { 80.0f, 230.0f, 100.0f, 80.0f, 100.0f };
-            float[] deliveryNoteInfoTableColumnWidths = new float[DELIVERY_NOTE_INFO_COLUMN_COUNT] { 40.0f, 40.0f, 20.0f };
-            float[] deliveryNoteHeaderTableColumnWidths = new float[DELIVERY_NOTE_HEADER_COLUMN_COUNT] { 40.0f, 80.0f, 300.0f, 100.0f, 80.0f, 100.0f };
-            int itemsCount = order.Basket.BasketItems.Count;
-            int generalItemsPerPageCount = 0;
-            int itemsPerPageCount = 0;
-            int pageNumber = 1;
-            int itemNumber = 0;
-            int sumaItemNumber = 1;
-            double sumaPrice = 0;
-            double deliveryPrice = 100.0;
-            const string DIRECTORY_PATH = @".\Files";
-            string filePath = DIRECTORY_PATH + @"\" + "pdfDocument.pdf";
-            string companyTitle = "NÁŠ ESHOP VŠB s.r.o. ";
-            string companyAddress = "Pod mostem 55, 123 99 Kotěhůlky";
-            string companyIdentNumbers = "IČ: 12345678   DIČ: CZ13245678";
-            string registeredWidthInstitutionPartI = "zapsána v obchodním rejstříku vedené městským soudem v Kotěhůlkách";
-            string registeredWidthInstitutionPartII = "oddíl Z, vložka 98765";
+            
+            int itemsCount = order.Basket.BasketItems.Count;            
             string orderNumber = "Přehled objednávky číslo:  " + order.Id;
             string pageNumberMark = string.Empty;
             bool setFullItemsPerPageCount = false;
@@ -637,51 +696,40 @@ namespace ServiceBus
                 " okres " + order.BillingInformation.BillingAddress.District);
 
 
-            string arrialUni = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Fonts), "ARIALUNI.TTF");
-            iTextSharp.text.pdf.draw.VerticalPositionMark horizontalSpace = new iTextSharp.text.pdf.draw.VerticalPositionMark();
-            iTextSharp.text.pdf.draw.LineSeparator lineSeparator =
-                new iTextSharp.text.pdf.draw.LineSeparator(1.0f, 100.0f, BaseColor.BLACK, Element.ALIGN_CENTER, 0.0f);
-            iTextSharp.text.pdf.draw.LineSeparator sumaLineSeparator =
-                new iTextSharp.text.pdf.draw.LineSeparator(1.0f, 40.0f, BaseColor.BLACK, Element.ALIGN_RIGHT, 0.0f);
-            iTextSharp.text.pdf.draw.LineSeparator thinLineSeparator =
-                new iTextSharp.text.pdf.draw.LineSeparator(0.5f, 100.0f, BaseColor.BLACK, Element.ALIGN_CENTER, 0.0f);
-
-            Font middleBoldFont = FontFactory.GetFont(arrialUni, BaseFont.CP1250, 14.0f, Font.BOLD);
-            Font bigBoldFont = FontFactory.GetFont(arrialUni, BaseFont.CP1250, 20.0f, Font.BOLD);
-            Font smallNormalFont = FontFactory.GetFont(arrialUni, BaseFont.CP1250, 10.0f, Font.NORMAL);
-            Font middleNormalFont = FontFactory.GetFont(arrialUni, BaseFont.CP1250, 14.0f, Font.NORMAL);
-
+          
             if (documentType == PDFDocumentType.Order)
             {
-                itemsPerPageCount = ORDER_ITEMS_AT_FIRST_PAGE_COUNT;
-                generalItemsPerPageCount = ORDER_ITEMS_AT_OTHER_PAGE_COUNT;
+                PdfDocumentFields.itemsPerPageCount = PdfDocumentFields.ORDER_ITEMS_AT_FIRST_PAGE_COUNT;
+                PdfDocumentFields.generalItemsPerPageCount = PdfDocumentFields.ORDER_ITEMS_AT_OTHER_PAGE_COUNT;
             }
 
             if (documentType == PDFDocumentType.Invoice)
             {
-                itemsPerPageCount = INVOICE_ITEMS_AT_FIRST_PAGE_COUNT;
-                generalItemsPerPageCount = INVOICE_ITEMS_AT_OTHER_PAGE_COUNT;
+                PdfDocumentFields.itemsPerPageCount = PdfDocumentFields.INVOICE_ITEMS_AT_FIRST_PAGE_COUNT;
+                PdfDocumentFields.generalItemsPerPageCount = PdfDocumentFields.INVOICE_ITEMS_AT_OTHER_PAGE_COUNT;
             }
 
             if (documentType == PDFDocumentType.DeliveryNote)
             {
-                itemsPerPageCount = DELIVERY_NOTE_ITEMS_AT_FIRST_PAGE_COUNT;
-                generalItemsPerPageCount = DELIVERY_NOTE_ITEMS_AT_OTHER_PAGE_COUNT;
+                PdfDocumentFields.itemsPerPageCount = PdfDocumentFields.DELIVERY_NOTE_ITEMS_AT_FIRST_PAGE_COUNT;
+                PdfDocumentFields.generalItemsPerPageCount = PdfDocumentFields.DELIVERY_NOTE_ITEMS_AT_OTHER_PAGE_COUNT;
             }
 
-            int pagesCount = (itemsCount <= itemsPerPageCount) ? 1 : ((itemsCount - itemsPerPageCount - 1) / generalItemsPerPageCount) + 2;
+            int pagesCount = (itemsCount <= PdfDocumentFields.itemsPerPageCount) ? 1 :
+                ((itemsCount - PdfDocumentFields.itemsPerPageCount - 1) / PdfDocumentFields.generalItemsPerPageCount) + 2;
+
             Document doc = null;
 
             try
             {
                 pdfFilePath = string.Empty;
 
-                if (!Directory.Exists(DIRECTORY_PATH))
+                if (!Directory.Exists(PdfDocumentFields.DIRECTORY_PATH))
                 {
-                    Directory.CreateDirectory(DIRECTORY_PATH);
+                    Directory.CreateDirectory(PdfDocumentFields.DIRECTORY_PATH);
                 }
 
-                FileStream fs = new FileStream(filePath, FileMode.Create);
+                FileStream fs = new FileStream(PdfDocumentFields.FILE_PATH, FileMode.Create);
 
                 if (documentType == PDFDocumentType.DeliveryNote)
                 {
@@ -706,123 +754,123 @@ namespace ServiceBus
 
                 foreach (BasketItem item in order.Basket.BasketItems)
                 {
-                    if (itemNumber == 0)
+                    if (PdfDocumentFields.itemNumber == 0)
                     {
                         // page mark
-                        pageNumberMark = "Strana " + pageNumber.ToString() + " z " + pagesCount.ToString();
-                        paragraph = new Paragraph(new Chunk(pageNumberMark, smallNormalFont));
+                        pageNumberMark = "Strana " + PdfDocumentFields.pageNumber.ToString() + " z " + pagesCount.ToString();
+                        paragraph = new Paragraph(new Chunk(pageNumberMark, PdfDocumentFields.smallNormalFont));
                         paragraph.Alignment = Element.ALIGN_RIGHT;
                         doc.Add(paragraph);
 
-                        if (itemNumber == 0 && pageNumber == 1)
+                        if (PdfDocumentFields.itemNumber == 0 && PdfDocumentFields.pageNumber == 1)
                         {
                             if (documentType == PDFDocumentType.Order)
                             {
-                                paragraph = new Paragraph(new Chunk(companyTitle, bigBoldFont));
-                                paragraph.Add(new Chunk(horizontalSpace));
-                                paragraph.Add(new Chunk(orderNumber, middleNormalFont));
+                                paragraph = new Paragraph(new Chunk(PdfDocumentFields.COMPANY_TITLE, PdfDocumentFields.bigBoldFont));
+                                paragraph.Add(new Chunk(PdfDocumentFields.horizontalSpace));
+                                paragraph.Add(new Chunk(orderNumber, PdfDocumentFields.middleNormalFont));
                                 doc.Add(paragraph);
                             }
 
                             if (documentType == PDFDocumentType.Invoice)
                             {
                                 doc.Add(new Chunk(Chunk.NEWLINE));
-                                paragraph = new Paragraph(new Chunk("Faktura", middleBoldFont));
+                                paragraph = new Paragraph(new Chunk("Faktura", PdfDocumentFields.middleBoldFont));
                                 paragraph.Alignment = Element.ALIGN_CENTER;
                                 doc.Add(paragraph);
                                 doc.Add(new Chunk(Chunk.NEWLINE));
-                                doc.Add(new Paragraph(new Chunk("Dodavatel:", middleBoldFont)));
-                                doc.Add(new Paragraph(new Chunk(companyTitle + companyAddress, smallNormalFont)));
-                                doc.Add(new Paragraph(new Chunk(companyIdentNumbers, smallNormalFont)));
-                                doc.Add(new Paragraph(new Chunk(registeredWidthInstitutionPartI, smallNormalFont)));
-                                doc.Add(new Paragraph(new Chunk(registeredWidthInstitutionPartII, smallNormalFont)));
+                                doc.Add(new Paragraph(new Chunk("Dodavatel:", PdfDocumentFields.middleBoldFont)));
+                                doc.Add(new Paragraph(new Chunk(PdfDocumentFields.COMPANY_TITLE + PdfDocumentFields.COMPANY_ADDRESS, PdfDocumentFields.smallNormalFont)));
+                                doc.Add(new Paragraph(new Chunk(PdfDocumentFields.COMPANY_IDENT_NUMBERS, PdfDocumentFields.smallNormalFont)));
+                                doc.Add(new Paragraph(new Chunk(PdfDocumentFields.REGISTERED_WIDTH_INSTITUTION_PART_I, PdfDocumentFields.smallNormalFont)));
+                                doc.Add(new Paragraph(new Chunk(PdfDocumentFields.REGISTERED_WIDTH_INSTITUTION_PART_II, PdfDocumentFields.smallNormalFont)));
                                 doc.Add(new Chunk(Chunk.NEWLINE));
 
-                                PdfPTable customerTable = new PdfPTable(INVOICE_CUSTOMER_COLUMN_COUNT);
+                                PdfPTable customerTable = new PdfPTable(PdfDocumentFields.INVOICE_CUSTOMER_COLUMN_COUNT);
                                 customerTable.WidthPercentage = 100.0f;
-                                cell1 = new PdfPCell(new Phrase("Zákazník:", middleBoldFont));
+                                cell1 = new PdfPCell(new Phrase("Zákazník:", PdfDocumentFields.middleBoldFont));
                                 cell1.Border = Rectangle.NO_BORDER;
-                                cell2 = new PdfPCell(new Phrase("Dodací adresa:", middleBoldFont));
+                                cell2 = new PdfPCell(new Phrase("Dodací adresa:", PdfDocumentFields.middleBoldFont));
                                 cell2.Border = Rectangle.NO_BORDER;
                                 customerTable.AddCell(cell1);
                                 customerTable.AddCell(cell2);
-                                cell1 = new PdfPCell(new Phrase(user.Name + " " + user.Surname, smallNormalFont));
+                                cell1 = new PdfPCell(new Phrase(user.Name + " " + user.Surname, PdfDocumentFields.smallNormalFont));
                                 cell1.Border = Rectangle.NO_BORDER;
-                                cell2 = new PdfPCell(new Phrase(user.Name + " " + user.Surname, smallNormalFont));
+                                cell2 = new PdfPCell(new Phrase(user.Name + " " + user.Surname, PdfDocumentFields.smallNormalFont));
                                 cell2.Border = Rectangle.NO_BORDER;
                                 customerTable.AddCell(cell1);
                                 customerTable.AddCell(cell2);
-                                cell1 = new PdfPCell(new Phrase(userAddressStreet, smallNormalFont));
+                                cell1 = new PdfPCell(new Phrase(userAddressStreet, PdfDocumentFields.smallNormalFont));
                                 cell1.Border = Rectangle.NO_BORDER;
-                                cell2 = new PdfPCell(new Phrase(deliveryAddressStreet, smallNormalFont));
+                                cell2 = new PdfPCell(new Phrase(deliveryAddressStreet, PdfDocumentFields.smallNormalFont));
                                 cell2.Border = Rectangle.NO_BORDER;
                                 customerTable.AddCell(cell1);
                                 customerTable.AddCell(cell2);
-                                cell1 = new PdfPCell(new Phrase(userAddressTown, smallNormalFont));
+                                cell1 = new PdfPCell(new Phrase(userAddressTown, PdfDocumentFields.smallNormalFont));
                                 cell1.Border = Rectangle.NO_BORDER;
-                                cell2 = new PdfPCell(new Phrase(deliveryAddressTown, smallNormalFont));
+                                cell2 = new PdfPCell(new Phrase(deliveryAddressTown, PdfDocumentFields.smallNormalFont));
                                 cell2.Border = Rectangle.NO_BORDER;
                                 customerTable.AddCell(cell1);
                                 customerTable.AddCell(cell2);
                                 doc.Add(customerTable);
-                                doc.Add(new Paragraph(new Chunk(thinLineSeparator)));
+                                doc.Add(new Paragraph(new Chunk(PdfDocumentFields.thinLineSeparator)));
 
-                                PdfPTable infoTable = new PdfPTable(INVOICE_INFO_COLUMN_COUNT);
+                                PdfPTable infoTable = new PdfPTable(PdfDocumentFields.INVOICE_INFO_COLUMN_COUNT);
                                 infoTable.WidthPercentage = 100.0f;
                                 infoTable.SpacingBefore = 10.0f;
-                                cell1 = new PdfPCell(new Phrase("Číslo faktury:", smallNormalFont));
+                                cell1 = new PdfPCell(new Phrase("Číslo faktury:", PdfDocumentFields.smallNormalFont));
                                 cell1.Border = Rectangle.NO_BORDER;
-                                cell2 = new PdfPCell(new Phrase(order.Id.ToString(), smallNormalFont));
+                                cell2 = new PdfPCell(new Phrase(order.Id.ToString(), PdfDocumentFields.smallNormalFont));
                                 cell2.Border = Rectangle.NO_BORDER;
                                 infoTable.AddCell(cell1);
                                 infoTable.AddCell(cell2);
-                                cell1 = new PdfPCell(new Phrase("Datum vystavení faktury:", smallNormalFont));
+                                cell1 = new PdfPCell(new Phrase("Datum vystavení faktury:", PdfDocumentFields.smallNormalFont));
                                 cell1.Border = Rectangle.NO_BORDER;
-                                cell2 = new PdfPCell(new Phrase(order.DeliveryDate.ToString(), smallNormalFont));
+                                cell2 = new PdfPCell(new Phrase(order.DeliveryDate.ToString(), PdfDocumentFields.smallNormalFont));
                                 cell2.Border = Rectangle.NO_BORDER;
                                 infoTable.AddCell(cell1);
                                 infoTable.AddCell(cell2);
-                                cell1 = new PdfPCell(new Phrase("Datum zdanitelného plnění:", smallNormalFont));
+                                cell1 = new PdfPCell(new Phrase("Datum zdanitelného plnění:", PdfDocumentFields.smallNormalFont));
                                 cell1.Border = Rectangle.NO_BORDER;
-                                cell2 = new PdfPCell(new Phrase(order.DeliveryDate.ToString(), smallNormalFont));
+                                cell2 = new PdfPCell(new Phrase(order.DeliveryDate.ToString(), PdfDocumentFields.smallNormalFont));
                                 cell2.Border = Rectangle.NO_BORDER;
                                 infoTable.AddCell(cell1);
                                 infoTable.AddCell(cell2);
-                                cell1 = new PdfPCell(new Phrase("Číslo objednávky:", smallNormalFont));
+                                cell1 = new PdfPCell(new Phrase("Číslo objednávky:", PdfDocumentFields.smallNormalFont));
                                 cell1.Border = Rectangle.NO_BORDER;
-                                cell2 = new PdfPCell(new Phrase(order.Id.ToString(), smallNormalFont));
+                                cell2 = new PdfPCell(new Phrase(order.Id.ToString(), PdfDocumentFields.smallNormalFont));
                                 cell2.Border = Rectangle.NO_BORDER;
                                 infoTable.AddCell(cell1);
                                 infoTable.AddCell(cell2);
-                                cell1 = new PdfPCell(new Phrase("Datum objednávky:", smallNormalFont));
+                                cell1 = new PdfPCell(new Phrase("Datum objednávky:", PdfDocumentFields.smallNormalFont));
                                 cell1.Border = Rectangle.NO_BORDER;
-                                cell2 = new PdfPCell(new Phrase(order.OrderDate.ToString(), smallNormalFont));
+                                cell2 = new PdfPCell(new Phrase(order.OrderDate.ToString(), PdfDocumentFields.smallNormalFont));
                                 cell2.Border = Rectangle.NO_BORDER;
                                 infoTable.AddCell(cell1);
                                 infoTable.AddCell(cell2);
                                 doc.Add(infoTable);
-                                doc.Add(new Paragraph(new Chunk(lineSeparator)));
+                                doc.Add(new Paragraph(new Chunk(PdfDocumentFields.lineSeparator)));
                             }
 
                             if (documentType == PDFDocumentType.DeliveryNote)
                             {
-                                paragraph = new Paragraph(new Chunk("Dodací list", middleBoldFont));
+                                paragraph = new Paragraph(new Chunk("Dodací list", PdfDocumentFields.middleBoldFont));
                                 paragraph.Alignment = Element.ALIGN_CENTER;
                                 doc.Add(paragraph);
                                 doc.Add(new Chunk(Chunk.NEWLINE));
 
-                                PdfPTable infoTable = new PdfPTable(DELIVERY_NOTE_INFO_COLUMN_COUNT);
+                                PdfPTable infoTable = new PdfPTable(PdfDocumentFields.DELIVERY_NOTE_INFO_COLUMN_COUNT);
                                 infoTable.WidthPercentage = 100.0f;
-                                infoTable.SetWidths(deliveryNoteInfoTableColumnWidths);
+                                infoTable.SetWidths(PdfDocumentFields.deliveryNoteInfoTableColumnWidths);
 
                                 PdfPTable nestedTable = new PdfPTable(1);
-                                cell1 = new PdfPCell(new Phrase("Dodavatel: " + companyTitle, smallNormalFont));
+                                cell1 = new PdfPCell(new Phrase("Dodavatel: " + PdfDocumentFields.COMPANY_TITLE, PdfDocumentFields.smallNormalFont));
                                 cell1.Border = Rectangle.NO_BORDER;
-                                cell2 = new PdfPCell(new Phrase("Zásilkový prodej B2C nebo B2B", smallNormalFont));
+                                cell2 = new PdfPCell(new Phrase("Zásilkový prodej B2C nebo B2B", PdfDocumentFields.smallNormalFont));
                                 cell2.Border = Rectangle.NO_BORDER;
-                                cell3 = new PdfPCell(new Phrase(companyAddress, smallNormalFont));
+                                cell3 = new PdfPCell(new Phrase(PdfDocumentFields.COMPANY_ADDRESS, PdfDocumentFields.smallNormalFont));
                                 cell3.Border = Rectangle.NO_BORDER;
-                                cell4 = new PdfPCell(new Phrase(companyIdentNumbers, smallNormalFont));
+                                cell4 = new PdfPCell(new Phrase(PdfDocumentFields.COMPANY_IDENT_NUMBERS, PdfDocumentFields.smallNormalFont));
                                 cell4.Border = Rectangle.NO_BORDER;
                                 nestedTable.AddCell(cell1);
                                 nestedTable.AddCell(cell2);
@@ -831,13 +879,13 @@ namespace ServiceBus
                                 infoTable.AddCell(new PdfPCell(nestedTable));
 
                                 nestedTable = new PdfPTable(1);
-                                cell1 = new PdfPCell(new Phrase("Odběratel:", smallNormalFont));
+                                cell1 = new PdfPCell(new Phrase("Odběratel:", PdfDocumentFields.smallNormalFont));
                                 cell1.Border = Rectangle.NO_BORDER;
-                                cell2 = new PdfPCell(new Phrase(user.Name + " " + user.Surname, smallNormalFont));
+                                cell2 = new PdfPCell(new Phrase(user.Name + " " + user.Surname, PdfDocumentFields.smallNormalFont));
                                 cell2.Border = Rectangle.NO_BORDER;
-                                cell3 = new PdfPCell(new Phrase(userAddressStreet + " " + userAddressTown, smallNormalFont));
+                                cell3 = new PdfPCell(new Phrase(userAddressStreet + " " + userAddressTown, PdfDocumentFields.smallNormalFont));
                                 cell3.Border = Rectangle.NO_BORDER;
-                                cell4 = new PdfPCell(new Phrase(user.EmailAddress, smallNormalFont));
+                                cell4 = new PdfPCell(new Phrase(user.EmailAddress, PdfDocumentFields.smallNormalFont));
                                 cell4.Border = Rectangle.NO_BORDER;
                                 nestedTable.AddCell(cell1);
                                 nestedTable.AddCell(cell2);
@@ -846,13 +894,13 @@ namespace ServiceBus
                                 infoTable.AddCell(new PdfPCell(nestedTable));
 
                                 nestedTable = new PdfPTable(1);
-                                cell1 = new PdfPCell(new Phrase("Datum vystavení:", smallNormalFont));
+                                cell1 = new PdfPCell(new Phrase("Datum vystavení:", PdfDocumentFields.smallNormalFont));
                                 cell1.Border = Rectangle.NO_BORDER;
-                                cell2 = new PdfPCell(new Phrase(order.DeliveryDate.ToString(), smallNormalFont));
+                                cell2 = new PdfPCell(new Phrase(order.DeliveryDate.ToString(), PdfDocumentFields.smallNormalFont));
                                 cell2.Border = Rectangle.NO_BORDER;
-                                cell3 = new PdfPCell(new Phrase("Kód zásilky:", smallNormalFont));
+                                cell3 = new PdfPCell(new Phrase("Kód zásilky:", PdfDocumentFields.smallNormalFont));
                                 cell3.Border = Rectangle.NO_BORDER;
-                                cell4 = new PdfPCell(new Phrase(order.Id.ToString(), smallNormalFont));
+                                cell4 = new PdfPCell(new Phrase(order.Id.ToString(), PdfDocumentFields.smallNormalFont));
                                 cell4.Border = Rectangle.NO_BORDER;
                                 nestedTable.AddCell(cell1);
                                 nestedTable.AddCell(cell2);
@@ -865,23 +913,23 @@ namespace ServiceBus
 
                         if (documentType == PDFDocumentType.Order)
                         {
-                            doc.Add(new Paragraph(new Chunk(lineSeparator)));
+                            doc.Add(new Paragraph(new Chunk(PdfDocumentFields.lineSeparator)));
                             doc.Add(new Paragraph(" "));
 
-                            PdfPTable headerTable = new PdfPTable(ORDER_COLUMN_COUNT);
+                            PdfPTable headerTable = new PdfPTable(PdfDocumentFields.ORDER_COLUMN_COUNT);
                             headerTable.WidthPercentage = 100;
-                            headerTable.SetWidths(orderColumnWidths);
+                            headerTable.SetWidths(PdfDocumentFields.orderColumnWidths);
 
-                            cell1 = new PdfPCell(new Phrase("Název", smallNormalFont));
+                            cell1 = new PdfPCell(new Phrase("Název", PdfDocumentFields.smallNormalFont));
                             cell1.HorizontalAlignment = Element.ALIGN_CENTER;
                             cell1.BorderColor = BaseColor.WHITE;
-                            cell2 = new PdfPCell(new Phrase("Cena s DPH / Ks", smallNormalFont));
+                            cell2 = new PdfPCell(new Phrase("Cena s DPH / Ks", PdfDocumentFields.smallNormalFont));
                             cell2.HorizontalAlignment = Element.ALIGN_CENTER;
                             cell2.BorderColor = BaseColor.WHITE;
-                            cell3 = new PdfPCell(new Phrase("Množství", smallNormalFont));
+                            cell3 = new PdfPCell(new Phrase("Množství", PdfDocumentFields.smallNormalFont));
                             cell3.HorizontalAlignment = Element.ALIGN_CENTER;
                             cell3.BorderColor = BaseColor.WHITE;
-                            cell4 = new PdfPCell(new Phrase("Celkem s DPH", smallNormalFont));
+                            cell4 = new PdfPCell(new Phrase("Celkem s DPH", PdfDocumentFields.smallNormalFont));
                             cell4.HorizontalAlignment = Element.ALIGN_CENTER;
                             cell4.BorderColor = BaseColor.WHITE;
 
@@ -891,32 +939,32 @@ namespace ServiceBus
                             headerTable.AddCell(cell4);
                             doc.Add(headerTable);
 
-                            paragraph = new Paragraph(new Chunk(thinLineSeparator));
+                            paragraph = new Paragraph(new Chunk(PdfDocumentFields.thinLineSeparator));
                             doc.Add(paragraph);
 
-                            itemsTable = new PdfPTable(ORDER_COLUMN_COUNT);
+                            itemsTable = new PdfPTable(PdfDocumentFields.ORDER_COLUMN_COUNT);
                             itemsTable.SpacingBefore = 10.0f;
                             itemsTable.WidthPercentage = 100.0f;
-                            itemsTable.SetWidths(orderColumnWidths);
+                            itemsTable.SetWidths(PdfDocumentFields.orderColumnWidths);
                         }
 
                         if (documentType == PDFDocumentType.Invoice)
                         {
-                            PdfPTable headerTable = new PdfPTable(INVOICE_HEADER_COLUMN_COUNT);
+                            PdfPTable headerTable = new PdfPTable(PdfDocumentFields.INVOICE_HEADER_COLUMN_COUNT);
                             headerTable.SpacingBefore = 10.0f;
                             headerTable.WidthPercentage = 100.0f;
-                            headerTable.SetWidths(invoiceColumnWidths);
+                            headerTable.SetWidths(PdfDocumentFields.invoiceColumnWidths);
 
-                            cell1 = new PdfPCell(new Phrase("Kód", smallNormalFont));
+                            cell1 = new PdfPCell(new Phrase("Kód", PdfDocumentFields.smallNormalFont));
                             cell1.Border = Rectangle.BOTTOM_BORDER | Rectangle.TOP_BORDER;
-                            cell2 = new PdfPCell(new Phrase("Název", smallNormalFont));
+                            cell2 = new PdfPCell(new Phrase("Název", PdfDocumentFields.smallNormalFont));
                             cell2.HorizontalAlignment = Element.ALIGN_CENTER;
                             cell2.Border = Rectangle.BOTTOM_BORDER | Rectangle.TOP_BORDER;
-                            cell3 = new PdfPCell(new Phrase("Cena za kus", smallNormalFont));
+                            cell3 = new PdfPCell(new Phrase("Cena za kus", PdfDocumentFields.smallNormalFont));
                             cell3.Border = Rectangle.BOTTOM_BORDER | Rectangle.TOP_BORDER;
-                            cell4 = new PdfPCell(new Phrase("Množství", smallNormalFont));
+                            cell4 = new PdfPCell(new Phrase("Množství", PdfDocumentFields.smallNormalFont));
                             cell4.Border = Rectangle.BOTTOM_BORDER | Rectangle.TOP_BORDER;
-                            cell5 = new PdfPCell(new Phrase("Cena celkem s DPH", smallNormalFont));
+                            cell5 = new PdfPCell(new Phrase("Cena celkem s DPH", PdfDocumentFields.smallNormalFont));
                             cell5.Border = Rectangle.BOTTOM_BORDER | Rectangle.TOP_BORDER;
 
                             headerTable.AddCell(cell1);
@@ -927,35 +975,35 @@ namespace ServiceBus
 
                             doc.Add(headerTable);
 
-                            itemsTable = new PdfPTable(INVOICE_HEADER_COLUMN_COUNT);
+                            itemsTable = new PdfPTable(PdfDocumentFields.INVOICE_HEADER_COLUMN_COUNT);
                             itemsTable.SpacingBefore = 10.0f;
                             itemsTable.WidthPercentage = 100.0f;
-                            itemsTable.SetWidths(invoiceColumnWidths);
+                            itemsTable.SetWidths(PdfDocumentFields.invoiceColumnWidths);
                         }
 
                         if (documentType == PDFDocumentType.DeliveryNote)
                         {
-                            PdfPTable headerTable = new PdfPTable(DELIVERY_NOTE_HEADER_COLUMN_COUNT);
+                            PdfPTable headerTable = new PdfPTable(PdfDocumentFields.DELIVERY_NOTE_HEADER_COLUMN_COUNT);
                             headerTable.WidthPercentage = 100.0f;
-                            headerTable.SetWidths(deliveryNoteHeaderTableColumnWidths);
+                            headerTable.SetWidths(PdfDocumentFields.deliveryNoteHeaderTableColumnWidths);
 
-                            if (pageNumber > 1)
+                            if (PdfDocumentFields.pageNumber > 1)
                             {
                                 headerTable.SpacingBefore = 10.0f;
                             }
 
-                            numberCell = new PdfPCell(new Phrase("Poř. číslo", smallNormalFont));
+                            numberCell = new PdfPCell(new Phrase("Poř. číslo", PdfDocumentFields.smallNormalFont));
                             numberCell.Border = Rectangle.LEFT_BORDER | Rectangle.TOP_BORDER | Rectangle.BOTTOM_BORDER;
-                            cell1 = new PdfPCell(new Phrase("Kód", smallNormalFont));
+                            cell1 = new PdfPCell(new Phrase("Kód", PdfDocumentFields.smallNormalFont));
                             cell1.Border = Rectangle.TOP_BORDER | Rectangle.BOTTOM_BORDER;
-                            cell2 = new PdfPCell(new Phrase("Název", smallNormalFont));
+                            cell2 = new PdfPCell(new Phrase("Název", PdfDocumentFields.smallNormalFont));
                             cell2.Border = Rectangle.TOP_BORDER | Rectangle.BOTTOM_BORDER;
                             cell2.PaddingLeft = 10.0f;
-                            cell3 = new PdfPCell(new Phrase("Cena za kus", smallNormalFont));
+                            cell3 = new PdfPCell(new Phrase("Cena za kus", PdfDocumentFields.smallNormalFont));
                             cell3.Border = Rectangle.TOP_BORDER | Rectangle.BOTTOM_BORDER;
-                            cell4 = new PdfPCell(new Phrase("Množství", smallNormalFont));
+                            cell4 = new PdfPCell(new Phrase("Množství", PdfDocumentFields.smallNormalFont));
                             cell4.Border = Rectangle.TOP_BORDER | Rectangle.BOTTOM_BORDER;
-                            cell5 = new PdfPCell(new Phrase("Cena celkem s DPH", smallNormalFont));
+                            cell5 = new PdfPCell(new Phrase("Cena celkem s DPH", PdfDocumentFields.smallNormalFont));
                             cell5.Border = Rectangle.TOP_BORDER | Rectangle.BOTTOM_BORDER | Rectangle.RIGHT_BORDER;
 
                             headerTable.AddCell(numberCell);
@@ -967,23 +1015,23 @@ namespace ServiceBus
 
                             doc.Add(headerTable);
 
-                            itemsTable = new PdfPTable(DELIVERY_NOTE_HEADER_COLUMN_COUNT);
+                            itemsTable = new PdfPTable(PdfDocumentFields.DELIVERY_NOTE_HEADER_COLUMN_COUNT);
                             itemsTable.SpacingBefore = 5.0f;
                             itemsTable.WidthPercentage = 100.0f;
-                            itemsTable.SetWidths(deliveryNoteHeaderTableColumnWidths);
+                            itemsTable.SetWidths(PdfDocumentFields.deliveryNoteHeaderTableColumnWidths);
                         }
 
-                        if (pageNumber == 2)
+                        if (PdfDocumentFields.pageNumber == 2)
                         {
                             setFullItemsPerPageCount = true;
                         }
 
-                        pageNumber += 1;
+                        PdfDocumentFields.pageNumber += 1;
                     }
 
                     if (documentType == PDFDocumentType.DeliveryNote)
                     {
-                        numberCell = new PdfPCell(new Phrase(sumaItemNumber.ToString(), smallNormalFont));
+                        numberCell = new PdfPCell(new Phrase(PdfDocumentFields.sumaItemNumber.ToString(), PdfDocumentFields.smallNormalFont));
                         numberCell.BorderColor = BaseColor.LIGHT_GRAY;
                         numberCell.Border = Rectangle.BOTTOM_BORDER;
                         numberCell.MinimumHeight = 23.0f;
@@ -991,30 +1039,30 @@ namespace ServiceBus
 
                     if (documentType == PDFDocumentType.Invoice || documentType == PDFDocumentType.DeliveryNote)
                     {
-                        cell1 = new PdfPCell(new Phrase(item.Product.ID.ToString(), smallNormalFont));
+                        cell1 = new PdfPCell(new Phrase(item.Product.ID.ToString(), PdfDocumentFields.smallNormalFont));
                         cell1.HorizontalAlignment = Element.ALIGN_LEFT;
                         cell1.BorderColor = BaseColor.LIGHT_GRAY;
                         cell1.Border = Rectangle.BOTTOM_BORDER;
                         cell1.MinimumHeight = 23.0f;
                     }
 
-                    cell2 = new PdfPCell(new Phrase(item.Product.Name, smallNormalFont));
+                    cell2 = new PdfPCell(new Phrase(item.Product.Name, PdfDocumentFields.smallNormalFont));
                     cell2.HorizontalAlignment = Element.ALIGN_LEFT;
                     cell2.BorderColor = BaseColor.LIGHT_GRAY;
                     cell2.Border = Rectangle.BOTTOM_BORDER;
                     cell2.MinimumHeight = 23.0f;
                     cell2.PaddingLeft = 10.0f;
-                    cell3 = new PdfPCell(new Phrase(item.Product.Price.ToString(), smallNormalFont));
+                    cell3 = new PdfPCell(new Phrase(item.Product.Price.ToString(), PdfDocumentFields.smallNormalFont));
                     cell3.HorizontalAlignment = Element.ALIGN_CENTER;
                     cell3.BorderColor = BaseColor.LIGHT_GRAY;
                     cell3.Border = Rectangle.BOTTOM_BORDER;
                     cell3.MinimumHeight = 23.0f;
-                    cell4 = new PdfPCell(new Phrase(item.Quantity.ToString(), smallNormalFont));
+                    cell4 = new PdfPCell(new Phrase(item.Quantity.ToString(), PdfDocumentFields.smallNormalFont));
                     cell4.HorizontalAlignment = Element.ALIGN_CENTER;
                     cell4.BorderColor = BaseColor.LIGHT_GRAY;
                     cell4.Border = Rectangle.BOTTOM_BORDER;
                     cell4.MinimumHeight = 23.0f;
-                    cell5 = new PdfPCell(new Phrase((item.Product.Price * item.Quantity).ToString(), smallNormalFont));
+                    cell5 = new PdfPCell(new Phrase((item.Product.Price * item.Quantity).ToString(), PdfDocumentFields.smallNormalFont));
                     cell5.HorizontalAlignment = Element.ALIGN_CENTER;
                     cell5.BorderColor = BaseColor.LIGHT_GRAY;
                     cell5.Border = Rectangle.BOTTOM_BORDER;
@@ -1035,40 +1083,40 @@ namespace ServiceBus
                     itemsTable.AddCell(cell4);
                     itemsTable.AddCell(cell5);
 
-                    sumaPrice += item.Product.Price * item.Quantity;
-                    itemNumber += 1;
+                    PdfDocumentFields.sumaPrice += item.Product.Price * item.Quantity;
+                    PdfDocumentFields.itemNumber += 1;
 
-                    if (itemNumber == itemsPerPageCount || sumaItemNumber == itemsCount)
+                    if (PdfDocumentFields.itemNumber == PdfDocumentFields.itemsPerPageCount || PdfDocumentFields.sumaItemNumber == itemsCount)
                     {
                         doc.Add(itemsTable);
-                        doc.Add(new Paragraph(new Chunk(lineSeparator)));
+                        doc.Add(new Paragraph(new Chunk(PdfDocumentFields.lineSeparator)));
 
-                        if (itemNumber == itemsPerPageCount && sumaItemNumber != itemsCount)
+                        if (PdfDocumentFields.itemNumber == PdfDocumentFields.itemsPerPageCount && PdfDocumentFields.sumaItemNumber != itemsCount)
                         {
                             doc.NewPage();
-                            itemNumber = 0;
+                            PdfDocumentFields.itemNumber = 0;
                         }
 
-                        if (sumaItemNumber == itemsCount)
+                        if (PdfDocumentFields.sumaItemNumber == itemsCount)
                         {
-                            sumaPrice += deliveryPrice;
+                            PdfDocumentFields.sumaPrice += PdfDocumentFields.deliveryPrice;
 
-                            paragraph = new Paragraph(new Chunk(horizontalSpace));
-                            paragraph.Add(new Chunk("Cena za dopravu a dobírku:  " + deliveryPrice + " Kč", middleNormalFont));
+                            paragraph = new Paragraph(new Chunk(PdfDocumentFields.horizontalSpace));
+                            paragraph.Add(new Chunk("Cena za dopravu a dobírku:  " + PdfDocumentFields.deliveryPrice + " Kč", PdfDocumentFields.middleNormalFont));
                             doc.Add(paragraph);
-                            doc.Add(new Paragraph(new Chunk(lineSeparator)));
-                            paragraph = new Paragraph(new Chunk(horizontalSpace));
-                            paragraph.Add(new Chunk("Celková cena s DPH:  " + sumaPrice + " Kč", middleBoldFont));
+                            doc.Add(new Paragraph(new Chunk(PdfDocumentFields.lineSeparator)));
+                            paragraph = new Paragraph(new Chunk(PdfDocumentFields.horizontalSpace));
+                            paragraph.Add(new Chunk("Celková cena s DPH:  " + PdfDocumentFields.sumaPrice + " Kč", PdfDocumentFields.middleBoldFont));
                             doc.Add(paragraph);
-                            doc.Add(new Paragraph(new Chunk(sumaLineSeparator)));
+                            doc.Add(new Paragraph(new Chunk(PdfDocumentFields.sumaLineSeparator)));
                         }
                     }
 
-                    sumaItemNumber += 1;
+                    PdfDocumentFields.sumaItemNumber += 1;
 
                     if (setFullItemsPerPageCount == true)
                     {
-                        itemsPerPageCount = generalItemsPerPageCount;
+                        PdfDocumentFields.itemsPerPageCount = PdfDocumentFields.generalItemsPerPageCount;
                         setFullItemsPerPageCount = false;
                     }
                 }
@@ -1078,7 +1126,7 @@ namespace ServiceBus
                     doc.Close();
                 }
 
-                pdfFilePath = filePath;
+                pdfFilePath = PdfDocumentFields.FILE_PATH;
 
                 return Result.Success("Pdf document was created successfully");
             }

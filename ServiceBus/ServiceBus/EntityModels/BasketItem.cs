@@ -29,7 +29,7 @@ public partial class BasketItem
 
     public System.Guid ProductId { get; set; }
 
-    public int BasketId { get; set; }
+    public System.Guid BasketId { get; set; }
 
     public int Quantity { get; set; }
 

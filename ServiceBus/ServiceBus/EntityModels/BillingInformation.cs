@@ -27,7 +27,7 @@ public partial class BillingInformation
     }
 
 
-    public int Id { get; set; }
+    public System.Guid Id { get; set; }
 
     public string BIC { get; set; }
 

@@ -18,23 +18,25 @@ using System;
 public partial class Order
 {
 
-    public int Id { get; set; }
+    public System.Guid Id { get; set; }
 
     public Nullable<System.DateTime> OrderDate { get; set; }
 
     public Nullable<System.DateTime> DeliveryDate { get; set; }
 
-    public Nullable<int> AddressId { get; set; }
+    public Nullable<System.Guid> AddressId { get; set; }
 
-    public Nullable<int> BillingInformationId { get; set; }
+    public Nullable<System.Guid> BillingInformationId { get; set; }
 
-    public Nullable<int> UserId { get; set; }
+    public Nullable<System.Guid> UserId { get; set; }
 
     public string InvoiceNr { get; set; }
 
-    public int OrderStatusId { get; set; }
+    public System.Guid OrderStatusId { get; set; }
 
     public string CustNotes { get; set; }
+
+    public string OrderNumber { get; set; }
 
 
 

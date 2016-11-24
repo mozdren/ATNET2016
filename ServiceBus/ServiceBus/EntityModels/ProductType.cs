@@ -29,7 +29,7 @@ public partial class ProductType
     }
 
 
-    public int Id { get; set; }
+    public System.Guid Id { get; set; }
 
     public string Type { get; set; }
 

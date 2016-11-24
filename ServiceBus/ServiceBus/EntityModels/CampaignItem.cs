@@ -18,11 +18,11 @@ using System;
 public partial class CampaignItem
 {
 
-    public int Id { get; set; }
+    public System.Guid Id { get; set; }
 
-    public int BasketId { get; set; }
+    public System.Guid BasketId { get; set; }
 
-    public int CampaignId { get; set; }
+    public System.Guid CampaignId { get; set; }
 
 
 

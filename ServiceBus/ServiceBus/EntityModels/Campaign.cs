@@ -27,11 +27,11 @@ public partial class Campaign
     }
 
 
-    public int Id { get; set; }
+    public System.Guid Id { get; set; }
 
     public string Name { get; set; }
 
-    public string Discount { get; set; }
+    public Nullable<double> Discount { get; set; }
 
     public Nullable<System.DateTime> StartDate { get; set; }
 

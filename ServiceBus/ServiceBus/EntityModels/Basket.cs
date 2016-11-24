@@ -29,9 +29,9 @@ public partial class Basket
     }
 
 
-    public int Id { get; set; }
+    public System.Guid Id { get; set; }
 
-    public Nullable<int> CampaignId { get; set; }
+    public Nullable<System.Guid> CampaignId { get; set; }
 
     public double TotalPrice { get; set; }
 

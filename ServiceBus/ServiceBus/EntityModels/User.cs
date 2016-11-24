@@ -31,7 +31,7 @@ public partial class User
     }
 
 
-    public int Id { get; set; }
+    public System.Guid Id { get; set; }
 
     public string Email { get; set; }
 
