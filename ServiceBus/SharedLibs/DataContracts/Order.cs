@@ -17,10 +17,22 @@ namespace SharedLibs.DataContracts
         public Guid Id { set; get; }
 
         /// <summary>
+        /// Simple order number used during communication with customer
+        /// </summary>
+        [DataMember]
+        public string OrderNumber { set; get; }
+
+        /// <summary>
         /// Basket containing ordered items and campaigns
         /// </summary>
         [DataMember]
         public Basket Basket { get; set; }
+
+        /// <summary>
+        /// Contains information about customer
+        /// </summary>
+        [DataMember]
+        public User User { set; get; }
 
         /// <summary>
         /// Address to which the products should be delivered
@@ -52,10 +64,16 @@ namespace SharedLibs.DataContracts
         public DateTime DeliveryDate { get; set; }
 
         /// <summary>
-        /// Order state
-        /// Keeps actual state of order
+        /// Number of invoice used during pay transactions
         /// </summary>
         [DataMember]
-        public SharedLibs.Enums.OrderStateType OrderState { set; get; }
+        public string InvoiceNumber { set; get; }
+
+        /// <summary>
+        /// Order state
+        /// Keeps Id of orderStatus with actual state
+        /// </summary>
+        [DataMember]
+        public OrderState OrderState { set; get; }        
     }
 }

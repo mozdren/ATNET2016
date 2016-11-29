@@ -14,9 +14,7 @@ namespace ServiceBus
 {
     public class OrderService : IOrderService
     {
-
         // Implementation and other parts - I will make an effort to do it per partes :-) KZ
-        // At this time is not created table order and that is part of code hidden
 
         /// <summary>
         /// Method returns order according requested ID number
@@ -34,131 +32,66 @@ namespace ServiceBus
 
                     if (order == null)
                     {
-                        return new SharedLibs.DataContracts.Order
+                        return new Order()
                         {
-                            Result = SharedLibs.DataContracts.Result.ErrorFormat("Requested order ID number {0} was not found.", guid)
+                            Result = Result.ErrorFormat("Requested order ID number {0} was not found.", guid)
                         };
-                    }
-
-                    // tests nullable properties
-                    bool basketValue = true;
-                    bool addressValue = true;
-                    bool billingInformationValue = true;
-                    bool billingAddressValue = true;
-                    bool basketItemValue = true;
-                    bool campaignItemValue = true;
-
-                    var orderStatus = context.OrderStatus.FirstOrDefault(os => os.Id == order.OrderStatus.Id);                    
-                    var basket = context.Baskets.FirstOrDefault(b => b.Id == order.Basket.Id);
-
-                    if (basket == null)
-                    {
-                        basketValue = false;
-                    }
-
-                    var deliveryAddress = context.Addresses.FirstOrDefault(da => da.Id == order.Address.Id);
-
-                    if (deliveryAddress == null)
-                    {
-                        addressValue = false;
-                    }
-
-                    var billingInformation = context.BillingInformations.FirstOrDefault(bi => bi.Id == order.BillingInformation.Id);
-
-                    if (billingInformation == null)
-                    {
-                        billingInformationValue = false;
-                    }
-
-                    var billingAddress = context.Addresses.FirstOrDefault(ba => ba.Id == billingInformation.Address.Id);
-
-                    if (billingAddress == null)
-                    {
-                        billingAddressValue = false;
-                    }
-
-                    var basketItemsList = context.BasketItems.Where(bil => bil.BasketId == basket.Id);
-
-                    if (basketItemsList == null)
-                    {
-                        basketItemValue = false;
-                    }
-
-                    var campaignItem = context.CampaignItems.Where(ci => ci.BasketId == basket.Id);
-                    var campaignItemsList = context.Campaigns.Where(cil => campaignItem.Any(ci => ci.CampaignId == cil.Id));
-
-                    if (campaignItem == null || campaignItemsList == null)
-                    {
-                        campaignItemValue = false;
-                    }
-
-                    List<BasketItem> basketItemList = new List<BasketItem>();
-                    foreach (var bait in basketItemsList)
-                    {
-                        var product = context.Products.FirstOrDefault(p => p.Id == bait.ProductId);
-                        Product productItem = new Product() { ID = product.Id, Name = product.Name, Price = product.Price.HasValue ? product.Price.Value : 0.0 };
-                        basketItemList.Add(new BasketItem() { Id = bait.Id, Product = productItem, Quantity = bait.Quantity, Active = true }); // Table basketItem does not contain property Active
-                    }
-                    List<Campaign> campaignItemList = new List<Campaign>();
-                    foreach (var cait in campaignItemsList)
-                    {
-                        campaignItemList.Add(new Campaign() { Id = cait.Id, Name = cait.Name, Discount = cait.Discount.HasValue ? cait.Discount.Value : 0.0 });
-                    }
-
-                    return new SharedLibs.DataContracts.Order
+                    }                    
+                   
+                    return new Order()
                     {
                         Id = guid,
-                        Basket = (basketValue == true) ? new Basket()
+                        OrderNumber = order.OrderNumber,
+                        Basket = new Basket()
                         {
-                            Id = basket.Id,
-                            BasketItems = (basketItemValue == true) ? basketItemList : null,
-                            BasketCampaings = (campaignItemValue == true) ? campaignItemList : null
-                        } : null,
-                        DeliveryAddress = (addressValue == true) ? new Address()
+                            Id = order.Basket.Id,
+                            BasketItems = (List<BasketItem>) order.Basket.BasketItems,
+                            BasketCampaings = (List<Campaign>) order.Basket.CampaignItems
+                        },
+                        User = new User(),   // temporary state
+                        DeliveryAddress = new Address()
                         {
-                            Id = deliveryAddress.Id,
-                            PostCode = deliveryAddress.PostCode,
-                            HouseNumber = deliveryAddress.HouseNumber,
-                            HouseNumberExtension = deliveryAddress.HouseNumberExtension,
-                            Street = deliveryAddress.Street,
-                            City = deliveryAddress.City,
-                            District = deliveryAddress.District,
-                            DoorNumber = deliveryAddress.DoorNumber
-                        } : null,
-                        BillingInformation = (billingInformationValue == true) ? new BillingInformation()
+                            Id = order.Address.Id,
+                            PostCode = order.Address.PostCode,
+                            HouseNumber = order.Address.HouseNumber,
+                            HouseNumberExtension = order.Address.HouseNumberExtension,
+                            Street = order.Address.Street,
+                            City = order.Address.City,
+                            District = order.Address.District,
+                            DoorNumber = order.Address.DoorNumber
+                        },
+                        BillingInformation = new BillingInformation()
                         {
-                            Id = billingInformation.Id,
-                            BillingAddress = (billingAddressValue == true) ? new Address()
+                            Id = order.BillingInformation.Id,
+                            BillingAddress = new Address()
                             {
-                                Id = billingAddress.Id,
-                                PostCode = billingAddress.PostCode,
-                                HouseNumber = billingAddress.HouseNumber,
-                                HouseNumberExtension = billingAddress.HouseNumberExtension,
-                                Street = billingAddress.Street,
-                                City = billingAddress.City,
-                                District = billingAddress.District,
-                                DoorNumber = billingAddress.DoorNumber
-                            } : null,
-                            BIC = billingInformation.BIC,
-                            IBAN = billingInformation.IBAN
-                        } : null,
-                        OrderDate = (DateTime)(order.OrderDate.HasValue ? order.OrderDate.Value : Convert.ToDateTime("1.1.2010")),
-                        DeliveryDate = (DateTime)(order.DeliveryDate.HasValue ? order.DeliveryDate.Value : Convert.ToDateTime("1.1.2010")),
-                        OrderState = (OrderStateType)orderStatus.Status,
-                        Result = SharedLibs.DataContracts.Result.SuccessFormat("Requested order ID number {0} was found.", guid)
+                                Id = order.BillingInformation.Address.Id,
+                                PostCode = order.BillingInformation.Address.PostCode,
+                                HouseNumber = order.BillingInformation.Address.HouseNumber,
+                                HouseNumberExtension = order.BillingInformation.Address.HouseNumberExtension,
+                                Street = order.BillingInformation.Address.Street,
+                                City = order.BillingInformation.Address.City,
+                                District = order.BillingInformation.Address.District,
+                                DoorNumber = order.BillingInformation.Address.DoorNumber
+                            },
+                            BIC = order.BillingInformation.BIC,
+                            IBAN = order.BillingInformation.IBAN
+                        },
+                        OrderDate = (order.OrderDate.HasValue ? order.OrderDate.Value : Convert.ToDateTime("1.1.2010")),
+                        DeliveryDate = (order.DeliveryDate.HasValue ? order.DeliveryDate.Value : Convert.ToDateTime("1.1.2010")),
+                        InvoiceNumber = order.InvoiceNr,
+                        OrderState = new OrderState() { Id = order.OrderStatus.Id, Status = order.OrderStatus.Status },
+                        Result = Result.SuccessFormat("Requested order ID number {0} was found.", guid)
 
                     };
-
                 }
             }
             catch (Exception exception)
             {
-
-                return new SharedLibs.DataContracts.Order
+                return new Order
                 {
-                    Result = SharedLibs.DataContracts.Result.FatalFormat("In method OrderService.GetOrder was thrown exception: {0}", exception.Message)
+                    Result = Result.FatalFormat("In method OrderService.GetOrder was thrown exception: {0}", exception.Message)
                 };
-
             }
         }
 
@@ -169,60 +102,86 @@ namespace ServiceBus
         /// <returns>List of orders</returns>
         public Orders GetAllOrders()
         {
-            /*try
+            try
             {
-                using (var context = new ServiceBusDatabaseEntities())
+                using (var context = new EntityModels.ServiceBusDatabaseEntities())
                 {
                     var orderList = new List<Order>();
 
                     foreach (var order in context.Orders)
-                    {
-                        orderList.Add(new SharedLibs.DataContracts.Order
+                    {         
+                        orderList.Add(new Order()
                         {
                             Id = order.Id,
-                            Basket = order.Basket,
-                            DeliveryAddress = order.DeliveryAddress,
-                            BillingInformation = order.BillingInformation,
-                            OrderDate = order.OrderDate,
-                            DeliveryDate = order.DeliveryDate,
-                            OrderState = order.OrderState
+                            OrderNumber = order.OrderNumber,
+                            Basket = new Basket()
+                            {
+                                Id = order.Basket.Id,
+                                BasketItems = (List<BasketItem>)order.Basket.BasketItems,  //(basketItemList != null) ? basketItemList : null,
+                                BasketCampaings = (List<Campaign>)order.Basket.CampaignItems //(campaignItemList != null) ? campaignItemList : null
+                            },
+                            User = new User(),   // temporary state
+                            DeliveryAddress = new Address()
+                            {
+                                Id = order.Address.Id,
+                                PostCode = order.Address.PostCode,
+                                HouseNumber = order.Address.HouseNumber,
+                                HouseNumberExtension = order.Address.HouseNumberExtension,
+                                Street = order.Address.Street,
+                                City = order.Address.City,
+                                District = order.Address.District,
+                                DoorNumber = order.Address.DoorNumber
+                            },
+                            BillingInformation = new BillingInformation()
+                            {
+                                Id = order.BillingInformation.Id,
+                                BillingAddress = new Address()
+                                {
+                                    Id = order.BillingInformation.Address.Id,
+                                    PostCode = order.BillingInformation.Address.PostCode,
+                                    HouseNumber = order.BillingInformation.Address.HouseNumber,
+                                    HouseNumberExtension = order.BillingInformation.Address.HouseNumberExtension,
+                                    Street = order.BillingInformation.Address.Street,
+                                    City = order.BillingInformation.Address.City,
+                                    District = order.BillingInformation.Address.District,
+                                    DoorNumber = order.BillingInformation.Address.DoorNumber
+                                },
+                                BIC = order.BillingInformation.BIC,
+                                IBAN = order.BillingInformation.IBAN
+                            },
+                            OrderDate = (order.OrderDate.HasValue ? order.OrderDate.Value : Convert.ToDateTime("1.1.2010")),
+                            DeliveryDate = (order.DeliveryDate.HasValue ? order.DeliveryDate.Value : Convert.ToDateTime("1.1.2010")),
+                            InvoiceNumber = order.InvoiceNr,
+                            OrderState = new OrderState() { Id = order.OrderStatus.Id, Status = order.OrderStatus.Status }
                         });
                     }
 
                     if (orderList.Count == 0)
                     {
-                        return new SharedLibs.DataContracts.Orders
+                        return new Orders()
                         {
-                            Result = SharedLibs.DataContracts.Result.WarningFormat("It was not found any item of orders."),
+                            Result = Result.WarningFormat("It was not found any item of orders."),
                             Items = orderList
                         };
                     }
                     else
                     {
-                        return new SharedLibs.DataContracts.Orders
+                        return new Orders()
                         {
-                            Result = SharedLibs.DataContracts.Result.Success(),
+                            Result = Result.Success(),
                             Items = orderList
                         };
-                    }
-                    
+                    }                    
                 }
             }
             catch (Exception exception)
             {
-                return new SharedLibs.DataContracts.Orders
+                return new Orders()
                 {
-                    Result = SharedLibs.DataContracts.Result.FatalFormat("In method OrderService.GetAllOrders was thrown exception: {0}",
+                    Result = Result.FatalFormat("In method OrderService.GetAllOrders was thrown exception: {0}",
                                                                          exception.Message)
                 };
-            }*/
-
-//********* delete this code after finishing implementation method GetOrder ************
-
-            return new SharedLibs.DataContracts.Orders
-            {
-                Result = Result.Fatal("Not finish")
-            };
+            }
         }
 
 
@@ -230,6 +189,7 @@ namespace ServiceBus
         /// Method adds new order to system
         /// <param name="guid">ID of a order</param>
         /// <param name="basket">Reference to basket object</param>
+        /// <param name="user">Reference to user object</param>
         /// <param name="address">Reference to address object</param>
         /// <param name="billingInformation">Reference to billingInformation object</param>
         /// <param name="orderDate">Order creation date</param>
@@ -239,47 +199,53 @@ namespace ServiceBus
         public Result AddOrder(
             Guid guid,
             Basket basket,
+            User user,
             Address deliveryAddress,
             BillingInformation billingInformation,
-            DateTime orderDate, DateTime deliveryDate, OrderStateType orderState)
+            DateTime orderDate,
+            DateTime deliveryDate,
+            OrderState orderStatus)
         {
-            /*try
+            try
             {
-                using (var context = new ServiceBusDatabaseEntities())
+                using (var context = new EntityModels.ServiceBusDatabaseEntities())
                 {
                     if (basket != null && deliveryAddress != null && billingInformation != null &&
-                        orderDate == DateTime.Now && deliveryDate >= DateTime.Now)
-                    {
-                        var newOrder = new SharedLibs.DataContracts.Order
+                        orderDate.Date == DateTime.Now.Date && deliveryDate.Date >= DateTime.Now.Date)
+                    { 
+                        string orderNumber =  DateTime.Now.Date.ToString().Reverse().ToString() + DateTime.Now.ToShortTimeString();
+
+                        EntityModels.Order newOrder = new EntityModels.Order()
                         {
                             Id = guid,
-                            Basket = basket,
-                            DeliveryAddress = deliveryAddress,
-                            BillingInformation = billingInformation,
+                            OrderNumber = orderNumber,
+                            Basket = null,  // temporary state
+                            UserId = user.Id,
+                            AddressId = deliveryAddress.Id,
+                            BillingInformationId = billingInformation.Id,
                             OrderDate = orderDate,
                             DeliveryDate = deliveryDate,
-                            OrderState = orderState
+                            InvoiceNr = orderNumber, // as invoice number is inserted order number
+                            OrderStatusId = orderStatus.Id
                         };
 
                         context.Orders.Add(newOrder);
                         context.SaveChanges();
 
-                        return SharedLibs.DataContracts.Result.SuccessFormat("New order ID number {0} was stored successfully.", guid);
+                        return Result.SuccessFormat("New order ID number {0} was stored successfully.", guid);
                     }
                     else
                     {
-                        return SharedLibs.DataContracts.Result.ErrorFormat("Input parameters have not correct value.");
+                        return Result.ErrorFormat("Input parameters have not correct value.");
                     }
                 }
             }
             catch (Exception exception)
             {
-                return SharedLibs.DataContracts.Result.FatalFormat("In method OrderService.AddOrder was thrown exception: {0}",
-                                                                         exception.Message);
-            } */
-            return Result.Fatal("Not finished");
+                return Result.FatalFormat("In method OrderService.AddOrder was thrown exception: {0}", exception.Message);
+            }
         }
-
+          
 
         /// <summary>
         /// Method adds new order to system using order object
@@ -288,8 +254,15 @@ namespace ServiceBus
         /// <returns>Result object</returns>
         public Result AddOrder(Order order)
         {
-            return AddOrder(order.Id, order.Basket, order.DeliveryAddress, order.BillingInformation,
-                            order.OrderDate, order.DeliveryDate, order.OrderState);
+            return AddOrder(
+                order.Id,
+                order.Basket,
+                order.User,
+                order.DeliveryAddress,
+                order.BillingInformation,
+                order.OrderDate,
+                order.DeliveryDate,
+                order.OrderState);
         }
 
 
@@ -298,55 +271,61 @@ namespace ServiceBus
         /// </summary>
         /// <param name="guid">ID of a order</param>
         /// <param name="basket">Reference to basket object</param>
+        /// <param name="user">Reference to user object</param>
         /// <param name="address">Reference to address object</param>
         /// <param name="billingInformation">Reference to billingInformation object</param>
         /// <param name="deliveryDate">Order delivery date</param>
         /// <param name="orderState">Signals current state of order</param>
         /// <returns>New Order object</returns>
         public Order EditOrder(
-            Guid guid, Basket basket,
+            Guid guid,
+            Basket basket,
+            User user,
             Address deliveryAddress,
             BillingInformation billingInformation,
-            DateTime deliveryDate, OrderStateType orderState)
+            DateTime deliveryDate)
         {
-            /*try
+            try
             {
-                var storedOrder = this.GetOrder(guid);
+                var storedOrder = GetOrder(guid);
 
-                if (storedOrder.Result.ResultType == SharedLibs.Enums.ResultType.Success)
+                if (storedOrder.Result.ResultType == ResultType.Success)
                 {
-                    var alteredOrder = new SharedLibs.DataContracts.Order
+                    var alteredOrder = new EntityModels.Order()
                     {
                         Id = storedOrder.Id,
-                        Basket = storedOrder.Basket,
-                        DeliveryAddress = storedOrder.DeliveryAddress,
-                        BillingInformation = storedOrder.BillingInformation,
+                        OrderNumber = storedOrder.OrderNumber,
+                        Basket = null,  // temporary state
+                        UserId = storedOrder.User.Id,
+                        AddressId = storedOrder.DeliveryAddress.Id,
+                        BillingInformationId = storedOrder.BillingInformation.Id,
                         OrderDate = storedOrder.OrderDate,
                         DeliveryDate = storedOrder.DeliveryDate,
-                        OrderState = storedOrder.OrderState
+                        InvoiceNr = storedOrder.InvoiceNumber,
+                        OrderStatusId = storedOrder.OrderState.Id
                     };
 
 
-                    using (var context = new ServiceBusDatabaseEntities())
+                    using (var context = new EntityModels.ServiceBusDatabaseEntities())
                     {
                         context.Orders.Attach(alteredOrder);
 
                         // Test data for change of basket object
                         if (basket != null && basket != storedOrder.Basket)
                         {
-                            alteredOrder.Basket = basket;
+                            alteredOrder.Basket = null;
                         }
 
                         // Test data for change of address object
                         if (deliveryAddress != null && deliveryAddress != storedOrder.DeliveryAddress)
                         {
-                            alteredOrder.DeliveryAddress = deliveryAddress;
+                            alteredOrder.AddressId = deliveryAddress.Id;
                         }
 
                         // Test data for change of billing information object
                         if (billingInformation != null && billingInformation != storedOrder.BillingInformation)
                         {
-                            alteredOrder.BillingInformation = billingInformation;
+                            alteredOrder.BillingInformationId = billingInformation.Id;
                         }
 
                         // Test data for change of delivery date
@@ -356,25 +335,57 @@ namespace ServiceBus
                         }
 
                         // If no change was performed it is returned origin order object
-                        if (context.Entry(alteredOrder).State == System.Data.Entity.EntityState.Unchanged)
+                        if (context.Entry(alteredOrder).State == EntityState.Unchanged)
                         {
-                            storedOrder.Result = SharedLibs.DataContracts.Result.WarningFormat("Order ID number {0} was not changed.", guid);
+                            storedOrder.Result = Result.WarningFormat("Order ID number {0} was not changed.", guid);
                             return storedOrder;
                         }
                         else
                         {
-                            alteredOrder.OrderState = SharedLibs.Enums.OrderStateType.Changed;
+                            ChangeOrderState(alteredOrder.OrderStatusId, 2);
                             context.SaveChanges();
 
-                            return new SharedLibs.DataContracts.Order
+                            return new Order()
                             {
                                 Id = alteredOrder.Id,
-                                Basket = alteredOrder.Basket,
-                                DeliveryAddress = alteredOrder.DeliveryAddress,
-                                BillingInformation = alteredOrder.BillingInformation,
-                                OrderDate = alteredOrder.OrderDate,
-                                DeliveryDate = alteredOrder.DeliveryDate,
-                                OrderState = alteredOrder.OrderState
+                                Basket = new Basket()
+                                {
+                                    Id = alteredOrder.Basket.Id,
+                                    BasketItems = (List<BasketItem>) alteredOrder.Basket.BasketItems,
+                                    BasketCampaings = (List<Campaign>) alteredOrder.Basket.CampaignItems
+                                },
+                                User = new User(), // temporary state
+                                DeliveryAddress = new Address()
+                                {
+                                    Id = alteredOrder.Address.Id,
+                                    PostCode = alteredOrder.Address.PostCode,
+                                    HouseNumber = alteredOrder.Address.HouseNumber,
+                                    HouseNumberExtension = alteredOrder.Address.HouseNumberExtension,
+                                    Street = alteredOrder.Address.Street,
+                                    City = alteredOrder.Address.City,
+                                    District = alteredOrder.Address.District,
+                                    DoorNumber = alteredOrder.Address.DoorNumber
+                                },
+                                BillingInformation = new BillingInformation()
+                                {
+                                    Id = alteredOrder.BillingInformation.Id,
+                                    BillingAddress = new Address()
+                                    {
+                                        Id = alteredOrder.BillingInformation.Address.Id ,
+                                        PostCode = alteredOrder.BillingInformation.Address.PostCode,
+                                        HouseNumber = alteredOrder.BillingInformation.Address.HouseNumber,
+                                        HouseNumberExtension = alteredOrder.BillingInformation.Address.HouseNumberExtension,
+                                        Street = alteredOrder.BillingInformation.Address.Street,
+                                        City = alteredOrder.BillingInformation.Address.City,
+                                        District = alteredOrder.BillingInformation.Address.District,
+                                        DoorNumber = alteredOrder.BillingInformation.Address.DoorNumber
+                                    },
+                                    BIC = alteredOrder.BillingInformation.BIC,
+                                    IBAN = alteredOrder.BillingInformation.IBAN
+                                },
+                                OrderDate = (alteredOrder.OrderDate.HasValue ? alteredOrder.OrderDate.Value : Convert.ToDateTime("1.1.2010")),
+                                DeliveryDate = (alteredOrder.DeliveryDate.HasValue ? alteredOrder.DeliveryDate.Value : Convert.ToDateTime("1.1.2010")),
+                                InvoiceNumber = alteredOrder.InvoiceNr
                             };
                         }
                     }
@@ -386,17 +397,12 @@ namespace ServiceBus
             }
             catch (Exception exception)
             {
-                return new SharedLibs.DataContracts.Order
+                return new Order
                 {
-                    Result = SharedLibs.DataContracts.Result.FatalFormat("In method OrderService.EditOrder was thrown exception: {0}.",
+                    Result = Result.FatalFormat("In method OrderService.EditOrder was thrown exception: {0}.",
                                                                          exception.Message)
                 };
-            }*/
-
-            return new Order
-            {
-                Result = Result.Fatal("Not finished")
-            };
+            }          
         }
 
 
@@ -407,55 +413,54 @@ namespace ServiceBus
         /// <param name="state">State of order</param>
         /// /// <returns>Result object</returns>
         public Result ChangeOrderState(
-            Guid guid, OrderStateType orderState)
+            Guid guid,
+            int newState)
         {
-            /*try
+            try
             {
-                var storedOrder = this.GetOrder(guid);
+                var storedOrder = GetOrder(guid);
 
-                if (storedOrder.Result.ResultType == SharedLibs.Enums.ResultType.Success)
+                if (storedOrder.Result.ResultType == ResultType.Success)
                 {
-                    var alteredOrder = new SharedLibs.DataContracts.Order
+                    var alteredOrder = new EntityModels.Order()
                     {
                         Id = storedOrder.Id,
-                        Basket = storedOrder.Basket,
-                        DeliveryAddress = storedOrder.DeliveryAddress,
-                        BillingInformation = storedOrder.BillingInformation,
+                        Basket = null,
+                        AddressId = storedOrder.DeliveryAddress.Id,
+                        BillingInformationId = storedOrder.BillingInformation.Id,
                         OrderDate = storedOrder.OrderDate,
                         DeliveryDate = storedOrder.DeliveryDate,
-                        OrderState = storedOrder.OrderState
+                        OrderStatusId = storedOrder.OrderState.Id
                     };
 
-                    using (var context = new ServiceBusDatabaseEntities())
+                    using (var context = new EntityModels.ServiceBusDatabaseEntities())
                     {
                        
                         context.Orders.Attach(alteredOrder);
 
-                        alteredOrder.OrderState = orderState;
+                        alteredOrder.OrderStatus.Status = newState;
 
                         if (context.Entry(alteredOrder).State == System.Data.Entity.EntityState.Unchanged)
                         {
-                            return SharedLibs.DataContracts.Result.WarningFormat("State of order ID number {0} was not changed.", guid);
+                            return Result.WarningFormat("State of order ID number {0} was not changed.", guid);
                         }
                         else
                         {
                             context.SaveChanges();                            
-                            return SharedLibs.DataContracts.Result.SuccessFormat("State of order ID number {0} was changed");
+                            return Result.SuccessFormat("State of order ID number {0} was changed");
                         }                        
                     }
                 }
                 else
                 {
-                    return SharedLibs.DataContracts.Result.WarningFormat("Result of requested order ID number {0} is not success." +
+                    return Result.WarningFormat("Result of requested order ID number {0} is not success." +
                                                                           " Order state cannot be changed.", guid);
                 }
             }
             catch (Exception exception)
             {
-                return SharedLibs.DataContracts.Result.FatalFormat("In method OrderService.ChangeOrderState was thrown exception: {0}",
-                                                                        exception.Message);           
-            }*/
-            return Result.Fatal("Not finished");
+                return Result.FatalFormat("In method OrderService.ChangeOrderState was thrown exception: {0}", exception.Message);           
+            }
         }
 
 
@@ -466,29 +471,28 @@ namespace ServiceBus
         /// <returns>Result object</returns>
         public Result DeleteOrder(Guid guid)
         {
-            /*try
+            try
             {
-                using (var context = new ServiceBusDatabaseEntities())
+                using (var context = new EntityModels.ServiceBusDatabaseEntities())
                 {
-                    var storedOrder = this.GetOrder(guid);
+                    var storedOrder = context.Orders.FirstOrDefault(o => o.Id == guid);
 
                     if (storedOrder == null)
                     {
-                        return SharedLibs.DataContracts.Result.ErrorFormat("Requested order ID number {0} was not found.", guid);
+                        return Result.ErrorFormat("Requested order ID number {0} was not found.", guid);
                     }
 
                     context.Orders.Remove(storedOrder);
                     context.SaveChanges();
 
-                    return SharedLibs.DataContracts.Result.SuccessFormat("Requested order ID number {0} was deleted successfully.", guid);
+                    return Result.SuccessFormat("Requested order ID number {0} was deleted successfully.", guid);
                 }
             }
             catch (Exception exception)
             {
-                return SharedLibs.DataContracts.Result.FatalFormat("In method OrderService.DeleteOrder was thrown exception: {0}.",
+                return Result.FatalFormat("In method OrderService.DeleteOrder was thrown exception: {0}.",
                                                                          exception.Message);
-            }*/
-            return Result.Fatal("Not finished");
+            }
         }
 
 
@@ -507,7 +511,8 @@ namespace ServiceBus
         public Result CreateEmail(
             User user,
             Order order, 
-            string emailText, string attachment)
+            string emailText,
+            string attachment)
         {
             try
             {
@@ -523,33 +528,33 @@ namespace ServiceBus
                     {
                         string variableText = "";
 
-                        switch (order.OrderState)
+                        switch (order.OrderState.Status)
                         {
-                            case OrderStateType.Canceled:
+                            case 0:
                                 {
                                     variableText = " byla zrušena.";
                                     break;
                                 }
 
-                            case OrderStateType.Created:
+                            case 1:
                                 {
                                     variableText = " byla přijata.";
                                     break;
                                 }
 
-                            case OrderStateType.Changed:
+                            case 2:
                                 {
                                     variableText = " byla změněna.";
                                     break;
                                 }
 
-                            case OrderStateType.ReadyToSend:
+                            case 3:
                                 {
                                     variableText = " je připravena k odeslání.";
                                     break;
                                 }
 
-                            case OrderStateType.Sent:
+                            case 4:
                                 {
                                     variableText = " byla odeslána.";
                                     break;
@@ -598,7 +603,8 @@ namespace ServiceBus
         public Result SendEmail(
             User user,
             Order order,
-            string emailText, string attachment)
+            string emailText,
+            string attachment)
         {
             
             try
@@ -606,7 +612,7 @@ namespace ServiceBus
                 if (user != null && order != null && !String.IsNullOrEmpty(emailText))
                 {
                     string from = "our_company@vsb.cz";   // Temporary sender
-                    string subject = "Objednávka číslo " + order.Id;
+                    string subject = "Objednávka číslo " + order.OrderNumber;
                     string smtpServer = "smtpServer";   // Temporary server name
 
                     MailMessage message = new MailMessage(from, user.EmailAddress, subject, emailText);
@@ -641,7 +647,7 @@ namespace ServiceBus
                     }
                     else
                     {
-                        throw new Exception("Memory allocation failure of MailMessage or SmtpClient.");
+                        throw new Exception("MailMessage or SmtpClient memory allocation failure.");
                     }                    
                 }
                 else
@@ -674,7 +680,7 @@ namespace ServiceBus
         {
             
             int itemsCount = order.Basket.BasketItems.Count;            
-            string orderNumber = "Přehled objednávky číslo:  " + order.Id;
+            string orderNumber = "Přehled objednávky číslo:  " + order.OrderNumber;
             string pageNumberMark = string.Empty;
             bool setFullItemsPerPageCount = false;
 
@@ -820,7 +826,7 @@ namespace ServiceBus
                                 infoTable.SpacingBefore = 10.0f;
                                 cell1 = new PdfPCell(new Phrase("Číslo faktury:", PdfDocumentFields.smallNormalFont));
                                 cell1.Border = Rectangle.NO_BORDER;
-                                cell2 = new PdfPCell(new Phrase(order.Id.ToString(), PdfDocumentFields.smallNormalFont));
+                                cell2 = new PdfPCell(new Phrase(order.InvoiceNumber, PdfDocumentFields.smallNormalFont));
                                 cell2.Border = Rectangle.NO_BORDER;
                                 infoTable.AddCell(cell1);
                                 infoTable.AddCell(cell2);
@@ -838,7 +844,7 @@ namespace ServiceBus
                                 infoTable.AddCell(cell2);
                                 cell1 = new PdfPCell(new Phrase("Číslo objednávky:", PdfDocumentFields.smallNormalFont));
                                 cell1.Border = Rectangle.NO_BORDER;
-                                cell2 = new PdfPCell(new Phrase(order.Id.ToString(), PdfDocumentFields.smallNormalFont));
+                                cell2 = new PdfPCell(new Phrase(order.OrderNumber, PdfDocumentFields.smallNormalFont));
                                 cell2.Border = Rectangle.NO_BORDER;
                                 infoTable.AddCell(cell1);
                                 infoTable.AddCell(cell2);
@@ -900,7 +906,7 @@ namespace ServiceBus
                                 cell2.Border = Rectangle.NO_BORDER;
                                 cell3 = new PdfPCell(new Phrase("Kód zásilky:", PdfDocumentFields.smallNormalFont));
                                 cell3.Border = Rectangle.NO_BORDER;
-                                cell4 = new PdfPCell(new Phrase(order.Id.ToString(), PdfDocumentFields.smallNormalFont));
+                                cell4 = new PdfPCell(new Phrase(order.OrderNumber, PdfDocumentFields.smallNormalFont));
                                 cell4.Border = Rectangle.NO_BORDER;
                                 nestedTable.AddCell(cell1);
                                 nestedTable.AddCell(cell2);

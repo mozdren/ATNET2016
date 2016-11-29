@@ -11,8 +11,11 @@
           <xs:element minOccurs="0" name="DeliveryAddress" nillable="true" type="tns:Address" />
           <xs:element minOccurs="0" name="DeliveryDate" type="xs:dateTime" />
           <xs:element minOccurs="0" name="Id" type="ser:guid" />
+          <xs:element minOccurs="0" name="InvoiceNumber" nillable="true" type="xs:string" />
           <xs:element minOccurs="0" name="OrderDate" type="xs:dateTime" />
-          <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/SharedLibs.Enums" minOccurs="0" name="OrderState" type="q1:OrderStateType" />
+          <xs:element minOccurs="0" name="OrderNumber" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="OrderState" nillable="true" type="tns:OrderState" />
+          <xs:element minOccurs="0" name="User" nillable="true" type="tns:User" />
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -27,7 +30,7 @@
   <xs:complexType name="Result">
     <xs:sequence>
       <xs:element minOccurs="0" name="Message" nillable="true" type="xs:string" />
-      <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/SharedLibs.Enums" minOccurs="0" name="ResultType" type="q2:ResultType" />
+      <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/SharedLibs.Enums" minOccurs="0" name="ResultType" type="q1:ResultType" />
     </xs:sequence>
   </xs:complexType>
   <xs:element name="Result" nillable="true" type="tns:Result" />
@@ -122,6 +125,37 @@
     </xs:complexContent>
   </xs:complexType>
   <xs:element name="Address" nillable="true" type="tns:Address" />
+  <xs:complexType name="OrderState">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:DTO">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Id" type="ser:guid" />
+          <xs:element minOccurs="0" name="Status" type="xs:int" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="OrderState" nillable="true" type="tns:OrderState" />
+  <xs:complexType name="User">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:DTO">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="CompanyName" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="EmailAddress" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Id" type="ser:guid" />
+          <xs:element minOccurs="0" name="IdentificationCompanyNumber" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Login" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Password" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="PhoneNumber" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Surname" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="TaxIdentificationCompanyNumber" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="UserAddress" nillable="true" type="tns:Address" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="User" nillable="true" type="tns:User" />
   <xs:complexType name="Orders">
     <xs:complexContent mixed="false">
       <xs:extension base="tns:PluralizedOfOrdergUMYyf5D">
@@ -153,24 +187,4 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="ArrayOfOrder" nillable="true" type="tns:ArrayOfOrder" />
-  <xs:complexType name="User">
-    <xs:complexContent mixed="false">
-      <xs:extension base="tns:DTO">
-        <xs:sequence>
-          <xs:element minOccurs="0" name="CompanyName" nillable="true" type="xs:string" />
-          <xs:element minOccurs="0" name="EmailAddress" nillable="true" type="xs:string" />
-          <xs:element minOccurs="0" name="Id" type="ser:guid" />
-          <xs:element minOccurs="0" name="IdentificationCompanyNumber" nillable="true" type="xs:string" />
-          <xs:element minOccurs="0" name="Login" nillable="true" type="xs:string" />
-          <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
-          <xs:element minOccurs="0" name="Password" nillable="true" type="xs:string" />
-          <xs:element minOccurs="0" name="PhoneNumber" nillable="true" type="xs:string" />
-          <xs:element minOccurs="0" name="Surname" nillable="true" type="xs:string" />
-          <xs:element minOccurs="0" name="TaxIdentificationCompanyNumber" nillable="true" type="xs:string" />
-          <xs:element minOccurs="0" name="UserAddress" nillable="true" type="tns:Address" />
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-  <xs:element name="User" nillable="true" type="tns:User" />
 </xs:schema>

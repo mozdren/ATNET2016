@@ -10,7 +10,7 @@ namespace ServiceBusTests
         public void GetProductTest()
         {
             var client = new ProductService.ProductServiceClient();
-            var productId = new Guid("afe38a9e-9faf-411f-a94b-23d377b473b4");
+            var productId = new Guid("c5b87c07-a019-471c-9c77-4f1380950f73");
 
             var product = client.GetProduct(productId);
 

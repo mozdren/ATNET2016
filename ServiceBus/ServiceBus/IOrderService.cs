@@ -39,14 +39,18 @@ namespace ServiceBus
         /// <param name="billingInformation">Reference to a billingInformation object</param>
         /// <param name="orderDate">Order creation date</param>
         /// <param name="deliveryDate">Order delivery date</param>
+        /// <param name="orderState">Signals current state of order</param>
         /// <returns>Result object</returns>
         [OperationContract]
         Result AddOrder(
             Guid guid, 
-            SharedLibs.DataContracts.Basket basket,
-            SharedLibs.DataContracts.Address deliveryAddress,
-            SharedLibs.DataContracts.BillingInformation billingInformation,
-            DateTime orderDate, DateTime deliveryDate, OrderStateType orderState);
+            Basket basket,
+            User user,
+            Address deliveryAddress,
+            BillingInformation billingInformation,
+            DateTime orderDate,
+            DateTime deliveryDate,
+            OrderState orderState);
 
 
         /// <summary>
@@ -66,15 +70,15 @@ namespace ServiceBus
         /// <param name="address">Reference to an address object</param>
         /// <param name="billingInformation">Reference to a billingInformation object</param>
         /// <param name="deliveryDate">Order delivery date</param>
-        /// <param name="orderState">Signals current state of order</param>
         /// <returns>New Order object</returns>
         [OperationContract]
         Order EditOrder(
             Guid guid,
-            SharedLibs.DataContracts.Basket basket,
-            SharedLibs.DataContracts.Address deliveryAddress,
-            SharedLibs.DataContracts.BillingInformation billingInformation,
-            DateTime deliveryDate, OrderStateType orderState);
+            Basket basket,
+            User user,
+            Address deliveryAddress,
+            BillingInformation billingInformation,
+            DateTime deliveryDate);
                 
 
 
@@ -85,7 +89,7 @@ namespace ServiceBus
         /// <param name="state">State of an order</param>
         /// /// <returns>Result object</returns>
         [OperationContract]
-        Result ChangeOrderState(Guid guid, SharedLibs.Enums.OrderStateType orderState);
+        Result ChangeOrderState(Guid guid, int newState);
 
 
         /// <summary>
@@ -113,7 +117,8 @@ namespace ServiceBus
         Result CreateEmail(
             User user,
             Order order, 
-            string emailText, string attachment);
+            string emailText,
+            string attachment);
 
 
         /// <summary>
@@ -128,7 +133,8 @@ namespace ServiceBus
         Result SendEmail(
             User user,
             Order order, 
-            string emailText, string attachment);
+            string emailText,
+            string attachment);
 
 
         /// <summary>

@@ -28,10 +28,10 @@ namespace ServiceBus.OrderServiceProxyClass {
         System.Threading.Tasks.Task<SharedLibs.DataContracts.Orders> GetAllOrdersAsync();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IOrderService/AddOrder", ReplyAction="http://tempuri.org/IOrderService/AddOrderResponse")]
-        SharedLibs.DataContracts.Result AddOrder(System.Guid guid, SharedLibs.DataContracts.Basket basket, SharedLibs.DataContracts.Address deliveryAddress, SharedLibs.DataContracts.BillingInformation billingInformation, System.DateTime orderDate, System.DateTime deliveryDate, SharedLibs.Enums.OrderStateType orderState);
+        SharedLibs.DataContracts.Result AddOrder(System.Guid guid, SharedLibs.DataContracts.Basket basket, SharedLibs.DataContracts.User user, SharedLibs.DataContracts.Address deliveryAddress, SharedLibs.DataContracts.BillingInformation billingInformation, System.DateTime orderDate, System.DateTime deliveryDate, SharedLibs.DataContracts.OrderState orderState);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IOrderService/AddOrder", ReplyAction="http://tempuri.org/IOrderService/AddOrderResponse")]
-        System.Threading.Tasks.Task<SharedLibs.DataContracts.Result> AddOrderAsync(System.Guid guid, SharedLibs.DataContracts.Basket basket, SharedLibs.DataContracts.Address deliveryAddress, SharedLibs.DataContracts.BillingInformation billingInformation, System.DateTime orderDate, System.DateTime deliveryDate, SharedLibs.Enums.OrderStateType orderState);
+        System.Threading.Tasks.Task<SharedLibs.DataContracts.Result> AddOrderAsync(System.Guid guid, SharedLibs.DataContracts.Basket basket, SharedLibs.DataContracts.User user, SharedLibs.DataContracts.Address deliveryAddress, SharedLibs.DataContracts.BillingInformation billingInformation, System.DateTime orderDate, System.DateTime deliveryDate, SharedLibs.DataContracts.OrderState orderState);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IOrderService/AddOrderByObject", ReplyAction="http://tempuri.org/IOrderService/AddOrderByObjectResponse")]
         SharedLibs.DataContracts.Result AddOrderByObject(SharedLibs.DataContracts.Order order);
@@ -40,16 +40,16 @@ namespace ServiceBus.OrderServiceProxyClass {
         System.Threading.Tasks.Task<SharedLibs.DataContracts.Result> AddOrderByObjectAsync(SharedLibs.DataContracts.Order order);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IOrderService/EditOrder", ReplyAction="http://tempuri.org/IOrderService/EditOrderResponse")]
-        SharedLibs.DataContracts.Order EditOrder(System.Guid guid, SharedLibs.DataContracts.Basket basket, SharedLibs.DataContracts.Address deliveryAddress, SharedLibs.DataContracts.BillingInformation billingInformation, System.DateTime deliveryDate, SharedLibs.Enums.OrderStateType orderState);
+        SharedLibs.DataContracts.Order EditOrder(System.Guid guid, SharedLibs.DataContracts.Basket basket, SharedLibs.DataContracts.User user, SharedLibs.DataContracts.Address deliveryAddress, SharedLibs.DataContracts.BillingInformation billingInformation, System.DateTime deliveryDate);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IOrderService/EditOrder", ReplyAction="http://tempuri.org/IOrderService/EditOrderResponse")]
-        System.Threading.Tasks.Task<SharedLibs.DataContracts.Order> EditOrderAsync(System.Guid guid, SharedLibs.DataContracts.Basket basket, SharedLibs.DataContracts.Address deliveryAddress, SharedLibs.DataContracts.BillingInformation billingInformation, System.DateTime deliveryDate, SharedLibs.Enums.OrderStateType orderState);
+        System.Threading.Tasks.Task<SharedLibs.DataContracts.Order> EditOrderAsync(System.Guid guid, SharedLibs.DataContracts.Basket basket, SharedLibs.DataContracts.User user, SharedLibs.DataContracts.Address deliveryAddress, SharedLibs.DataContracts.BillingInformation billingInformation, System.DateTime deliveryDate);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IOrderService/ChangeOrderState", ReplyAction="http://tempuri.org/IOrderService/ChangeOrderStateResponse")]
-        SharedLibs.DataContracts.Result ChangeOrderState(System.Guid guid, SharedLibs.Enums.OrderStateType orderState);
+        SharedLibs.DataContracts.Result ChangeOrderState(System.Guid guid, int newState);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IOrderService/ChangeOrderState", ReplyAction="http://tempuri.org/IOrderService/ChangeOrderStateResponse")]
-        System.Threading.Tasks.Task<SharedLibs.DataContracts.Result> ChangeOrderStateAsync(System.Guid guid, SharedLibs.Enums.OrderStateType orderState);
+        System.Threading.Tasks.Task<SharedLibs.DataContracts.Result> ChangeOrderStateAsync(System.Guid guid, int newState);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IOrderService/DeleteOrder", ReplyAction="http://tempuri.org/IOrderService/DeleteOrderResponse")]
         SharedLibs.DataContracts.Result DeleteOrder(System.Guid guid);
@@ -164,12 +164,12 @@ namespace ServiceBus.OrderServiceProxyClass {
             return base.Channel.GetAllOrdersAsync();
         }
         
-        public SharedLibs.DataContracts.Result AddOrder(System.Guid guid, SharedLibs.DataContracts.Basket basket, SharedLibs.DataContracts.Address deliveryAddress, SharedLibs.DataContracts.BillingInformation billingInformation, System.DateTime orderDate, System.DateTime deliveryDate, SharedLibs.Enums.OrderStateType orderState) {
-            return base.Channel.AddOrder(guid, basket, deliveryAddress, billingInformation, orderDate, deliveryDate, orderState);
+        public SharedLibs.DataContracts.Result AddOrder(System.Guid guid, SharedLibs.DataContracts.Basket basket, SharedLibs.DataContracts.User user, SharedLibs.DataContracts.Address deliveryAddress, SharedLibs.DataContracts.BillingInformation billingInformation, System.DateTime orderDate, System.DateTime deliveryDate, SharedLibs.DataContracts.OrderState orderState) {
+            return base.Channel.AddOrder(guid, basket, user, deliveryAddress, billingInformation, orderDate, deliveryDate, orderState);
         }
         
-        public System.Threading.Tasks.Task<SharedLibs.DataContracts.Result> AddOrderAsync(System.Guid guid, SharedLibs.DataContracts.Basket basket, SharedLibs.DataContracts.Address deliveryAddress, SharedLibs.DataContracts.BillingInformation billingInformation, System.DateTime orderDate, System.DateTime deliveryDate, SharedLibs.Enums.OrderStateType orderState) {
-            return base.Channel.AddOrderAsync(guid, basket, deliveryAddress, billingInformation, orderDate, deliveryDate, orderState);
+        public System.Threading.Tasks.Task<SharedLibs.DataContracts.Result> AddOrderAsync(System.Guid guid, SharedLibs.DataContracts.Basket basket, SharedLibs.DataContracts.User user, SharedLibs.DataContracts.Address deliveryAddress, SharedLibs.DataContracts.BillingInformation billingInformation, System.DateTime orderDate, System.DateTime deliveryDate, SharedLibs.DataContracts.OrderState orderState) {
+            return base.Channel.AddOrderAsync(guid, basket, user, deliveryAddress, billingInformation, orderDate, deliveryDate, orderState);
         }
         
         public SharedLibs.DataContracts.Result AddOrderByObject(SharedLibs.DataContracts.Order order) {
@@ -180,20 +180,20 @@ namespace ServiceBus.OrderServiceProxyClass {
             return base.Channel.AddOrderByObjectAsync(order);
         }
         
-        public SharedLibs.DataContracts.Order EditOrder(System.Guid guid, SharedLibs.DataContracts.Basket basket, SharedLibs.DataContracts.Address deliveryAddress, SharedLibs.DataContracts.BillingInformation billingInformation, System.DateTime deliveryDate, SharedLibs.Enums.OrderStateType orderState) {
-            return base.Channel.EditOrder(guid, basket, deliveryAddress, billingInformation, deliveryDate, orderState);
+        public SharedLibs.DataContracts.Order EditOrder(System.Guid guid, SharedLibs.DataContracts.Basket basket, SharedLibs.DataContracts.User user, SharedLibs.DataContracts.Address deliveryAddress, SharedLibs.DataContracts.BillingInformation billingInformation, System.DateTime deliveryDate) {
+            return base.Channel.EditOrder(guid, basket, user, deliveryAddress, billingInformation, deliveryDate);
         }
         
-        public System.Threading.Tasks.Task<SharedLibs.DataContracts.Order> EditOrderAsync(System.Guid guid, SharedLibs.DataContracts.Basket basket, SharedLibs.DataContracts.Address deliveryAddress, SharedLibs.DataContracts.BillingInformation billingInformation, System.DateTime deliveryDate, SharedLibs.Enums.OrderStateType orderState) {
-            return base.Channel.EditOrderAsync(guid, basket, deliveryAddress, billingInformation, deliveryDate, orderState);
+        public System.Threading.Tasks.Task<SharedLibs.DataContracts.Order> EditOrderAsync(System.Guid guid, SharedLibs.DataContracts.Basket basket, SharedLibs.DataContracts.User user, SharedLibs.DataContracts.Address deliveryAddress, SharedLibs.DataContracts.BillingInformation billingInformation, System.DateTime deliveryDate) {
+            return base.Channel.EditOrderAsync(guid, basket, user, deliveryAddress, billingInformation, deliveryDate);
         }
         
-        public SharedLibs.DataContracts.Result ChangeOrderState(System.Guid guid, SharedLibs.Enums.OrderStateType orderState) {
-            return base.Channel.ChangeOrderState(guid, orderState);
+        public SharedLibs.DataContracts.Result ChangeOrderState(System.Guid guid, int newState) {
+            return base.Channel.ChangeOrderState(guid, newState);
         }
         
-        public System.Threading.Tasks.Task<SharedLibs.DataContracts.Result> ChangeOrderStateAsync(System.Guid guid, SharedLibs.Enums.OrderStateType orderState) {
-            return base.Channel.ChangeOrderStateAsync(guid, orderState);
+        public System.Threading.Tasks.Task<SharedLibs.DataContracts.Result> ChangeOrderStateAsync(System.Guid guid, int newState) {
+            return base.Channel.ChangeOrderStateAsync(guid, newState);
         }
         
         public SharedLibs.DataContracts.Result DeleteOrder(System.Guid guid) {

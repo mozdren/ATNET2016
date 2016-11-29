@@ -9,18 +9,6 @@
     </xs:restriction>
   </xs:simpleType>
   <xs:element name="ResultType" nillable="true" type="tns:ResultType" />
-  <xs:simpleType name="OrderStateType">
-    <xs:restriction base="xs:string">
-      <xs:enumeration value="Canceled" />
-      <xs:enumeration value="Created" />
-      <xs:enumeration value="Changed" />
-      <xs:enumeration value="ReadyToSend" />
-      <xs:enumeration value="Sent" />
-      <xs:enumeration value="Paid" />
-      <xs:enumeration value="Finished" />
-    </xs:restriction>
-  </xs:simpleType>
-  <xs:element name="OrderStateType" nillable="true" type="tns:OrderStateType" />
   <xs:simpleType name="PDFDocumentType">
     <xs:restriction base="xs:string">
       <xs:enumeration value="Order" />

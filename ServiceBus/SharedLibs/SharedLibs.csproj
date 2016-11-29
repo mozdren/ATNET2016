@@ -61,6 +61,7 @@
     <Compile Include="DataContracts\DTO.cs" />
     <Compile Include="DataContracts\IPluralized.cs" />
     <Compile Include="DataContracts\Order.cs" />
+    <Compile Include="DataContracts\OrderState.cs" />
     <Compile Include="DataContracts\Pluralizations.cs" />
     <Compile Include="DataContracts\Pluralized.cs" />
     <Compile Include="DataContracts\Product.cs" />
