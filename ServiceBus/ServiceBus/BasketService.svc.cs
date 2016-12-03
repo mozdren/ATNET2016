@@ -1,5 +1,7 @@
 ﻿using System;
+using ServiceBus.EntityModels;
 using SharedLibs.DataContracts;
+using System.Collections.Generic;
 
 namespace ServiceBus
 {
@@ -69,9 +71,32 @@ namespace ServiceBus
         /// <param name="basketId">basket id</param>
         /// <param name="campaignId">camaping id</param>
         /// <returns>result information</returns>
-        public Basket CreateBasket()
+        public SharedLibs.DataContracts.Basket CreateBasket()
         {
-            return new Basket { Result = Result.Fatal("Not Implemented") };
+            try
+            {
+                using (var context = new EntityModels.ServiceBusDatabaseEntities())
+                    {
+                    EntityModels.Basket b = context.Baskets.Add(new EntityModels.Basket() {
+                            Id = Guid.NewGuid()
+                        });
+                        context.SaveChanges();
+                        b = context.Baskets.Attach(b);
+                        return new SharedLibs.DataContracts.Basket()
+                        {
+                            Id = b.Id,
+                            Result = SharedLibs.DataContracts.Result.SuccessFormat("Basket {0} was created.", b.Id)
+                        };
+                        
+                    }
+                
+               
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Creation of basket failed. "+ex.Message);
+            }
+            
         }
 
         /// <summary>
@@ -79,9 +104,26 @@ namespace ServiceBus
         /// </summary>
         /// <param name="basket id"></param>
         /// <returns>basket with reqested id</returns>
-        public Basket GetBasket(Guid basketId)
+        public SharedLibs.DataContracts.Basket GetBasket(Guid basketId)
         {
-            return new Basket { Result = Result.Fatal("Not Implemented") };
+            try
+            {
+                using (var context = new EntityModels.ServiceBusDatabaseEntities())
+                {
+                    var basket = context.Baskets.Find(basketId);
+                    return new SharedLibs.DataContracts.Basket()
+                    {
+                        Id = basketId,
+                       // BasketItems = (List<SharedLibs.DataContracts.BasketItem>)basket.BasketItems,
+                        Result = SharedLibs.DataContracts.Result.SuccessFormat("Basket {0} found.", basketId)
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                //Console.Write(ex.Message);
+                return null;
+            }
         }
     }
 }
