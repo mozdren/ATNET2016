@@ -907,7 +907,7 @@
           <Property Name="ProductId" Type="Guid" Nullable="false" />
           <NavigationProperty Name="Storage" Relationship="DatabaseModel.StorageStorageItem" FromRole="StorageItem" ToRole="Storage" />
           <Property Name="StorageId" Type="Guid" Nullable="false" />
-          <Property Name="Quantity" Type="Guid" Nullable="false" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
         </EntityType>
         <Association Name="ProductStorageItem">
           <End Type="DatabaseModel.Product" Role="Product" Multiplicity="1" />

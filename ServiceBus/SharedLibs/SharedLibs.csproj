@@ -65,6 +65,10 @@
     <Compile Include="DataContracts\Pluralizations.cs" />
     <Compile Include="DataContracts\Pluralized.cs" />
     <Compile Include="DataContracts\Product.cs" />
+    <Compile Include="DataContracts\ProductType.cs" />
+    <Compile Include="DataContracts\StorageItem.cs" />
+    <Compile Include="DataContracts\Reservation.cs" />
+    <Compile Include="DataContracts\Repair.cs" />
     <Compile Include="DataContracts\Result.cs" />
     <Compile Include="DataContracts\User.cs" />
     <Compile Include="Enums\OrderStateEnums.cs" />
