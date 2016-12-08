@@ -104,7 +104,7 @@ namespace ServiceBus
         /// <param name="guid">ID of a new prodcut</param>
         /// <returns>Result object</returns>
         public Result AddProduct(string name, double price, Guid guid)
-        {
+        {   //TODO:Fix.
             try
             {
                 if ((!string.IsNullOrWhiteSpace(name) && name.Length <= 50) && price >= 0)
@@ -205,7 +205,7 @@ namespace ServiceBus
         }
 
         /// <summary>
-        /// Delete product item from datasource
+        /// Marks product as not enabled
         /// </summary>
         /// <param name="guid">ID of a product</param>
         /// <returns>Result object</returns>
@@ -217,9 +217,9 @@ namespace ServiceBus
                 {
                     var product = context.Products.FirstOrDefault(p => p.Id == guid);
 
-                    if (product != null)
+                    if (product != null && product.Enabled)
                     {
-                        context.Products.Remove(product);
+                        product.Enabled = false;
                         context.SaveChanges();
 
                         return Result.SuccessFormat("Product {0} - {1} has been deleted.", product.Id, product.Name);
