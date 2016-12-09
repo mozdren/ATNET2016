@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using SharedLibs.DataContracts;
+using SharedLibs.Enums;
 
 namespace ServiceBus.Mock
 {
@@ -15,7 +16,7 @@ namespace ServiceBus.Mock
         /// </summary>
         /// <param name="product">product to be added</param>
         /// <returns>success if added sucessfuly</returns>
-        public Result AddProduct(SharedLibs.DataContracts.Product product)
+        public Result AddProduct(SharedLibs.DataContracts.Product product, ProductTypes productType)
         {
             return Result.SuccessFormat("Product added");
         }
@@ -24,8 +25,10 @@ namespace ServiceBus.Mock
         /// Adds product
         /// </summary>
         /// <param name="product">product to be added</param>
+        /// <param name="headliner">Specifies if a product is a main product</param>
+        /// <param name="productType">Type of a product</param>
         /// <returns>success if added successfully</returns>
-        public Result AddProduct(string name, double price, Guid guid)
+        public Result AddProduct(string name, double price, Guid guid, ProductTypes productType, bool headliner)
         {
             return Result.SuccessFormat("Product added");
         }

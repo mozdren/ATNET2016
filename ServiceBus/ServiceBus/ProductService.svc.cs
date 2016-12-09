@@ -91,9 +91,9 @@ namespace ServiceBus
         /// </summary>
         /// <param name="product">Product object</param>
         /// <returns>Result object</returns>
-        public Result AddProduct(SharedLibs.DataContracts.Product product)
-        {
-            return AddProduct(product.Name, product.Price, product.ID);
+        public Result AddProduct(SharedLibs.DataContracts.Product product, ProductTypes productType)
+        {   //TODO: FIX DTO is obsolote
+            return AddProduct(product.Name, product.Price, product.ID, productType);
         }
 
         /// <summary>
@@ -103,16 +103,17 @@ namespace ServiceBus
         /// <param name="price">Price of a new product</param>
         /// <param name="guid">ID of a new prodcut</param>
         /// <returns>Result object</returns>
-        public Result AddProduct(string name, double price, Guid guid)
-        {   //TODO:Fix.
+        public Result AddProduct(string name, double price, Guid guid, ProductTypes productType, bool headliner = false)
+        {   
             try
             {
                 if ((!string.IsNullOrWhiteSpace(name) && name.Length <= 50) && price >= 0)
                 {
                     using (var context = new EntityModels.ServiceBusDatabaseEntities())
                     {
+                        var type = context.ProductTypes.FirstOrDefault(p => p.Type == productType.ToString());
 
-                        context.Products.Add(new EntityModels.Product() { Id = guid, Name = name, Price = price});
+                        context.Products.Add(new EntityModels.Product() { Id = guid, Name = name, Price = price, Enabled = true, Headliner = headliner, ProductType = type ?? null}); //Tohle bude hazet chyby
                         context.SaveChanges();
 
                         return Result.SuccessFormat("Product {0} | {1} has been added", guid, name);
