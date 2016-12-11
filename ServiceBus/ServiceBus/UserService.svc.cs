@@ -4,15 +4,55 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
+using SharedLibs.DataContracts;
 
 namespace ServiceBus
 {
-    // NOTE: You can use the "Rename" command on the "Refactor" menu to change the class name "UserService" in code, svc and config file together.
-    // NOTE: In order to launch WCF Test Client for testing this service, please select UserService.svc or UserService.svc.cs at the Solution Explorer and start debugging.
     public class UserService : IUserService
     {
-        public void DoWork()
+        public User Create()
         {
+            throw new NotImplementedException();
+        }
+
+        public User Create(string name, string surname, string login, string password, string email, string phone, string salt)
+        {
+            throw new NotImplementedException();
+        }
+
+        public User GetUser(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public User GetUser(string login, string password)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Users GetAllUsers()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Result Delete(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Result UpdateUser(string name, string surname, string email, string phone, string salt)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Result AddAddressToUser(Guid id, Address address)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Result UpdateUserPassword(Guid id, string password)
+        {
+            throw new NotImplementedException();
         }
     }
 }
