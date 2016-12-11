@@ -41,15 +41,6 @@ namespace ServiceBus
         Result AddProduct(string name, double price, Guid guid, ProductTypes productType, bool headliner);
 
         /// <summary>
-        /// This method adds product into the datasource
-        /// </summary>
-        /// <param name="product">Product object</param>
-        /// <param name="productType">Type of a product</param>
-        /// <returns>Result object</returns>
-        [OperationContract (Name = "AddProductByObject")]
-        Result AddProduct(Product product, ProductTypes productType);
-
-        /// <summary>
         /// This method edits product in case product exists
         /// </summary>
         /// <param name="guid">ID of a product</param>

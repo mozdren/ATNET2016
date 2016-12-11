@@ -87,6 +87,8 @@ namespace ServiceBus
         }
 
         /// <summary>
+<<<<<<< HEAD
+=======
         /// This method adds product into the datasource
         /// </summary>
         /// <param name="product">Product object</param>
@@ -97,6 +99,7 @@ namespace ServiceBus
             return AddProduct(product.Name, product.Price, product.ID, productType);
 
         /// <summary>
+>>>>>>> origin/VISpocka
         /// This method adds product into datasource
         /// </summary>
         /// <param name="name">Name of a new product</param>
