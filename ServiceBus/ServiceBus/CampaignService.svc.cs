@@ -1,7 +1,7 @@
-﻿using System;
-using System.Linq;
+﻿using SharedLibs.DataContracts;
+using System;
 using System.Collections.Generic;
-using SharedLibs.DataContracts;
+using System.Linq;
 
 namespace ServiceBus
 {
@@ -25,7 +25,7 @@ namespace ServiceBus
 
                     return new Campaign()
                     {
-                        Result =  Result.SuccessFormat("Campaign {0} found", guid),
+                        Result = Result.SuccessFormat("Campaign {0} found", guid),
                         Id = guid,
                         Name = campaign.Name,
                         Discount = campaign.Discount.HasValue ? campaign.Discount.Value : 0.0
@@ -83,8 +83,29 @@ namespace ServiceBus
 
         public Result AddCampaign(Guid guid, string name, double discount)
         {
-            //before continuing is necessary to add Campaign to ServiceBusDatabaseEntities
-            return Result.Fatal("Not Implemented");
+            try
+            {
+
+                if ((!string.IsNullOrWhiteSpace(name) && name.Length <= 50) && discount >= 0)
+                {
+                    using (var context = new EntityModels.ServiceBusDatabaseEntities())
+                    {
+
+                        context.Campaigns.Add(new EntityModels.Campaign() { Id = guid, Name = name, Discount = discount });
+                        context.SaveChanges();
+
+                        return Result.SuccessFormat("Product {0} | {1} has been added", guid, name);
+                    }
+                }
+                else
+                {
+                    return Result.Error("Provided parameters are unacceptable.");
+                }
+            }
+            catch (Exception ex)
+            {
+                return Result.FatalFormat("ProductService.AddProduct Exception: {0}", ex.Message);
+            }
         }
 
         public Campaign EditCampaign(Guid guid, string name, double discount)
