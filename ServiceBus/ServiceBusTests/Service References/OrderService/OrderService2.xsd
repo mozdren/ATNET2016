@@ -9,6 +9,14 @@
     </xs:restriction>
   </xs:simpleType>
   <xs:element name="ResultType" nillable="true" type="tns:ResultType" />
+  <xs:simpleType name="PDFDocumentType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Order" />
+      <xs:enumeration value="Invoice" />
+      <xs:enumeration value="DeliveryNote" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="PDFDocumentType" nillable="true" type="tns:PDFDocumentType" />
   <xs:simpleType name="OrderStateType">
     <xs:restriction base="xs:string">
       <xs:enumeration value="Canceled" />

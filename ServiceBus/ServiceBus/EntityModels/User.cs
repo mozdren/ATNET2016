@@ -41,6 +41,16 @@ public partial class User
 
     public string Salt { get; set; }
 
+    public string Login { get; set; }
+
+    public string Password { get; set; }
+
+    public string Name { get; set; }
+
+    public string Surname { get; set; }
+
+    public Nullable<System.Guid> Address_Id { get; set; }
+
 
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -54,6 +64,8 @@ public partial class User
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 
     public virtual ICollection<Repair> Repairs { get; set; }
+
+    public virtual Address Address { get; set; }
 
 }
 

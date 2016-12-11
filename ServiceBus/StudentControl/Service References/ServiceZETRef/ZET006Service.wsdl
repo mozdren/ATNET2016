@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="ZET006Service" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://localhost:54222/ZET006Service.svc?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://localhost:54222/ZET006Service.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://localhost:54222/ZET006Service.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" />
+      <xsd:import schemaLocation="http://localhost:54222/ZET006Service.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/SharedLibs.Enums" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IZET006Service_GetStudent_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetStudent" />
+  </wsdl:message>
+  <wsdl:message name="IZET006Service_GetStudent_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetStudentResponse" />
+  </wsdl:message>
+  <wsdl:message name="IZET006Service_GetAllStudents_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllStudents" />
+  </wsdl:message>
+  <wsdl:message name="IZET006Service_GetAllStudents_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllStudentsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IZET006Service_GetAllStudentsSortedBySurname_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllStudentsSortedBySurname" />
+  </wsdl:message>
+  <wsdl:message name="IZET006Service_GetAllStudentsSortedBySurname_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllStudentsSortedBySurnameResponse" />
+  </wsdl:message>
+  <wsdl:message name="IZET006Service_GetStudentsByCity_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetStudentsByCity" />
+  </wsdl:message>
+  <wsdl:message name="IZET006Service_GetStudentsByCity_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetStudentsByCityResponse" />
+  </wsdl:message>
+  <wsdl:message name="IZET006Service_SendStudentsByEmail_InputMessage">
+    <wsdl:part name="parameters" element="tns:SendStudentsByEmail" />
+  </wsdl:message>
+  <wsdl:message name="IZET006Service_SendStudentsByEmail_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SendStudentsByEmailResponse" />
+  </wsdl:message>
+  <wsdl:message name="IZET006Service_CreateHtmlDocument_InputMessage">
+    <wsdl:part name="parameters" element="tns:CreateHtmlDocument" />
+  </wsdl:message>
+  <wsdl:message name="IZET006Service_CreateHtmlDocument_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CreateHtmlDocumentResponse" />
+  </wsdl:message>
+  <wsdl:portType name="IZET006Service">
+    <wsdl:operation name="GetStudent">
+      <wsdl:input wsaw:Action="http://tempuri.org/IZET006Service/GetStudent" message="tns:IZET006Service_GetStudent_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IZET006Service/GetStudentResponse" message="tns:IZET006Service_GetStudent_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAllStudents">
+      <wsdl:input wsaw:Action="http://tempuri.org/IZET006Service/GetAllStudents" message="tns:IZET006Service_GetAllStudents_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IZET006Service/GetAllStudentsResponse" message="tns:IZET006Service_GetAllStudents_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAllStudentsSortedBySurname">
+      <wsdl:input wsaw:Action="http://tempuri.org/IZET006Service/GetAllStudentsSortedBySurname" message="tns:IZET006Service_GetAllStudentsSortedBySurname_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IZET006Service/GetAllStudentsSortedBySurnameResponse" message="tns:IZET006Service_GetAllStudentsSortedBySurname_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetStudentsByCity">
+      <wsdl:input wsaw:Action="http://tempuri.org/IZET006Service/GetStudentsByCity" message="tns:IZET006Service_GetStudentsByCity_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IZET006Service/GetStudentsByCityResponse" message="tns:IZET006Service_GetStudentsByCity_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SendStudentsByEmail">
+      <wsdl:input wsaw:Action="http://tempuri.org/IZET006Service/SendStudentsByEmail" message="tns:IZET006Service_SendStudentsByEmail_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IZET006Service/SendStudentsByEmailResponse" message="tns:IZET006Service_SendStudentsByEmail_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateHtmlDocument">
+      <wsdl:input wsaw:Action="http://tempuri.org/IZET006Service/CreateHtmlDocument" message="tns:IZET006Service_CreateHtmlDocument_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IZET006Service/CreateHtmlDocumentResponse" message="tns:IZET006Service_CreateHtmlDocument_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BasicHttpBinding_IZET006Service" type="tns:IZET006Service">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetStudent">
+      <soap:operation soapAction="http://tempuri.org/IZET006Service/GetStudent" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllStudents">
+      <soap:operation soapAction="http://tempuri.org/IZET006Service/GetAllStudents" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllStudentsSortedBySurname">
+      <soap:operation soapAction="http://tempuri.org/IZET006Service/GetAllStudentsSortedBySurname" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetStudentsByCity">
+      <soap:operation soapAction="http://tempuri.org/IZET006Service/GetStudentsByCity" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendStudentsByEmail">
+      <soap:operation soapAction="http://tempuri.org/IZET006Service/SendStudentsByEmail" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateHtmlDocument">
+      <soap:operation soapAction="http://tempuri.org/IZET006Service/CreateHtmlDocument" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ZET006Service">
+    <wsdl:port name="BasicHttpBinding_IZET006Service" binding="tns:BasicHttpBinding_IZET006Service">
+      <soap:address location="http://localhost:54222/ZET006Service.svc" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

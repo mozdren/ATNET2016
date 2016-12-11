@@ -45,14 +45,14 @@ namespace SharedLibs.DataContracts
         [DataMember]
         public string Surname { set; get; }
 
-
+        /*
         /// <summary>
         /// Name of company
         /// If the customer is company
         /// </summary>
         [DataMember]
         public string CompanyName { set; get; }
-
+        */
 
         /// <summary>
         /// E-mail address
@@ -67,19 +67,20 @@ namespace SharedLibs.DataContracts
         [DataMember]
         public string PhoneNumber { set; get; }
 
-
+        /*
         /// <summary>
         /// Identification number of company
         /// </summary>
         [DataMember]
         public string IdentificationCompanyNumber { set; get; }
 
-
+ 
         /// <summary>
         /// Tax Identification number of company
         /// </summary>
         [DataMember]
         public string TaxIdentificationCompanyNumber { set; get; }
+        */
 
 
         /// <summary>
@@ -87,5 +88,13 @@ namespace SharedLibs.DataContracts
         /// </summary>
         [DataMember]
         public Address UserAddress { set; get; }
+
+
+        [DataMember]
+        public string Hash { set; get; }
+
+
+        [DataMember]
+        public string Salt { set; get; }
     }
 }

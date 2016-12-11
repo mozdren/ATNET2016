@@ -53,6 +53,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="OrderServiceTests.cs" />
     <Compile Include="ProductServiceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service References\CampaignService\Reference.cs">
@@ -76,6 +77,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="Properties\DataSources\SharedLibs.DataContracts.Order.datasource" />
+    <None Include="Properties\DataSources\SharedLibs.DataContracts.Orders.datasource" />
+    <None Include="Properties\DataSources\SharedLibs.DataContracts.Result.datasource" />
+    <None Include="Properties\DataSources\SharedLibs.DataContracts.Student.datasource" />
+    <None Include="Properties\DataSources\SharedLibs.DataContracts.Students.datasource" />
     <None Include="Service References\CampaignService\CampaignService.wsdl" />
     <None Include="Service References\CampaignService\CampaignService.xsd">
       <SubType>Designer</SubType>
@@ -111,16 +117,13 @@
     <None Include="Service References\OrderService\OrderService3.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\OrderService\ServiceBusTests.OrderService.CreateInvoiceResponse.datasource">
+    <None Include="Service References\OrderService\ServiceBusTests.OrderService.CreateNewOrderResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Service References\OrderService\ServiceBusTests.OrderService.Order.datasource">
+    <None Include="Service References\OrderService\ServiceBusTests.OrderService.CreatePDFDocumentResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Service References\OrderService\ServiceBusTests.OrderService.Orders.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\OrderService\ServiceBusTests.OrderService.Result.datasource">
+    <None Include="Service References\OrderService\ServiceBusTests.OrderService.GetOrderStateResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Service References\ProductService\ProductService.wsdl" />
@@ -195,6 +198,16 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ServiceBus\ServiceBus.csproj">
+      <Project>{F30F751B-D9F1-4D67-8CE5-3D710B07B08F}</Project>
+      <Name>ServiceBus</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SharedLibs\SharedLibs.csproj">
+      <Project>{d9c3eaff-89ab-49d4-9880-21b7430dec22}</Project>
+      <Name>SharedLibs</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

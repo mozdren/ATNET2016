@@ -54,5 +54,5 @@
     /// </summary>
     public class Products : Pluralized<Product>
     {
-    }
+    }    
 }

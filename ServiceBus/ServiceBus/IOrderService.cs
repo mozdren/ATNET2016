@@ -16,8 +16,8 @@ namespace ServiceBus
         /// <summary>
         /// Returns an order with requested Guid
         /// </summary>
-        /// <param name="guid">guid of a order</param>
-        /// <returns>requested order</returns>
+        /// <param name="guid">Guid of a order</param>
+        /// <returns>Requested order object</returns>
         [OperationContract]
         Order GetOrder(Guid guid);
 
@@ -25,9 +25,60 @@ namespace ServiceBus
         /// <summary>
         /// Returns the list of orders
         /// </summary>
-        /// <returns>list of orders</returns>
+        /// <returns>List of orders objects</returns>
         [OperationContract]
         Orders GetAllOrders();
+
+
+        /// <summary>
+        /// Create empty order with new Guid Id, orderNumber, date of order creation and a orderState created.
+        /// To this order you can then add particular objects like basket, user, address, etc.
+        /// All these items can be then added with help methods (AddBasketToOrder, AddUserToOrder, etc.) to newly created order to DB too
+        /// </summary>
+        /// <param name="orderId">Return value of Id of order which was newly created</param>
+        /// <returns>Result object</returns>
+        [OperationContract]
+        Result CreateNewOrder(out Guid orderId);
+
+
+        /// <summary>
+        /// Add basket object to created Order
+        /// </summary>
+        /// <param name="orderId">Id of order which you want to add a basket object to</param>
+        /// <param name="basket">Reference to a basket object you want to add</param>
+        /// <returns>Result object</returns>
+        [OperationContract]
+        Result AddBasketToOrder(Guid orderId, Basket basket);
+
+
+        /// <summary>
+        /// Add user object to created order
+        /// </summary>
+        /// <param name="orderId">Id of order which you want to add a user object to</param>
+        /// <param name="user">Reference to a user object you want to add</param>
+        /// <returns>Result object</returns>
+        [OperationContract]
+        Result AddUserToOrder(Guid orderId, User user);
+
+
+        /// <summary>
+        /// Add address object (in this case delivery address) to created order
+        /// </summary>
+        /// <param name="orderId">Id of order which you want to add an address object to</param>
+        /// <param name="deliveryAddress">Reference to an address object you want to add</param>
+        /// <returns>Result object</returns>
+        [OperationContract]
+        Result AddAddressToOrder(Guid orderId, Address deliveryAddress);
+
+
+        /// <summary>
+        /// Add a billingInformation object to created order
+        /// </summary>
+        /// <param name="orderId">Id of order which you want to add a billingInformation object to</param>
+        /// <param name="billingInformation">Reference to a billingInformation object you want to add</param>
+        /// <returns>Result object</returns>
+        [OperationContract]
+        Result AddBillingInformationToOrder(Guid orderId, BillingInformation billingInformation);
 
 
         /// <summary>
@@ -35,7 +86,8 @@ namespace ServiceBus
         /// </summary>
         /// <param name="guid">ID of a order</param>
         /// <param name="basket">Reference to a basket object</param>
-        /// <param name="address">Reference to an address object</param>
+        /// <param name="user">Reference to a user object</param>
+        /// <param name="deliveryAddress">Reference to an address object</param>
         /// <param name="billingInformation">Reference to a billingInformation object</param>
         /// <param name="orderDate">Order creation date</param>
         /// <param name="deliveryDate">Order delivery date</param>
@@ -59,7 +111,7 @@ namespace ServiceBus
         /// <param name="order">Order object</param>
         /// <returns>Result object</returns>
         [OperationContract(Name = "AddOrderByObject")]
-        Result AddOrder(SharedLibs.DataContracts.Order order);
+        Result AddOrder(Order order);
 
 
         /// <summary>
@@ -153,5 +205,23 @@ namespace ServiceBus
             Order order,
             PDFDocumentType documentType, 
             out string pdfFilePath);
+
+
+        /// <summary>
+        /// Returns requested order state according enum order state type
+        /// Used enums:
+        /// 0 - canceled
+        /// 1 - created
+        /// 2 - changed
+        /// 3 - readyToSend
+        /// 4 - sent
+        /// 5 - paid
+        /// 6 - finished
+        /// </summary>
+        /// <param name="orderState">Returned Id of requested order state</param>
+        /// <param name="orderStateType">Choosen enum value of order state</param>
+        /// <returns>Result object</returns>
+        [OperationContract]
+        Result GetOrderState(OrderStateType orderStateType, out Guid orderState);
     }
 }

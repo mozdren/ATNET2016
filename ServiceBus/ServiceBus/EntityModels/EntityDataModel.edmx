@@ -152,6 +152,11 @@
           <Property Name="Phone" Type="nvarchar(max)" />
           <Property Name="Hash" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Salt" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Login" Type="nvarchar(max)" />
+          <Property Name="Password" Type="nvarchar(max)" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Surname" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Address_Id" Type="uniqueidentifier" />
         </EntityType>
         <Association Name="FK_AddressOrder">
           <End Role="Addresses" Type="Self.Addresses" Multiplicity="0..1" />
@@ -405,6 +410,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Users_Addresses">
+          <End Role="Addresses" Type="Self.Addresses" Multiplicity="0..1" />
+          <End Role="Users" Type="Self.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Addresses">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="Address_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="DatabaseModelStoreContainer">
           <EntitySet Name="Addresses" EntityType="Self.Addresses" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BasketItems" EntityType="Self.BasketItems" Schema="dbo" store:Type="Tables" />
@@ -504,6 +521,10 @@
           <AssociationSet Name="FK_UserReservation" Association="Self.FK_UserReservation">
             <End Role="Users" EntitySet="Users" />
             <End Role="Reservations" EntitySet="Reservations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_Addresses" Association="Self.FK_Users_Addresses">
+            <End Role="Addresses" EntitySet="Addresses" />
+            <End Role="Users" EntitySet="Users" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -625,6 +646,10 @@
             <End Role="OrderStatus" EntitySet="OrderStatus" />
             <End Role="Order" EntitySet="Orders" />
           </AssociationSet>
+          <AssociationSet Name="UserAddress" Association="DatabaseModel.UserAddress">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Address" EntitySet="Addresses" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Basket">
           <Key>
@@ -697,6 +722,12 @@
           <Property Name="Salt" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="Reservations" Relationship="DatabaseModel.UserReservation" FromRole="User" ToRole="Reservation" />
           <NavigationProperty Name="Repairs" Relationship="DatabaseModel.UserRepair" FromRole="User" ToRole="Repair" />
+          <Property Name="Login" Type="String" Nullable="true" />
+          <Property Name="Password" Type="String" Nullable="true" />
+          <Property Name="Name" Type="String" Nullable="false" />
+          <Property Name="Surname" Type="String" Nullable="false" />
+          <NavigationProperty Name="Address" Relationship="DatabaseModel.UserAddress" FromRole="User" ToRole="Address" />
+          <Property Name="Address_Id" Type="Guid" />
         </EntityType>
         <EntityType Name="BillingInformation">
           <Key>
@@ -723,6 +754,7 @@
           <NavigationProperty Name="Orders" Relationship="DatabaseModel.AddressOrder" FromRole="Address" ToRole="Order" />
           <Property Name="City" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="Storage" Relationship="DatabaseModel.StorageAddress" FromRole="Address" ToRole="Storage" />
+          <NavigationProperty Name="User" Relationship="DatabaseModel.UserAddress" FromRole="Address" ToRole="User" />
         </EntityType>
         <Association Name="BillingInformationAddress">
           <End Type="DatabaseModel.BillingInformation" Role="BillingInformation" Multiplicity="0..1" />
@@ -747,6 +779,7 @@
           <Property Name="OrderStatusId" Type="Guid" Nullable="false" />
           <Property Name="CustNotes" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <Property Name="OrderNumber" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Basket_Id" Type="Guid" Nullable="false" />
         </EntityType>
         <Association Name="AddressOrder">
           <End Type="DatabaseModel.Address" Role="Address" Multiplicity="0..1" />
@@ -1008,6 +1041,10 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="UserAddress">
+          <End Type="DatabaseModel.User" Role="User" Multiplicity="1" />
+          <End Type="DatabaseModel.Address" Role="Address" Multiplicity="0..1" />
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1059,7 +1096,12 @@
     <EntitySetMapping Name="Users">
       <EntityTypeMapping TypeName="IsTypeOf(DatabaseModel.User)">
         <MappingFragment StoreEntitySet="Users">
-          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Login" ColumnName="Login" />
+                <ScalarProperty Name="Address_Id" ColumnName="Address_Id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Email" ColumnName="Email" />
           <ScalarProperty Name="Phone" ColumnName="Phone" />
           <ScalarProperty Name="Hash" ColumnName="Hash" />
@@ -1093,7 +1135,8 @@
     <EntitySetMapping Name="Orders">
       <EntityTypeMapping TypeName="IsTypeOf(DatabaseModel.Order)">
         <MappingFragment StoreEntitySet="Orders">
-          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Basket_Id" ColumnName="Basket_Id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
           <ScalarProperty Name="DeliveryDate" ColumnName="DeliveryDate" />
           <ScalarProperty Name="AddressId" ColumnName="AddressId" />
@@ -1213,6 +1256,14 @@
       </EndProperty>
       <Condition ColumnName="ProductType_Id" IsNull="false" />
     </AssociationSetMapping>
+          <AssociationSetMapping Name="UserAddress" TypeName="DatabaseModel.UserAddress" StoreEntitySet="Addresses">
+            <EndProperty Name="Address">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+            <EndProperty Name="User">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+          </AssociationSetMapping>
   </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>

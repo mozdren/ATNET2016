@@ -11,11 +11,11 @@
         <EntityTypeShape EntityType="DatabaseModel.BasketItem" Width="1.5" PointX="10.125" PointY="1.5" />
         <AssociationConnector Association="DatabaseModel.ProductBasketItem" />
         <AssociationConnector Association="DatabaseModel.BasketBasketItem" />
-        <EntityTypeShape EntityType="DatabaseModel.User" Width="1.5" PointX="13" PointY="0.625" />
+        <EntityTypeShape EntityType="DatabaseModel.User" Width="1.5" PointX="13" PointY="0.5" />
         <EntityTypeShape EntityType="DatabaseModel.BillingInformation" Width="2.125" PointX="15.375" PointY="6.625" />
-        <EntityTypeShape EntityType="DatabaseModel.Address" Width="2" PointX="12.75" PointY="8.25" />
+        <EntityTypeShape EntityType="DatabaseModel.Address" Width="2" PointX="12.5" PointY="11.125" />
         <AssociationConnector Association="DatabaseModel.BillingInformationAddress" />
-        <EntityTypeShape EntityType="DatabaseModel.Order" Width="1.75" PointX="12.875" PointY="3.875" />
+        <EntityTypeShape EntityType="DatabaseModel.Order" Width="1.75" PointX="12.75" PointY="5.875" />
         <AssociationConnector Association="DatabaseModel.AddressOrder" />
         <AssociationConnector Association="DatabaseModel.BillingInformationOrder" ManuallyRouted="false" >
         </AssociationConnector>
@@ -45,6 +45,8 @@
         <AssociationConnector Association="DatabaseModel.CampaignProductType" />
         <EntityTypeShape EntityType="DatabaseModel.OrderStatus" Width="1.5" PointX="15.75" PointY="3.5" />
         <AssociationConnector Association="DatabaseModel.OrderStatusOrder" />
+        <AssociationConnector Association="DatabaseModel.UserAddress" ManuallyRouted="false" >
+        </AssociationConnector>
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -24,8 +24,8 @@ namespace SharedLibs
         public static float[] invoiceColumnWidths = new float[INVOICE_HEADER_COLUMN_COUNT] { 80.0f, 230.0f, 100.0f, 80.0f, 100.0f };
         public static float[] deliveryNoteInfoTableColumnWidths = new float[DELIVERY_NOTE_INFO_COLUMN_COUNT] { 40.0f, 40.0f, 20.0f };
         public static float[] deliveryNoteHeaderTableColumnWidths = new float[DELIVERY_NOTE_HEADER_COLUMN_COUNT] { 40.0f, 80.0f, 300.0f, 100.0f, 80.0f, 100.0f };
-        public const string DIRECTORY_PATH = @".\Files";
-        public const string FILE_PATH = DIRECTORY_PATH + @"\" + "pdfDocument.pdf";
+        public static string currentDirectory = AppDomain.CurrentDomain.BaseDirectory;
+        public static string directoryPath = currentDirectory + @"\Files";
         public const string COMPANY_TITLE = "NÁŠ ESHOP VŠB s.r.o. ";
         public const string COMPANY_ADDRESS = "Pod mostem 55, 123 99 Kotěhůlky";
         public const string COMPANY_IDENT_NUMBERS = "IČ: 12345678   DIČ: CZ13245678";

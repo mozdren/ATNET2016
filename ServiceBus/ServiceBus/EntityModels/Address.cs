@@ -53,6 +53,8 @@ public partial class Address
 
     public virtual Storage Storage { get; set; }
 
+    public virtual User User { get; set; }
+
 }
 
 }

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://localhost:54222/ZET006Service.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/SharedLibs.Enums" />
+  <xs:complexType name="Student">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:DTO">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Age" type="xs:int" />
+          <xs:element minOccurs="0" name="City" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="StudentId" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Surname" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="Student" nillable="true" type="tns:Student" />
+  <xs:complexType name="DTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Result" nillable="true" type="tns:Result" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="DTO" nillable="true" type="tns:DTO" />
+  <xs:complexType name="Result">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Message" nillable="true" type="xs:string" />
+      <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/SharedLibs.Enums" minOccurs="0" name="ResultType" type="q1:ResultType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Result" nillable="true" type="tns:Result" />
+  <xs:complexType name="Students">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:PluralizedOfStudentgUMYyf5D">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="Students" nillable="true" type="tns:Students" />
+  <xs:complexType name="PluralizedOfStudentgUMYyf5D">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="PluralizedOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="Student" Namespace="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:DTO">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Items" nillable="true" type="tns:ArrayOfStudent" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="PluralizedOfStudentgUMYyf5D" nillable="true" type="tns:PluralizedOfStudentgUMYyf5D" />
+  <xs:complexType name="ArrayOfStudent">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Student" nillable="true" type="tns:Student" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfStudent" nillable="true" type="tns:ArrayOfStudent" />
+</xs:schema>

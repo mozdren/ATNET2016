@@ -21,7 +21,6 @@ namespace ServiceBus
         /// </summary>
         /// <param name="guid">Order ID number</param>
         /// <returns>Order object</returns>
-
         public Order GetOrder(Guid guid)
         {
             try
@@ -48,7 +47,29 @@ namespace ServiceBus
                             BasketItems = (List<BasketItem>) order.Basket.BasketItems,
                             BasketCampaings = (List<Campaign>) order.Basket.CampaignItems
                         },
-                        User = new User(),   // temporary state
+                        User = new User()
+                        {
+                            Id = order.User.Id,
+                            EmailAddress = order.User.Email,
+                            PhoneNumber = order.User.Phone,
+                            Hash = order.User.Hash,
+                            Salt = order.User.Salt,
+                            Login = order.User.Login,
+                            Password = order.User.Password,
+                            Name = order.User.Name,
+                            Surname = order.User.Surname,
+                            UserAddress = new Address()
+                            {
+                                Id = order.User.Address.Id,
+                                PostCode = order.User.Address.PostCode,
+                                HouseNumber = order.User.Address.HouseNumber,
+                                HouseNumberExtension = order.User.Address.HouseNumberExtension,
+                                Street = order.User.Address.Street,
+                                City = order.User.Address.City,
+                                District = order.User.Address.District,
+                                DoorNumber = order.User.Address.DoorNumber
+                            }
+                        },
                         DeliveryAddress = new Address()
                         {
                             Id = order.Address.Id,
@@ -82,7 +103,6 @@ namespace ServiceBus
                         InvoiceNumber = order.InvoiceNr,
                         OrderState = new OrderState() { Id = order.OrderStatus.Id, Status = order.OrderStatus.Status },
                         Result = Result.SuccessFormat("Requested order ID number {0} was found.", guid)
-
                     };
                 }
             }
@@ -120,7 +140,29 @@ namespace ServiceBus
                                 BasketItems = (List<BasketItem>)order.Basket.BasketItems,  //(basketItemList != null) ? basketItemList : null,
                                 BasketCampaings = (List<Campaign>)order.Basket.CampaignItems //(campaignItemList != null) ? campaignItemList : null
                             },
-                            User = new User(),   // temporary state
+                            User = new User()
+                            {
+                                Id = order.User.Id,
+                                EmailAddress = order.User.Email,
+                                PhoneNumber = order.User.Phone,
+                                Hash = order.User.Hash,
+                                Salt = order.User.Salt,
+                                Login = order.User.Login,
+                                Password = order.User.Password,
+                                Name = order.User.Name,
+                                Surname = order.User.Surname,
+                                UserAddress = new Address()
+                                {
+                                    Id = order.User.Address.Id,
+                                    PostCode = order.User.Address.PostCode,
+                                    HouseNumber = order.User.Address.HouseNumber,
+                                    HouseNumberExtension = order.User.Address.HouseNumberExtension,
+                                    Street = order.User.Address.Street,
+                                    City = order.User.Address.City,
+                                    District = order.User.Address.District,
+                                    DoorNumber = order.User.Address.DoorNumber
+                                }
+                            },
                             DeliveryAddress = new Address()
                             {
                                 Id = order.Address.Id,
@@ -186,6 +228,297 @@ namespace ServiceBus
 
 
         /// <summary>
+        /// Create empty order with new Guid Id, orderNumber, date of order creation and a orderState created.
+        /// To this order you can then add particular objects like basket, user, address, etc.
+        /// All these items can be then added with help methods (AddBasketToOrder, AddUserToOrder, etc.) to newly created order to DB too
+        /// </summary>
+        /// <param name="orderId">Return value of Id of order which was newly created</param>
+        /// <returns>Result object</returns>
+        public Result CreateNewOrder(out Guid orderId)
+        {
+            try
+            {
+                string orderNumber = DateTime.Now.Date.ToString().Reverse().ToString() + DateTime.Now.ToShortTimeString();
+                Guid newOrderId = Guid.NewGuid();
+
+                if (newOrderId != Guid.Empty)
+                {
+                    using (var context = new EntityModels.ServiceBusDatabaseEntities())
+                    {
+                        // Finds the orderState 1 - created order
+                        var orderStatus = context.OrderStatus.FirstOrDefault(os => os.Status == 1);
+                        
+                        if (orderStatus == null)
+                        {
+                            orderId = Guid.Empty;
+                            return Result.Warning("Order state 1 - order created was not found in database");
+                        }
+                        
+                        //Create new order with basic setting
+                        EntityModels.Order newOrder = new EntityModels.Order()
+                        {
+                            Id = newOrderId,
+                            OrderNumber = orderNumber,
+                            Basket_Id = Guid.Empty,
+                            UserId = null,
+                            AddressId = null,
+                            BillingInformationId = null,
+                            OrderDate = DateTime.Now,
+                            DeliveryDate = DateTime.Now,
+                            InvoiceNr = orderNumber,
+                            OrderStatusId = Guid.Empty
+                        };
+
+                        context.Orders.Add(newOrder);
+                        context.SaveChanges();
+
+                        orderId = newOrderId;
+                        return Result.Success("It was created a new Order.");
+                    }
+                }
+                else
+                {
+                    orderId = newOrderId;
+                    return Result.Error("It was not created a new order Id or new orderStatus Id");
+                }                
+            }
+            catch (Exception exception)
+            {
+                orderId = Guid.Empty;
+                return Result.FatalFormat("In method CreateNewOrder was thrown exception: {0}.", exception.Message);
+            }
+        }
+
+
+        /// <summary>
+        /// Add basket object to created Order
+        /// </summary>
+        /// <param name="orderId">Id of order which you want to add a basket object to</param>
+        /// <param name="basket">Reference to a basket object you want to add</param>
+        /// <returns>Result object</returns>
+        public Result AddBasketToOrder(Guid orderId, Basket basket)
+        {
+            try
+            {
+                var storedOrder = GetOrder(orderId);
+
+                if (storedOrder.Result.ResultType == ResultType.Success && basket != null)
+                {
+                    var alteredOrder = new EntityModels.Order()
+                    {
+                        Id = storedOrder.Id,
+                        OrderNumber = storedOrder.OrderNumber,
+                        Basket_Id = storedOrder.Basket.Id,
+                        UserId = storedOrder.User.Id,
+                        AddressId = storedOrder.DeliveryAddress.Id,
+                        BillingInformationId = storedOrder.BillingInformation.Id,
+                        OrderDate = storedOrder.OrderDate,
+                        DeliveryDate = storedOrder.DeliveryDate,
+                        InvoiceNr = storedOrder.InvoiceNumber,
+                        OrderStatusId = storedOrder.OrderState.Id
+                    };
+
+                    using (var context = new EntityModels.ServiceBusDatabaseEntities())
+                    {
+                        context.Orders.Attach(alteredOrder);
+
+                        alteredOrder.Basket_Id = basket.Id;
+
+                        if (context.Entry(alteredOrder).State == EntityState.Unchanged)
+                        {
+                            return Result.WarningFormat("Order id {0} was not changed.", orderId);
+                        }
+                        else
+                        {
+                            context.SaveChanges();
+                            return Result.SuccessFormat("Order id {0} was changed.", orderId);
+                        }
+                    }
+                }
+                else
+                {
+                    return Result.WarningFormat("Order id {0} was not changed - the basket is null or order has not result success.", orderId);
+                }
+            }
+            catch (Exception exception)
+            {
+                return Result.FatalFormat("In method AddBasketToOrder was thrown exception: {0}.", exception.Message);
+            }
+        }
+
+
+        /// <summary>
+        /// Add user object to created order
+        /// </summary>
+        /// <param name="orderId">Id of order which you want to add a user object to</param>
+        /// <param name="user">Reference to a user object you want to add</param>
+        /// <returns>Result object</returns>
+        public Result AddUserToOrder(Guid orderId, User user)
+        {
+            try
+            {
+                var storedOrder = GetOrder(orderId);
+
+                if (storedOrder.Result.ResultType == ResultType.Success && user != null)
+                {
+                    var alteredOrder = new EntityModels.Order()
+                    {
+                        Id = storedOrder.Id,
+                        OrderNumber = storedOrder.OrderNumber,
+                        Basket_Id = storedOrder.Basket.Id,
+                        UserId = storedOrder.User.Id,
+                        AddressId = storedOrder.DeliveryAddress.Id,
+                        BillingInformationId = storedOrder.BillingInformation.Id,
+                        OrderDate = storedOrder.OrderDate,
+                        DeliveryDate = storedOrder.DeliveryDate,
+                        InvoiceNr = storedOrder.InvoiceNumber,
+                        OrderStatusId = storedOrder.OrderState.Id
+                    };
+
+                    using (var context = new EntityModels.ServiceBusDatabaseEntities())
+                    {
+                        context.Orders.Attach(alteredOrder);
+
+                        alteredOrder.UserId = user.Id;
+
+                        if (context.Entry(alteredOrder).State == EntityState.Unchanged)
+                        {
+                            return Result.WarningFormat("Order id {0} was not changed.", orderId);
+                        }
+                        else
+                        {
+                            context.SaveChanges();
+                            return Result.SuccessFormat("Order id {0} was changed.", orderId);
+                        }
+                    }
+                }
+                else
+                {
+                    return Result.WarningFormat("Order id {0} was not changed - the user is null or order has not result success.", orderId);
+                }
+            }
+            catch (Exception exception)
+            {
+                return Result.FatalFormat("In method AddUserToOrder was thrown exception: {0}.", exception.Message);
+            }
+        }
+
+
+        /// <summary>
+        /// Add address object (in this case delivery address) to created order
+        /// </summary>
+        /// <param name="orderId">Id of order which you want to add an address object to</param>
+        /// <param name="deliveryAddress">Reference to an address object you want to add</param>
+        /// <returns>Result object</returns>
+        public Result AddAddressToOrder(Guid orderId, Address deliveryAddress)
+        {
+            try
+            {
+                var storedOrder = GetOrder(orderId);
+
+                if (storedOrder.Result.ResultType == ResultType.Success && deliveryAddress != null)
+                {
+                    var alteredOrder = new EntityModels.Order()
+                    {
+                        Id = storedOrder.Id,
+                        OrderNumber = storedOrder.OrderNumber,
+                        Basket_Id = storedOrder.Basket.Id,
+                        UserId = storedOrder.User.Id,
+                        AddressId = storedOrder.DeliveryAddress.Id,
+                        BillingInformationId = storedOrder.BillingInformation.Id,
+                        OrderDate = storedOrder.OrderDate,
+                        DeliveryDate = storedOrder.DeliveryDate,
+                        InvoiceNr = storedOrder.InvoiceNumber,
+                        OrderStatusId = storedOrder.OrderState.Id
+                    };
+
+                    using (var context = new EntityModels.ServiceBusDatabaseEntities())
+                    {
+                        context.Orders.Attach(alteredOrder);
+
+                        alteredOrder.AddressId = deliveryAddress.Id;
+
+                        if (context.Entry(alteredOrder).State == EntityState.Unchanged)
+                        {
+                            return Result.WarningFormat("Order id {0} was not changed.", orderId);
+                        }
+                        else
+                        {
+                            context.SaveChanges();
+                            return Result.SuccessFormat("Order id {0} was changed.", orderId);
+                        }
+                    }
+                }
+                else
+                {
+                    return Result.WarningFormat("Order id {0} was not changed - the deliveryAddress is null or order has not result success.", orderId);
+                }
+            }
+            catch (Exception exception)
+            {
+                return Result.FatalFormat("In method AddAddressToOrder was thrown exception: {0}.", exception.Message);
+            }
+        }
+
+
+        /// <summary>
+        /// Add a billingInformation object to created order
+        /// </summary>
+        /// <param name="orderId">Id of order which you want to add a billingInformation object to</param>
+        /// <param name="billingInformation">Reference to a billingInformation object you want to add</param>
+        /// <returns>Result object</returns>
+        public Result AddBillingInformationToOrder(Guid orderId, BillingInformation billingInformation)
+        {
+            try
+            {
+                var storedOrder = GetOrder(orderId);
+
+                if (storedOrder.Result.ResultType == ResultType.Success && billingInformation != null)
+                {
+                    var alteredOrder = new EntityModels.Order()
+                    {
+                        Id = storedOrder.Id,
+                        OrderNumber = storedOrder.OrderNumber,
+                        Basket_Id = storedOrder.Basket.Id,
+                        UserId = storedOrder.User.Id,
+                        AddressId = storedOrder.DeliveryAddress.Id,
+                        BillingInformationId = storedOrder.BillingInformation.Id,
+                        OrderDate = storedOrder.OrderDate,
+                        DeliveryDate = storedOrder.DeliveryDate,
+                        InvoiceNr = storedOrder.InvoiceNumber,
+                        OrderStatusId = storedOrder.OrderState.Id
+                    };
+
+                    using (var context = new EntityModels.ServiceBusDatabaseEntities())
+                    {
+                        context.Orders.Attach(alteredOrder);
+
+                        alteredOrder.BillingInformationId = billingInformation.Id;
+
+                        if (context.Entry(alteredOrder).State == EntityState.Unchanged)
+                        {
+                            return Result.WarningFormat("Order id {0} was not changed.", orderId);
+                        }
+                        else
+                        {
+                            context.SaveChanges();
+                            return Result.SuccessFormat("Order id {0} was changed.");
+                        }
+                    }
+                }
+                else
+                {
+                    return Result.WarningFormat("Order id {0} was not changed - the billingInformation is null or order has not result success.", orderId);
+                }
+            }
+            catch (Exception exception)
+            {
+                return Result.FatalFormat("In method AddBillingInformationToOrder was thrown exception: {0}.", exception.Message);
+            }
+        }
+
+
+        /// <summary>
         /// Method adds new order to system
         /// <param name="guid">ID of a order</param>
         /// <param name="basket">Reference to basket object</param>
@@ -204,7 +537,7 @@ namespace ServiceBus
             BillingInformation billingInformation,
             DateTime orderDate,
             DateTime deliveryDate,
-            OrderState orderStatus)
+            OrderState orderState)
         {
             try
             {
@@ -219,14 +552,14 @@ namespace ServiceBus
                         {
                             Id = guid,
                             OrderNumber = orderNumber,
-                            Basket = null,  // temporary state
+                            Basket_Id = basket.Id,
                             UserId = user.Id,
                             AddressId = deliveryAddress.Id,
                             BillingInformationId = billingInformation.Id,
                             OrderDate = orderDate,
                             DeliveryDate = deliveryDate,
                             InvoiceNr = orderNumber, // as invoice number is inserted order number
-                            OrderStatusId = orderStatus.Id
+                            OrderStatusId = orderState.Id
                         };
 
                         context.Orders.Add(newOrder);
@@ -245,7 +578,7 @@ namespace ServiceBus
                 return Result.FatalFormat("In method OrderService.AddOrder was thrown exception: {0}", exception.Message);
             }
         }
-          
+
 
         /// <summary>
         /// Method adds new order to system using order object
@@ -295,7 +628,7 @@ namespace ServiceBus
                     {
                         Id = storedOrder.Id,
                         OrderNumber = storedOrder.OrderNumber,
-                        Basket = null,  // temporary state
+                        Basket_Id = storedOrder.Basket.Id,
                         UserId = storedOrder.User.Id,
                         AddressId = storedOrder.DeliveryAddress.Id,
                         BillingInformationId = storedOrder.BillingInformation.Id,
@@ -354,7 +687,29 @@ namespace ServiceBus
                                     BasketItems = (List<BasketItem>) alteredOrder.Basket.BasketItems,
                                     BasketCampaings = (List<Campaign>) alteredOrder.Basket.CampaignItems
                                 },
-                                User = new User(), // temporary state
+                                User = new User()
+                                {
+                                    Id = alteredOrder.User.Id,
+                                    EmailAddress = alteredOrder.User.Email,
+                                    PhoneNumber = alteredOrder.User.Phone,
+                                    Hash = alteredOrder.User.Hash,
+                                    Salt = alteredOrder.User.Salt,
+                                    Login = alteredOrder.User.Login,
+                                    Password = alteredOrder.User.Password,
+                                    Name = alteredOrder.User.Name,
+                                    Surname = alteredOrder.User.Surname,
+                                    UserAddress = new Address()
+                                    {
+                                        Id = alteredOrder.User.Address.Id,
+                                        PostCode = alteredOrder.User.Address.PostCode,
+                                        HouseNumber = alteredOrder.User.Address.HouseNumber,
+                                        HouseNumberExtension = alteredOrder.User.Address.HouseNumberExtension,
+                                        Street = alteredOrder.User.Address.Street,
+                                        City = alteredOrder.User.Address.City,
+                                        District = alteredOrder.User.Address.District,
+                                        DoorNumber = alteredOrder.User.Address.DoorNumber
+                                    }
+                                },
                                 DeliveryAddress = new Address()
                                 {
                                     Id = alteredOrder.Address.Id,
@@ -425,7 +780,7 @@ namespace ServiceBus
                     var alteredOrder = new EntityModels.Order()
                     {
                         Id = storedOrder.Id,
-                        Basket = null,
+                        Basket_Id = storedOrder.Basket.Id,
                         AddressId = storedOrder.DeliveryAddress.Id,
                         BillingInformationId = storedOrder.BillingInformation.Id,
                         OrderDate = storedOrder.OrderDate,
@@ -440,7 +795,7 @@ namespace ServiceBus
 
                         alteredOrder.OrderStatus.Status = newState;
 
-                        if (context.Entry(alteredOrder).State == System.Data.Entity.EntityState.Unchanged)
+                        if (context.Entry(alteredOrder).State == EntityState.Unchanged)
                         {
                             return Result.WarningFormat("State of order ID number {0} was not changed.", guid);
                         }
@@ -611,11 +966,12 @@ namespace ServiceBus
             {
                 if (user != null && order != null && !String.IsNullOrEmpty(emailText))
                 {
-                    string from = "our_company@vsb.cz";   // Temporary sender
+                    string from = "kamil.zettlitz@seznam.cz";   // Temporary sender
+                    string to = "kamilz@tiscali.cz";
                     string subject = "Objednávka číslo " + order.OrderNumber;
-                    string smtpServer = "smtpServer";   // Temporary server name
+                    string smtpServer = "smtp.senovnet.cz";
 
-                    MailMessage message = new MailMessage(from, user.EmailAddress, subject, emailText);
+                    MailMessage message = new MailMessage(from, to, subject, emailText); // recipient is set to check case
                     SmtpClient client = new SmtpClient(smtpServer); 
 
                     if (message != null && client != null)
@@ -730,12 +1086,14 @@ namespace ServiceBus
             {
                 pdfFilePath = string.Empty;
 
-                if (!Directory.Exists(PdfDocumentFields.DIRECTORY_PATH))
+                if (!Directory.Exists(PdfDocumentFields.directoryPath))
                 {
-                    Directory.CreateDirectory(PdfDocumentFields.DIRECTORY_PATH);
+                    Directory.CreateDirectory(PdfDocumentFields.directoryPath);
                 }
 
-                FileStream fs = new FileStream(PdfDocumentFields.FILE_PATH, FileMode.Create);
+                string filePath = PdfDocumentFields.directoryPath + "/" + "PdfDocument_" + order.OrderNumber + ".pdf";
+ 
+                FileStream fs = new FileStream(filePath, FileMode.Create);
 
                 if (documentType == PDFDocumentType.DeliveryNote)
                 {
@@ -1132,7 +1490,7 @@ namespace ServiceBus
                     doc.Close();
                 }
 
-                pdfFilePath = PdfDocumentFields.FILE_PATH;
+                pdfFilePath = filePath;
 
                 return Result.Success("Pdf document was created successfully");
             }
@@ -1154,6 +1512,46 @@ namespace ServiceBus
             pdfFilePath = string.Empty;
             return SharedLibs.DataContracts.Result.Fatal("Libraries missing, must be added.");
             */
-        }        
+        }
+
+
+        /// <summary>
+        /// Returns requested order state according enum order state type
+        /// Used enums:
+        /// 0 - canceled
+        /// 1 - created
+        /// 2 - changed
+        /// 3 - readyToSend
+        /// 4 - sent
+        /// 5 - paid
+        /// 6 - finished
+        /// </summary>
+        /// <param name="orderState">Returned Id of requested order state</param>
+        /// <param name="orderStateType">Choosen enum value of order state</param>
+        /// <returns>Result object</returns>
+        public Result GetOrderState(OrderStateType orderStateType, out Guid orderState)
+        {
+            try
+            {
+                using (var context = new EntityModels.ServiceBusDatabaseEntities())
+                {
+                    var orderStat = context.OrderStatus.FirstOrDefault(os => os.Status == (int)orderStateType);
+
+                    if (orderStat == null)
+                    {
+                        orderState = Guid.Empty;
+                        return Result.WarningFormat("Requested order status number {0} was not found.", (int)orderStateType);
+                    }
+
+                    orderState = orderStat.Id;
+                    return Result.Success("Requested Order state was returned successfuly");
+                }
+            }
+            catch (Exception exception)
+            {
+                orderState = Guid.Empty;
+                return Result.FatalFormat("In method GetOrderState was thrown exception: {0}.", exception.Message);
+            }
+        }
     }
 }

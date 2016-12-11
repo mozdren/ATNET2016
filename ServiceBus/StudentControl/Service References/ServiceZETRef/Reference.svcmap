@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="1d1dca9c-b420-4546-83f4-bb1729c9dd10" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:54222/ZET006Service.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="ZET006Service.xsd" MetadataType="Schema" ID="4a86460e-f01e-44c2-ace3-74d30e971b82" SourceId="1" SourceUrl="http://localhost:54222/ZET006Service.svc?xsd=xsd3" />
+    <MetadataFile FileName="ZET006Service1.xsd" MetadataType="Schema" ID="201273e2-5daa-45c3-a3fb-876f2bd24f0c" SourceId="1" SourceUrl="http://localhost:54222/ZET006Service.svc?xsd=xsd2" />
+    <MetadataFile FileName="ZET006Service2.xsd" MetadataType="Schema" ID="3bf9b215-afda-48b6-abec-d8472226b7a0" SourceId="1" SourceUrl="http://localhost:54222/ZET006Service.svc?xsd=xsd1" />
+    <MetadataFile FileName="ZET006Service3.xsd" MetadataType="Schema" ID="ba4c9e8b-63cd-4d9d-a8e1-f579643878c2" SourceId="1" SourceUrl="http://localhost:54222/ZET006Service.svc?xsd=xsd0" />
+    <MetadataFile FileName="ZET006Service.wsdl" MetadataType="Wsdl" ID="3293501e-0c2c-4626-b93e-dad700413d6d" SourceId="1" SourceUrl="http://localhost:54222/ZET006Service.svc?wsdl" />
+    <MetadataFile FileName="ZET006Service.disco" MetadataType="Disco" ID="a5980299-8c66-4aa5-8352-41b5ee6f4930" SourceId="1" SourceUrl="http://localhost:54222/ZET006Service.svc?disco" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>
