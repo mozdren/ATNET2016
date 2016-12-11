@@ -91,10 +91,10 @@ namespace ServiceBus
         /// </summary>
         /// <param name="product">Product object</param>
         /// <returns>Result object</returns>
-        public Result AddProduct(Product product)
-        {
-            return AddProduct(product.Name, product.Price, product.ID);
-        }
+
+        public Result AddProduct(SharedLibs.DataContracts.Product product, ProductTypes productType)
+        {   //TODO: FIX DTO is obsolote
+            return AddProduct(product.Name, product.Price, product.ID, productType);
 
         /// <summary>
         /// This method adds product into datasource
@@ -103,8 +103,8 @@ namespace ServiceBus
         /// <param name="price">Price of a new product</param>
         /// <param name="guid">ID of a new product</param>
         /// <returns>Result object</returns>
-        public Result AddProduct(string name, double price, Guid guid)
-        {
+        public Result AddProduct(string name, double price, Guid guid, ProductTypes productType, bool headliner = false)
+        {   
             try
             {
                 
@@ -112,9 +112,11 @@ namespace ServiceBus
                 {
                     using (var context = new EntityModels.ServiceBusDatabaseEntities())
                     {
+                        var type = context.ProductTypes.FirstOrDefault(p => p.Type == productType.ToString());
 
-                        context.Products.Add(new EntityModels.Product() { Id = guid, Name = name, Price = price, ProductType = context.ProductTypes.First() });
-                        
+
+                        context.Products.Add(new EntityModels.Product() { Id = guid, Name = name, Price = price, Enabled = true, Headliner = headliner, ProductType = type ?? null}); //Tohle bude hazet chyby
+
                         context.SaveChanges();
 
                         return Result.SuccessFormat("Product {0} | {1} has been added", guid, name);
@@ -207,7 +209,7 @@ namespace ServiceBus
         }
 
         /// <summary>
-        /// Delete product item from datasource
+        /// Marks product as not enabled
         /// </summary>
         /// <param name="guid">ID of a product</param>
         /// <returns>Result object</returns>
@@ -219,9 +221,9 @@ namespace ServiceBus
                 {
                     var product = context.Products.FirstOrDefault(p => p.Id == guid);
 
-                    if (product != null)
+                    if (product != null && product.Enabled)
                     {
-                        context.Products.Remove(product);
+                        product.Enabled = false;
                         context.SaveChanges();
 
                         return Result.SuccessFormat("Product {0} - {1} has been deleted.", product.Id, product.Name);

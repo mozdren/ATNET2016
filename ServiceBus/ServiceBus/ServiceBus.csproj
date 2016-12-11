@@ -97,10 +97,12 @@
       <DependentUpon>EntityDataModel.edmx</DependentUpon>
       <LastGenOutput>EntityDataModel.cs</LastGenOutput>
     </Content>
+    <Content Include="EntityModels\Insert.sql" />
     <Content Include="Mock\CampaignService.svc" />
     <Content Include="Mock\ProductService.svc" />
     <Content Include="OrderService.svc" />
     <Content Include="ProductService.svc" />
+    <Content Include="ProductTypeService.svc" />
     <Content Include="Properties\DataSources\SharedLibs.DataContracts.Product.datasource" />
     <Content Include="Properties\DataSources\SharedLibs.DataContracts.Products.datasource" />
     <Content Include="Properties\DataSources\SharedLibs.DataContracts.Result.datasource" />
@@ -180,6 +182,7 @@
     <Compile Include="ICampaignService.cs" />
     <Compile Include="IOrderService.cs" />
     <Compile Include="IProductService.cs" />
+    <Compile Include="IProductTypeService.cs" />
     <Compile Include="Mock\CampaignService.svc.cs">
       <DependentUpon>CampaignService.svc</DependentUpon>
     </Compile>
@@ -203,6 +206,9 @@
     </Compile>
     <Compile Include="EntityModels\ProductType.cs">
       <DependentUpon>EntityDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProductTypeService.svc.cs">
+      <DependentUpon>ProductTypeService.svc</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="EntityModels\Repair.cs">
