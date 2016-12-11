@@ -14,7 +14,7 @@ namespace ServiceBus
         /// </summary>
         /// <param name="guid">Guid of a requested product</param>
         /// <returns>requested product</returns>
-        public SharedLibs.DataContracts.Product GetProduct(Guid guid)
+        public Product GetProduct(Guid guid)
         {
             try
             {
@@ -24,15 +24,15 @@ namespace ServiceBus
 
                     if (product == null)
                     {
-                        return new SharedLibs.DataContracts.Product
+                        return new Product
                         {
-                            Result = SharedLibs.DataContracts.Result.ErrorFormat("Product {0} not found.", guid)
+                            Result = Result.ErrorFormat("Product {0} not found.", guid)
                         };
                     }
 
-                    return new SharedLibs.DataContracts.Product
+                    return new Product
                     {
-                        Result = SharedLibs.DataContracts.Result.SuccessFormat("Product {0} found", guid),
+                        Result = Result.SuccessFormat("Product {0} found", guid),
                         ID = guid,
                         Name = product.Name,
                         Price = product.Price.HasValue ? product.Price.Value : 0.0
@@ -41,9 +41,9 @@ namespace ServiceBus
             }
             catch (Exception exception)
             {
-                return new SharedLibs.DataContracts.Product
+                return new Product
                 {
-                    Result = SharedLibs.DataContracts.Result.FatalFormat("ProductService.GetProduct Exception: {0}", exception.Message)
+                    Result = Result.FatalFormat("ProductService.GetProduct Exception: {0}", exception.Message)
                 };
             }
         }
@@ -52,17 +52,17 @@ namespace ServiceBus
         /// This method returns all defined products
         /// </summary>
         /// <returns>collection of all products</returns>
-        public SharedLibs.DataContracts.Products GetAllProducts()
+        public Products GetAllProducts()
         {
             try
             {
                 using (var context = new EntityModels.ServiceBusDatabaseEntities())
                 {
-                    var returnCollection = new List<SharedLibs.DataContracts.Product>();
+                    var returnCollection = new List<Product>();
 
                     foreach (var product in context.Products)
                     {
-                        returnCollection.Add(new SharedLibs.DataContracts.Product
+                        returnCollection.Add(new Product
                         {
                             ID = product.Id,
                             Name = product.Name,
@@ -70,40 +70,56 @@ namespace ServiceBus
                         });
                     }
 
-                    return new SharedLibs.DataContracts.Products
+                    return new Products
                     {
-                        Result = SharedLibs.DataContracts.Result.Success("All products returned"),
+                        Result = Result.Success("All products returned"),
                         Items = returnCollection
                     };
                 }
             }
             catch (Exception exception)
             {
-                return new SharedLibs.DataContracts.Products
+                return new Products
                 {
-                    Result = SharedLibs.DataContracts.Result.FatalFormat("ProductService.GetProduct Exception: {0}", exception.Message)
+                    Result = Result.FatalFormat("ProductService.GetProduct Exception: {0}", exception.Message)
                 };
             }
         }
 
         /// <summary>
+<<<<<<< HEAD
+=======
+        /// This method adds product into the datasource
+        /// </summary>
+        /// <param name="product">Product object</param>
+        /// <returns>Result object</returns>
+
+        public Result AddProduct(SharedLibs.DataContracts.Product product, ProductTypes productType)
+        {   //TODO: FIX DTO is obsolote
+            return AddProduct(product.Name, product.Price, product.ID, productType);
+
+        /// <summary>
+>>>>>>> origin/VISpocka
         /// This method adds product into datasource
         /// </summary>
         /// <param name="name">Name of a new product</param>
         /// <param name="price">Price of a new product</param>
-        /// <param name="guid">ID of a new prodcut</param>
+        /// <param name="guid">ID of a new product</param>
         /// <returns>Result object</returns>
         public Result AddProduct(string name, double price, Guid guid, ProductTypes productType, bool headliner = false)
         {   
             try
             {
+                
                 if ((!string.IsNullOrWhiteSpace(name) && name.Length <= 50) && price >= 0)
                 {
                     using (var context = new EntityModels.ServiceBusDatabaseEntities())
                     {
                         var type = context.ProductTypes.FirstOrDefault(p => p.Type == productType.ToString());
 
+
                         context.Products.Add(new EntityModels.Product() { Id = guid, Name = name, Price = price, Enabled = true, Headliner = headliner, ProductType = type ?? null}); //Tohle bude hazet chyby
+
                         context.SaveChanges();
 
                         return Result.SuccessFormat("Product {0} | {1} has been added", guid, name);
@@ -128,7 +144,7 @@ namespace ServiceBus
         /// <param name="name">New name for a product</param>
         /// <param name="price">New price for a product</param>
         /// <returns>Modified product</returns>
-        public SharedLibs.DataContracts.Product EditProduct(Guid guid, string name, double price)
+        public Product EditProduct(Guid guid, string name, double price)
         {
             try
             {
@@ -169,7 +185,7 @@ namespace ServiceBus
                         else
                         {
                             context.SaveChanges();
-                            return new SharedLibs.DataContracts.Product()
+                            return new Product()
                             {
                                 ID = editableProduct.Id,
                                 Name = editableProduct.Name,
@@ -187,7 +203,7 @@ namespace ServiceBus
             }
             catch (Exception exception)
             {
-                return new SharedLibs.DataContracts.Product()
+                return new Product()
                 {
                     Result =
                         Result.FatalFormat("ProductService.EditProduct exception has occured : {0}", exception.Message)
