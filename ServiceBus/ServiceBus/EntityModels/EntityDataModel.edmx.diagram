@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="dceb585e01cf42a8b58283f29c4903bd" Name="Diagram1" ZoomLevel="68">
+      <Diagram DiagramId="dceb585e01cf42a8b58283f29c4903bd" Name="Diagram1" ZoomLevel="89">
         <EntityTypeShape EntityType="DatabaseModel.Product" Width="1.5" PointX="5.25" PointY="1.375" IsExpanded="true" />
         <EntityTypeShape EntityType="DatabaseModel.Basket" Width="1.5" PointX="10.125" PointY="4.875" />
         <EntityTypeShape EntityType="DatabaseModel.Campaign" Width="1.5" PointX="7.625" PointY="7.125" />
@@ -46,6 +46,13 @@
         <EntityTypeShape EntityType="DatabaseModel.OrderStatus" Width="1.5" PointX="15.75" PointY="3.5" />
         <AssociationConnector Association="DatabaseModel.OrderStatusOrder" />
         <AssociationConnector Association="DatabaseModel.UserAddress" ManuallyRouted="false" >
+        </AssociationConnector>
+        <AssociationConnector Association="DatabaseModel.FK_Users_Addresses" ManuallyRouted="true" >
+          <ConnectorPoint PointX="12.6250025" PointY="11.125" />
+          <ConnectorPoint PointX="12.6250025" PointY="8.331613005078129" />
+          <ConnectorPoint PointX="12.465943308769411" PointY="8.331613005078129" />
+          <ConnectorPoint PointX="12.465943308769411" PointY="2.6601909244791782" />
+          <ConnectorPoint PointX="13" PointY="2.6601909244791782" />
         </AssociationConnector>
       </Diagram>
     </edmx:Diagrams>

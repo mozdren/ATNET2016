@@ -79,4 +79,12 @@
     public class StorageItems : Pluralized<StorageItem>
     {
     }
+
+    /// <summary>
+    /// Pluralization of users
+    /// Contains collection of users called Items
+    /// </summary>
+    public class Users : Pluralized<User>
+    {
+    }
 }

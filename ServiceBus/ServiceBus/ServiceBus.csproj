@@ -139,6 +139,7 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+    <Content Include="UserService.svc" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -183,6 +184,7 @@
     <Compile Include="IOrderService.cs" />
     <Compile Include="IProductService.cs" />
     <Compile Include="IProductTypeService.cs" />
+    <Compile Include="IUserService.cs" />
     <Compile Include="Mock\CampaignService.svc.cs">
       <DependentUpon>CampaignService.svc</DependentUpon>
     </Compile>
@@ -225,6 +227,9 @@
     </Compile>
     <Compile Include="EntityModels\User.cs">
       <DependentUpon>EntityDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UserService.svc.cs">
+      <DependentUpon>UserService.svc</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
