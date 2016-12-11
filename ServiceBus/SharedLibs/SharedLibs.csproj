@@ -65,6 +65,10 @@
     <Compile Include="DataContracts\Pluralizations.cs" />
     <Compile Include="DataContracts\Pluralized.cs" />
     <Compile Include="DataContracts\Product.cs" />
+    <Compile Include="DataContracts\ProductType.cs" />
+    <Compile Include="DataContracts\StorageItem.cs" />
+    <Compile Include="DataContracts\Reservation.cs" />
+    <Compile Include="DataContracts\Repair.cs" />
     <Compile Include="DataContracts\Result.cs" />
     <Compile Include="DataContracts\User.cs" />
     <Compile Include="Enums\OrderStateEnums.cs" />
@@ -72,6 +76,9 @@
     <Compile Include="Enums\ResultEnums.cs" />
     <Compile Include="PdfDocumentFields.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Enums\ProdcutTypes.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

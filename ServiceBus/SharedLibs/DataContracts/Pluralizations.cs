@@ -54,5 +54,29 @@
     /// </summary>
     public class Products : Pluralized<Product>
     {
-    }    
+    }
+
+    /// <summary>
+    /// Pluralization of Repair
+    /// Contains collection of repair called Items
+    /// </summary>
+    public class Repairs : Pluralized<Repair>
+    {
+    }
+
+    /// <summary>
+    /// Pluralization of Reservation
+    /// Contains collection of reservation called Items
+    /// </summary>
+    public class Reservations : Pluralized<Reservation>
+    {
+    }
+
+    /// <summary>
+    /// Pluralization of storage items
+    /// Contains collection of storage items called Items
+    /// </summary>
+    public class StorageItems : Pluralized<StorageItem>
+    {
+    }
 }

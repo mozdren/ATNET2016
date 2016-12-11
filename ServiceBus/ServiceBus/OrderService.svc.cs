@@ -1447,7 +1447,7 @@ namespace ServiceBus
                     itemsTable.AddCell(cell4);
                     itemsTable.AddCell(cell5);
 
-                    PdfDocumentFields.sumaPrice += item.Product.Price * item.Quantity;
+                    PdfDocumentFields.sumaPrice += item.Product.Price.Value * item.Quantity;
                     PdfDocumentFields.itemNumber += 1;
 
                     if (PdfDocumentFields.itemNumber == PdfDocumentFields.itemsPerPageCount || PdfDocumentFields.sumaItemNumber == itemsCount)

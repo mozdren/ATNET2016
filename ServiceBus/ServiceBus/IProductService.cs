@@ -2,6 +2,7 @@
 using System;
 using System.Web.Services;
 using SharedLibs.DataContracts;
+using SharedLibs.Enums;
 
 namespace ServiceBus
 {
@@ -33,17 +34,11 @@ namespace ServiceBus
         /// <param name="name">Name of a new product</param>
         /// <param name="price">Price of a new product</param>
         /// <param name="guid">ID of a new prodcut</param>
+        /// <param name="headliner">Specifies if a product is a main product</param>
+        /// <param name="productType">Type of a product</param>
         /// <returns>Result object</returns>
         [OperationContract (Name = "AddProduct")]
-        Result AddProduct(string name, double price, Guid guid);
-
-        /// <summary>
-        /// This method adds product into the datasource
-        /// </summary>
-        /// <param name="product">Product object</param>
-        /// <returns>Result object</returns>
-        [OperationContract (Name = "AddProductByObject")]
-        Result AddProduct(Product product);
+        Result AddProduct(string name, double price, Guid guid, ProductTypes productType, bool headliner);
 
         /// <summary>
         /// This method edits product in case product exists
