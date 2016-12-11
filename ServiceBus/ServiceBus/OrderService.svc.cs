@@ -137,8 +137,8 @@ namespace ServiceBus
                             Basket = new Basket()
                             {
                                 Id = order.Basket.Id,
-                                BasketItems = (List<BasketItem>)order.Basket.BasketItems,  //(basketItemList != null) ? basketItemList : null,
-                                BasketCampaings = (List<Campaign>)order.Basket.CampaignItems //(campaignItemList != null) ? campaignItemList : null
+                                BasketItems = (List<BasketItem>)order.Basket.BasketItems,
+                                BasketCampaings = (List<Campaign>)order.Basket.CampaignItems
                             },
                             User = new User()
                             {
@@ -675,7 +675,7 @@ namespace ServiceBus
                         }
                         else
                         {
-                            ChangeOrderState(alteredOrder.OrderStatusId, 2);
+                            ChangeOrderState(alteredOrder.OrderStatusId, OrderStateType.Changed);
                             context.SaveChanges();
 
                             return new Order()
@@ -769,7 +769,7 @@ namespace ServiceBus
         /// /// <returns>Result object</returns>
         public Result ChangeOrderState(
             Guid guid,
-            int newState)
+            OrderStateType newState)
         {
             try
             {
@@ -790,10 +790,16 @@ namespace ServiceBus
 
                     using (var context = new EntityModels.ServiceBusDatabaseEntities())
                     {
+                        var orderStatus = context.OrderStatus.FirstOrDefault(os => os.Status == (int) newState);
                        
+                        if (orderStatus == null)
+                        {
+                            return Result.WarningFormat("Requested order state type {0} was not found - order was not changed.", (int) newState);
+                        }
+
                         context.Orders.Attach(alteredOrder);
 
-                        alteredOrder.OrderStatus.Status = newState;
+                        alteredOrder.OrderStatusId = orderStatus.Id;
 
                         if (context.Entry(alteredOrder).State == EntityState.Unchanged)
                         {

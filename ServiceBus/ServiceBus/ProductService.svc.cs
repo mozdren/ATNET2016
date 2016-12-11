@@ -87,8 +87,6 @@ namespace ServiceBus
         }
 
         /// <summary>
-<<<<<<< HEAD
-=======
         /// This method adds product into the datasource
         /// </summary>
         /// <param name="product">Product object</param>
@@ -96,10 +94,10 @@ namespace ServiceBus
 
         public Result AddProduct(SharedLibs.DataContracts.Product product, ProductTypes productType)
         {   //TODO: FIX DTO is obsolote
-            return AddProduct(product.Name, product.Price, product.ID, productType);
+            return AddProduct(product.Name, product.Price.HasValue ? product.Price.Value : 0.0, product.ID, productType);
+        }
 
         /// <summary>
->>>>>>> origin/VISpocka
         /// This method adds product into datasource
         /// </summary>
         /// <param name="name">Name of a new product</param>

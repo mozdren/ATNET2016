@@ -141,7 +141,7 @@ namespace ServiceBus
         /// <param name="state">State of an order</param>
         /// /// <returns>Result object</returns>
         [OperationContract]
-        Result ChangeOrderState(Guid guid, int newState);
+        Result ChangeOrderState(Guid guid, OrderStateType newState);
 
 
         /// <summary>
