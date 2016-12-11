@@ -87,16 +87,6 @@ namespace ServiceBus
         }
 
         /// <summary>
-        /// This method adds product into the datasource
-        /// </summary>
-        /// <param name="product">Product object</param>
-        /// <returns>Result object</returns>
-        public Result AddProduct(SharedLibs.DataContracts.Product product, ProductTypes productType)
-        {   //TODO: FIX DTO is obsolote
-            return AddProduct(product.Name, product.Price, product.ID, productType);
-        }
-
-        /// <summary>
         /// This method adds product into datasource
         /// </summary>
         /// <param name="name">Name of a new product</param>

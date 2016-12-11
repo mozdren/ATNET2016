@@ -9,10 +9,19 @@ using SharedLibs.Enums;
 
 namespace ServiceBus
 {
-    // NOTE: You can use the "Rename" command on the "Refactor" menu to change the interface name "IProductTypeService" in both code and config file together.
+    /// <summary>
+    /// This is a product type service, which should serve as an entrypoint for everything that has
+    /// something directly in common with product types.
+    /// </summary>
     [ServiceContract]
     public interface IProductTypeService
     {
-        
+        /// <summary>
+        /// Method to get product type DTO by its ID
+        /// </summary>
+        /// <param name="guid">Product type identifier</param>
+        /// <returns>Product Type DTO</returns>
+        [OperationContract]
+        SharedLibs.DataContracts.ProductType GetProdcutType(Guid guid);
     }
 }

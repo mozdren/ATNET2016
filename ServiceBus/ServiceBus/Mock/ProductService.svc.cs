@@ -11,15 +11,6 @@ namespace ServiceBus.Mock
     /// </summary>
     public class ProductService : IProductService
     {
-        /// <summary>
-        /// Adds product
-        /// </summary>
-        /// <param name="product">product to be added</param>
-        /// <returns>success if added sucessfuly</returns>
-        public Result AddProduct(SharedLibs.DataContracts.Product product, ProductTypes productType)
-        {
-            return Result.SuccessFormat("Product added");
-        }
 
         /// <summary>
         /// Adds product
