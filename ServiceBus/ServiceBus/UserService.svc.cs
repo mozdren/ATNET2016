@@ -10,7 +10,7 @@ namespace ServiceBus
         /// Simple creation of an anonymous user
         /// </summary>
         /// <returns>User data contract</returns>
-        public User Create()
+        public User CreateUnregistered()
         {
             using (var context = new EntityModels.ServiceBusDatabaseEntities())
             {
@@ -57,7 +57,7 @@ namespace ServiceBus
         /// </summary>
         /// <param name="id">ID of user</param>
         /// <returns>User</returns>
-        public User GetUser(Guid id)
+        public User GetUserById(Guid id)
         {
             try
             {

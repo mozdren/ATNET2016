@@ -19,7 +19,7 @@ namespace ServiceBus
         /// </summary>
         /// <returns></returns>
         [OperationContract]
-        User Create();
+        User CreateUnregistered();
 
         /// <summary>
         /// Creaation of registered user
@@ -42,7 +42,7 @@ namespace ServiceBus
         /// <param name="id">ID of user</param>
         /// <returns>User</returns>
         [OperationContract]
-        User GetUser(Guid id);
+        User GetUserById(Guid id);
 
         /// <summary>
         /// Method for finding user by login and password
