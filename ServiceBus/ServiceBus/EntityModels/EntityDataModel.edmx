@@ -133,7 +133,7 @@
           <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
           <Property Name="ProductId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="StorageId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="Quantity" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Storages">
           <Key>
@@ -779,7 +779,6 @@
           <Property Name="OrderStatusId" Type="Guid" Nullable="false" />
           <Property Name="CustNotes" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <Property Name="OrderNumber" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
-          <Property Name="Basket_Id" Type="Guid" Nullable="false" />
         </EntityType>
         <Association Name="AddressOrder">
           <End Type="DatabaseModel.Address" Role="Address" Multiplicity="0..1" />

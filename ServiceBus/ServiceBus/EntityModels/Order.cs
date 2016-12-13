@@ -20,11 +20,11 @@ namespace ServiceBus.EntityModels
         public Nullable<System.Guid> AddressId { get; set; }
         public Nullable<System.Guid> BillingInformationId { get; set; }
         public Nullable<System.Guid> UserId { get; set; }
+        public Nullable<System.Guid> Basket_Id { get; set; }
         public string InvoiceNr { get; set; }
         public System.Guid OrderStatusId { get; set; }
         public string CustNotes { get; set; }
         public string OrderNumber { get; set; }
-        public System.Guid Basket_Id { get; set; }
     
         public virtual Address Address { get; set; }
         public virtual BillingInformation BillingInformation { get; set; }

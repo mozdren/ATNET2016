@@ -14,10 +14,18 @@ namespace ServiceBus
         {
             using (var context = new EntityModels.ServiceBusDatabaseEntities())
             {
-                var id = new Guid();
+                var id = Guid.NewGuid(); 
                 try
                 {
-                    context.Users.Add(new EntityModels.User() {Id = id});
+                    context.Users.Add(new EntityModels.User()
+                    {
+                        Id = id,
+                        Email = "@",
+                        Hash = "Annonymouse".GetHashCode().ToString(),
+                        Salt = "",
+                        Name = "Annonymouse",
+                        Surname = "Annonymouse"
+                    });
                     context.SaveChanges();
                 }
                 catch (Exception ex)
