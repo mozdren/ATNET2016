@@ -57,7 +57,38 @@ namespace ServiceBus
         /// <returns>Created user</returns>
         public User Create(string name, string surname, string login, string password, string email, string phone, string salt)
         {
-            throw new NotImplementedException();
+            using (var context = new EntityModels.ServiceBusDatabaseEntities())
+            {
+                var id = Guid.NewGuid();
+                try
+                {
+                    context.Users.Add(new EntityModels.User()
+                    {
+                        Id = id,
+                        Email = email,
+                        Hash = login.GetHashCode().ToString(),
+                        Salt = salt,
+                        Name = name,
+                        Surname = surname,
+                        Phone = phone,
+                        Login = login,
+                        Password = password
+                    });
+                    context.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    return new User
+                    {
+                        Result = Result.FatalFormat("UserService.Create Exception: {0}", ex.Message)
+                    };
+                }
+                return new User
+                {
+                    Id = id,
+                    Result = Result.SuccessFormat("User {0} has been added.", id)
+                };
+            }
         }
 
         /// <summary>
@@ -99,7 +130,9 @@ namespace ServiceBus
         /// <param name="u">instance of user from database</param>
         /// <param name="result">Result message</param>
         /// <returns></returns>
-        private static User CeateUserFromUser(EntityModels.User u, Result result)
+        // <a:Message>UserService.GetAllUsers Exception: LINQ to Entities does not recognize the method 'SharedLibs.DataContracts.User CeateUserFromUser(ServiceBus.EntityModels.User, SharedLibs.DataContracts.Result)' method, and this method cannot be translated into a store expression.</a:Message>
+
+        public static User CeateUserFromUser(EntityModels.User u, Result result)
         {
             if (u == null)
             {
@@ -152,7 +185,7 @@ namespace ServiceBus
             {
                 return new User
                 {
-                    Result = Result.FatalFormat("UserService.Create Exception: {0}", ex.Message)
+                    Result = Result.FatalFormat("UserService.GetUser Exception: {0}", ex.Message)
                 };
             }
         }
@@ -167,7 +200,17 @@ namespace ServiceBus
             {
                 using (var context = new EntityModels.ServiceBusDatabaseEntities())
                 {
-                    var returnCollection = context.Users.Select(user => CeateUserFromUser(user, Result.SuccessFormat("User founded."))).ToList();
+                    var returnCollection = context.Users.Select(u => new User()
+                    {
+                        Name = u.Name,
+                        Surname = u.Surname,
+                        Login = u.Login,
+                        Password = u.Password,
+                        Id = u.Id,
+                        PhoneNumber = u.Phone,
+                        Salt = u.Salt,
+                        EmailAddress = u.Email
+                    }).ToList();
 
                     return new Users
                     {
