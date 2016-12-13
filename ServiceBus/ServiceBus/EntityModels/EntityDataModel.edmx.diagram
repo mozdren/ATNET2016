@@ -49,10 +49,8 @@
         </AssociationConnector>
         <AssociationConnector Association="DatabaseModel.FK_Users_Addresses" ManuallyRouted="true" >
           <ConnectorPoint PointX="12.6250025" PointY="11.125" />
-          <ConnectorPoint PointX="12.6250025" PointY="8.331613005078129" />
-          <ConnectorPoint PointX="12.465943308769411" PointY="8.331613005078129" />
-          <ConnectorPoint PointX="12.465943308769411" PointY="2.6601909244791782" />
-          <ConnectorPoint PointX="13" PointY="2.6601909244791782" />
+          <ConnectorPoint PointX="12.6250025" PointY="2.65237717447916" />
+          <ConnectorPoint PointX="13" PointY="2.65237717447916" />
         </AssociationConnector>
       </Diagram>
     </edmx:Diagrams>

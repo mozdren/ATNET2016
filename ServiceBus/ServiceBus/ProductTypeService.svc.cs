@@ -37,7 +37,7 @@ namespace ServiceBus
             }
             catch(Exception ex)
             {
-                throw;
+                throw ex;
             }
         }
 

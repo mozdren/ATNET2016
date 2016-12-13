@@ -24,6 +24,7 @@ namespace ServiceBus.EntityModels
         public System.Guid OrderStatusId { get; set; }
         public string CustNotes { get; set; }
         public string OrderNumber { get; set; }
+        public System.Guid Basket_Id { get; set; }
     
         public virtual Address Address { get; set; }
         public virtual BillingInformation BillingInformation { get; set; }

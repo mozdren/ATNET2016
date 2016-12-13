@@ -14,6 +14,12 @@ namespace ServiceBus.EntityModels
     
     public partial class StorageItem
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public StorageItem()
+        {
+            this.Quantity = 0;
+        }
+    
         public System.Guid Id { get; set; }
         public System.Guid ProductId { get; set; }
         public System.Guid StorageId { get; set; }

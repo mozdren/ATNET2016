@@ -779,6 +779,7 @@
           <Property Name="OrderStatusId" Type="Guid" Nullable="false" />
           <Property Name="CustNotes" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <Property Name="OrderNumber" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Basket_Id" Type="Guid" Nullable="false" />
         </EntityType>
         <Association Name="AddressOrder">
           <End Type="DatabaseModel.Address" Role="Address" Multiplicity="0..1" />
@@ -939,7 +940,7 @@
           <Property Name="ProductId" Type="Guid" Nullable="false" />
           <NavigationProperty Name="Storage" Relationship="DatabaseModel.StorageStorageItem" FromRole="StorageItem" ToRole="Storage" />
           <Property Name="StorageId" Type="Guid" Nullable="false" />
-          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" DefaultValue="0" />
         </EntityType>
         <Association Name="ProductStorageItem">
           <End Type="DatabaseModel.Product" Role="Product" Multiplicity="1" />
