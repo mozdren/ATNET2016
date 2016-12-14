@@ -9,6 +9,11 @@ namespace ServiceBus
 {
     public class CampaignService : ICampaignService
     {
+        /// <summary>
+        /// This method should return a campaign with requested guid
+        /// </summary>
+        /// <param name="guid">Guid of a requested campaign</param>
+        /// <returns>requested campaign</returns>
         public Campaign GetCampaign(Guid guid)
         {
             try
@@ -43,6 +48,10 @@ namespace ServiceBus
             }
         }
 
+        /// <summary>
+        /// This method returns all defined campaigns
+        /// </summary>
+        /// <returns>collection of all campaign</returns>
         public Campaigns GetAllCampaigns()
         {
             try
@@ -77,12 +86,25 @@ namespace ServiceBus
             }
         }
 
+
+        /// <summary>
+        /// This method adds campaign into the datasource
+        /// </summary>
+        /// <param name="campaign">Campaign object</param>
+        /// <returns>Result object</returns>
         public Result AddCampaign(Campaign campaign)
         {
             //before continuing is necessary to add Campaign to ServiceBusDatabaseEntities
-            return Result.Fatal("Not Implemented");
+            return AddCampaign(campaign.Id, campaign.Name, campaign.Discount);
         }
 
+        /// <summary>
+        /// This method adds campaign into datasource
+        /// </summary>
+        /// <param name="name">Name of a new campaign</param>
+        /// <param name="discount">Discount of a new campaign</param>
+        /// <param name="guid">ID of a new campaign</param>
+        /// <returns>Result object</returns>
         public Result AddCampaign(Guid guid, string name, double discount)
         {
             try
@@ -113,8 +135,8 @@ namespace ServiceBus
         /// <summary>
         /// This method edits campaing in case campaing exists
         /// </summary>
-        /// <param name="guid">ID of a product</param>
-        /// <param name="name">New name for a product</param>
+        /// <param name="guid">ID of a campaign</param>
+        /// <param name="name">New name for a campaign</param>
         /// <param name="discount">New discount for a campaign</param>
         /// <returns>Modified campaign</returns>
         public Campaign EditCampaign(Guid guid, string name, double discount)
