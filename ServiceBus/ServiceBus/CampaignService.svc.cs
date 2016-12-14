@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Data.Entity;
+using SharedLibs.Enums;
 
 namespace ServiceBus
 {
@@ -108,19 +110,108 @@ namespace ServiceBus
             }
         }
 
+        /// <summary>
+        /// This method edits campaing in case campaing exists
+        /// </summary>
+        /// <param name="guid">ID of a product</param>
+        /// <param name="name">New name for a product</param>
+        /// <param name="discount">New discount for a campaign</param>
+        /// <returns>Modified campaign</returns>
         public Campaign EditCampaign(Guid guid, string name, double discount)
         {
-            //before continuing is necessary to add Campaign to ServiceBusDatabaseEntities
-            return new Campaign
+            try
             {
-                Result = Result.Fatal("Not Implemented")
-            };
+                var originalCampaign = GetCampaign(guid);
+
+                if (originalCampaign.Result.ResultType == ResultType.Success)
+                {
+                    var editableCampaign = new EntityModels.Campaign()
+                    {
+                        Id = originalCampaign.Id,
+                        Name = originalCampaign.Name,
+                        Discount = originalCampaign.Discount
+                    };
+
+                    using (var context = new EntityModels.ServiceBusDatabaseEntities())
+                    {
+                        context.Campaigns.Attach(editableCampaign);
+
+                        //is new name valid and different than the stored one?
+                        if (!String.IsNullOrWhiteSpace(name) && name.Length <= 50 && name != editableCampaign.Name)
+                        {
+                            editableCampaign.Name = name;
+                        }
+
+                        //is price valid and different from the stored one?
+                        if (discount != editableCampaign.Discount && discount >= 0)
+                        {
+                            editableCampaign.Discount = discount;
+                        }
+
+                        //No changes? No need to update
+                        if (context.Entry(editableCampaign).State == EntityState.Unchanged)
+                        {
+                            originalCampaign.Result = Result.WarningFormat("Campaign {0} was not modified.", originalCampaign.Id);
+                            return originalCampaign;
+                        }
+                        //Otherwise update db and return what you should return
+                        else
+                        {
+                            context.SaveChanges();
+                            return new Campaign()
+                            {
+                                Id = editableCampaign.Id,
+                                Name = editableCampaign.Name,
+                                Discount = editableCampaign.Discount.HasValue ? editableCampaign.Discount.Value : 0.0,
+                                Result = Result.Success()
+                            };
+                        }
+                    }
+
+                }
+                else
+                {
+                    return originalCampaign;
+                }
+            }
+            catch (Exception exception)
+            {
+                return new Campaign()
+                {
+                    Result =
+                        Result.FatalFormat("CampaignService.EditCampaign exception has occured : {0}", exception.Message)
+                };
+            }
         }
 
+        /// <summary>
+        /// Delete campaign with specific Guid
+        /// </summary>
+        /// <param name="guid">guid of a campaign</param>
+        /// <returns>Result object</returns>
         public Result DeleteCampaign(Guid guid)
         {
-            //before continuing is necessary to add Campaign to ServiceBusDatabaseEntities
-            return Result.Fatal("Not Implemented");
+            try
+            {
+                using (var context = new EntityModels.ServiceBusDatabaseEntities())
+                {
+                    var campaign = context.Campaigns.FirstOrDefault(p => p.Id == guid);
+
+                    if (campaign != null)
+                    {
+                        context.Campaigns.Remove(campaign);
+                        context.SaveChanges();
+
+                        return Result.SuccessFormat("Campaign {0} - {1} has been deleted.", campaign.Id, campaign.Name);
+                    }
+
+                    return Result.Error("Campaign was not found. Please make sure campaign ID is valid.");
+                }
+            }
+            catch (Exception exception)
+            {
+                return Result.FatalFormat("CampaignService.DeleteCampaign exception has occured : {0}", exception.Message);
+            }
         }
     }
 }
