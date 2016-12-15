@@ -34,12 +34,6 @@ namespace ServiceBusTests.OrderService {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IOrderService/CreateNewOrder", ReplyAction="http://tempuri.org/IOrderService/CreateNewOrderResponse")]
         System.Threading.Tasks.Task<ServiceBusTests.OrderService.CreateNewOrderResponse> CreateNewOrderAsync(ServiceBusTests.OrderService.CreateNewOrderRequest request);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IOrderService/AddBasketToOrder", ReplyAction="http://tempuri.org/IOrderService/AddBasketToOrderResponse")]
-        SharedLibs.DataContracts.Result AddBasketToOrder(System.Guid orderId, SharedLibs.DataContracts.Basket basket);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IOrderService/AddBasketToOrder", ReplyAction="http://tempuri.org/IOrderService/AddBasketToOrderResponse")]
-        System.Threading.Tasks.Task<SharedLibs.DataContracts.Result> AddBasketToOrderAsync(System.Guid orderId, SharedLibs.DataContracts.Basket basket);
-        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IOrderService/AddUserToOrder", ReplyAction="http://tempuri.org/IOrderService/AddUserToOrderResponse")]
         SharedLibs.DataContracts.Result AddUserToOrder(System.Guid orderId, SharedLibs.DataContracts.User user);
         
@@ -120,7 +114,14 @@ namespace ServiceBusTests.OrderService {
     [System.ServiceModel.MessageContractAttribute(WrapperName="CreateNewOrder", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
     public partial class CreateNewOrderRequest {
         
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        public SharedLibs.DataContracts.Basket basket;
+        
         public CreateNewOrderRequest() {
+        }
+        
+        public CreateNewOrderRequest(SharedLibs.DataContracts.Basket basket) {
+            this.basket = basket;
         }
     }
     
@@ -272,8 +273,9 @@ namespace ServiceBusTests.OrderService {
             return base.Channel.CreateNewOrder(request);
         }
         
-        public SharedLibs.DataContracts.Result CreateNewOrder(out System.Guid orderId) {
+        public SharedLibs.DataContracts.Result CreateNewOrder(SharedLibs.DataContracts.Basket basket, out System.Guid orderId) {
             ServiceBusTests.OrderService.CreateNewOrderRequest inValue = new ServiceBusTests.OrderService.CreateNewOrderRequest();
+            inValue.basket = basket;
             ServiceBusTests.OrderService.CreateNewOrderResponse retVal = ((ServiceBusTests.OrderService.IOrderService)(this)).CreateNewOrder(inValue);
             orderId = retVal.orderId;
             return retVal.CreateNewOrderResult;
@@ -281,14 +283,6 @@ namespace ServiceBusTests.OrderService {
         
         public System.Threading.Tasks.Task<ServiceBusTests.OrderService.CreateNewOrderResponse> CreateNewOrderAsync(ServiceBusTests.OrderService.CreateNewOrderRequest request) {
             return base.Channel.CreateNewOrderAsync(request);
-        }
-        
-        public SharedLibs.DataContracts.Result AddBasketToOrder(System.Guid orderId, SharedLibs.DataContracts.Basket basket) {
-            return base.Channel.AddBasketToOrder(orderId, basket);
-        }
-        
-        public System.Threading.Tasks.Task<SharedLibs.DataContracts.Result> AddBasketToOrderAsync(System.Guid orderId, SharedLibs.DataContracts.Basket basket) {
-            return base.Channel.AddBasketToOrderAsync(orderId, basket);
         }
         
         public SharedLibs.DataContracts.Result AddUserToOrder(System.Guid orderId, SharedLibs.DataContracts.User user) {

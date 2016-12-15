@@ -40,7 +40,7 @@ namespace ServiceBus
         /// <param name="basket">Reference to basket object</param>
         /// <returns>Result object</returns>
         [OperationContract]
-        Result CreateNewOrder(out Guid orderId, Basket basket);
+        Result CreateNewOrder(Basket basket, out Guid orderId);
 
 
         /// <summary>

@@ -20,6 +20,30 @@
   <wsdl:message name="IOrderService_GetAllOrders_OutputMessage">
     <wsdl:part name="parameters" element="tns:GetAllOrdersResponse" />
   </wsdl:message>
+  <wsdl:message name="IOrderService_CreateNewOrder_InputMessage">
+    <wsdl:part name="parameters" element="tns:CreateNewOrder" />
+  </wsdl:message>
+  <wsdl:message name="IOrderService_CreateNewOrder_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CreateNewOrderResponse" />
+  </wsdl:message>
+  <wsdl:message name="IOrderService_AddUserToOrder_InputMessage">
+    <wsdl:part name="parameters" element="tns:AddUserToOrder" />
+  </wsdl:message>
+  <wsdl:message name="IOrderService_AddUserToOrder_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AddUserToOrderResponse" />
+  </wsdl:message>
+  <wsdl:message name="IOrderService_AddAddressToOrder_InputMessage">
+    <wsdl:part name="parameters" element="tns:AddAddressToOrder" />
+  </wsdl:message>
+  <wsdl:message name="IOrderService_AddAddressToOrder_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AddAddressToOrderResponse" />
+  </wsdl:message>
+  <wsdl:message name="IOrderService_AddBillingInformationToOrder_InputMessage">
+    <wsdl:part name="parameters" element="tns:AddBillingInformationToOrder" />
+  </wsdl:message>
+  <wsdl:message name="IOrderService_AddBillingInformationToOrder_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AddBillingInformationToOrderResponse" />
+  </wsdl:message>
   <wsdl:message name="IOrderService_AddOrder_InputMessage">
     <wsdl:part name="parameters" element="tns:AddOrder" />
   </wsdl:message>
@@ -68,6 +92,12 @@
   <wsdl:message name="IOrderService_CreatePDFDocument_OutputMessage">
     <wsdl:part name="parameters" element="tns:CreatePDFDocumentResponse" />
   </wsdl:message>
+  <wsdl:message name="IOrderService_GetOrderState_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetOrderState" />
+  </wsdl:message>
+  <wsdl:message name="IOrderService_GetOrderState_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetOrderStateResponse" />
+  </wsdl:message>
   <wsdl:portType name="IOrderService">
     <wsdl:operation name="GetOrder">
       <wsdl:input wsaw:Action="http://tempuri.org/IOrderService/GetOrder" message="tns:IOrderService_GetOrder_InputMessage" />
@@ -76,6 +106,22 @@
     <wsdl:operation name="GetAllOrders">
       <wsdl:input wsaw:Action="http://tempuri.org/IOrderService/GetAllOrders" message="tns:IOrderService_GetAllOrders_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IOrderService/GetAllOrdersResponse" message="tns:IOrderService_GetAllOrders_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateNewOrder">
+      <wsdl:input wsaw:Action="http://tempuri.org/IOrderService/CreateNewOrder" message="tns:IOrderService_CreateNewOrder_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IOrderService/CreateNewOrderResponse" message="tns:IOrderService_CreateNewOrder_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AddUserToOrder">
+      <wsdl:input wsaw:Action="http://tempuri.org/IOrderService/AddUserToOrder" message="tns:IOrderService_AddUserToOrder_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IOrderService/AddUserToOrderResponse" message="tns:IOrderService_AddUserToOrder_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AddAddressToOrder">
+      <wsdl:input wsaw:Action="http://tempuri.org/IOrderService/AddAddressToOrder" message="tns:IOrderService_AddAddressToOrder_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IOrderService/AddAddressToOrderResponse" message="tns:IOrderService_AddAddressToOrder_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AddBillingInformationToOrder">
+      <wsdl:input wsaw:Action="http://tempuri.org/IOrderService/AddBillingInformationToOrder" message="tns:IOrderService_AddBillingInformationToOrder_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IOrderService/AddBillingInformationToOrderResponse" message="tns:IOrderService_AddBillingInformationToOrder_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation name="AddOrder">
       <wsdl:input wsaw:Action="http://tempuri.org/IOrderService/AddOrder" message="tns:IOrderService_AddOrder_InputMessage" />
@@ -109,6 +155,10 @@
       <wsdl:input wsaw:Action="http://tempuri.org/IOrderService/CreatePDFDocument" message="tns:IOrderService_CreatePDFDocument_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IOrderService/CreatePDFDocumentResponse" message="tns:IOrderService_CreatePDFDocument_OutputMessage" />
     </wsdl:operation>
+    <wsdl:operation name="GetOrderState">
+      <wsdl:input wsaw:Action="http://tempuri.org/IOrderService/GetOrderState" message="tns:IOrderService_GetOrderState_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IOrderService/GetOrderStateResponse" message="tns:IOrderService_GetOrderState_OutputMessage" />
+    </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="BasicHttpBinding_IOrderService" type="tns:IOrderService">
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
@@ -123,6 +173,42 @@
     </wsdl:operation>
     <wsdl:operation name="GetAllOrders">
       <soap:operation soapAction="http://tempuri.org/IOrderService/GetAllOrders" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateNewOrder">
+      <soap:operation soapAction="http://tempuri.org/IOrderService/CreateNewOrder" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddUserToOrder">
+      <soap:operation soapAction="http://tempuri.org/IOrderService/AddUserToOrder" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddAddressToOrder">
+      <soap:operation soapAction="http://tempuri.org/IOrderService/AddAddressToOrder" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddBillingInformationToOrder">
+      <soap:operation soapAction="http://tempuri.org/IOrderService/AddBillingInformationToOrder" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -195,6 +281,15 @@
     </wsdl:operation>
     <wsdl:operation name="CreatePDFDocument">
       <soap:operation soapAction="http://tempuri.org/IOrderService/CreatePDFDocument" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetOrderState">
+      <soap:operation soapAction="http://tempuri.org/IOrderService/GetOrderState" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

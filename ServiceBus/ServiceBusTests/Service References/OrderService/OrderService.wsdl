@@ -26,12 +26,6 @@
   <wsdl:message name="IOrderService_CreateNewOrder_OutputMessage">
     <wsdl:part name="parameters" element="tns:CreateNewOrderResponse" />
   </wsdl:message>
-  <wsdl:message name="IOrderService_AddBasketToOrder_InputMessage">
-    <wsdl:part name="parameters" element="tns:AddBasketToOrder" />
-  </wsdl:message>
-  <wsdl:message name="IOrderService_AddBasketToOrder_OutputMessage">
-    <wsdl:part name="parameters" element="tns:AddBasketToOrderResponse" />
-  </wsdl:message>
   <wsdl:message name="IOrderService_AddUserToOrder_InputMessage">
     <wsdl:part name="parameters" element="tns:AddUserToOrder" />
   </wsdl:message>
@@ -117,10 +111,6 @@
       <wsdl:input wsaw:Action="http://tempuri.org/IOrderService/CreateNewOrder" message="tns:IOrderService_CreateNewOrder_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IOrderService/CreateNewOrderResponse" message="tns:IOrderService_CreateNewOrder_OutputMessage" />
     </wsdl:operation>
-    <wsdl:operation name="AddBasketToOrder">
-      <wsdl:input wsaw:Action="http://tempuri.org/IOrderService/AddBasketToOrder" message="tns:IOrderService_AddBasketToOrder_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IOrderService/AddBasketToOrderResponse" message="tns:IOrderService_AddBasketToOrder_OutputMessage" />
-    </wsdl:operation>
     <wsdl:operation name="AddUserToOrder">
       <wsdl:input wsaw:Action="http://tempuri.org/IOrderService/AddUserToOrder" message="tns:IOrderService_AddUserToOrder_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IOrderService/AddUserToOrderResponse" message="tns:IOrderService_AddUserToOrder_OutputMessage" />
@@ -192,15 +182,6 @@
     </wsdl:operation>
     <wsdl:operation name="CreateNewOrder">
       <soap:operation soapAction="http://tempuri.org/IOrderService/CreateNewOrder" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="AddBasketToOrder">
-      <soap:operation soapAction="http://tempuri.org/IOrderService/AddBasketToOrder" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

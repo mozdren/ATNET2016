@@ -225,7 +225,7 @@ namespace ServiceBus
         /// <param name="orderId">Return value of Id of order which was newly created</param>
         /// <param name="basket">Reference to basket object</param>
         /// <returns>Result object</returns>
-        public Result CreateNewOrder(out Guid orderId, Basket basket)
+        public Result CreateNewOrder(Basket basket, out Guid orderId)
         {
             try
             {

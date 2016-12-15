@@ -124,6 +124,12 @@
     <Content Include="Service References\OrderServiceProxyClass\ServiceBus.OrderServiceProxyClass.CreatePDFDocumentResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
+    <Content Include="Service References\OrderServiceProxyClass\ServiceBus.OrderServiceProxyClass.CreateNewOrderResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Service References\OrderServiceProxyClass\ServiceBus.OrderServiceProxyClass.GetOrderStateResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
     <None Include="Service References\ProductServiceProxyClass\ProductService.disco" />
     <None Include="Service References\ProductServiceProxyClass\configuration91.svcinfo" />
     <None Include="Service References\ProductServiceProxyClass\configuration.svcinfo" />

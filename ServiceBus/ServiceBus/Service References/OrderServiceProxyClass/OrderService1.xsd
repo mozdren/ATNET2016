@@ -29,49 +29,109 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
+  <xs:element name="CreateNewOrder">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="basket" nillable="true" type="q4:Basket" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CreateNewOrderResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="CreateNewOrderResult" nillable="true" type="q5:Result" />
+        <xs:element xmlns:q6="http://schemas.microsoft.com/2003/10/Serialization/" minOccurs="0" name="orderId" type="q6:guid" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddUserToOrder">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q7="http://schemas.microsoft.com/2003/10/Serialization/" minOccurs="0" name="orderId" type="q7:guid" />
+        <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="user" nillable="true" type="q8:User" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddUserToOrderResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q9="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="AddUserToOrderResult" nillable="true" type="q9:Result" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddAddressToOrder">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q10="http://schemas.microsoft.com/2003/10/Serialization/" minOccurs="0" name="orderId" type="q10:guid" />
+        <xs:element xmlns:q11="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="deliveryAddress" nillable="true" type="q11:Address" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddAddressToOrderResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q12="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="AddAddressToOrderResult" nillable="true" type="q12:Result" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddBillingInformationToOrder">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q13="http://schemas.microsoft.com/2003/10/Serialization/" minOccurs="0" name="orderId" type="q13:guid" />
+        <xs:element xmlns:q14="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="billingInformation" nillable="true" type="q14:BillingInformation" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddBillingInformationToOrderResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q15="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="AddBillingInformationToOrderResult" nillable="true" type="q15:Result" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
   <xs:element name="AddOrder">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q4="http://schemas.microsoft.com/2003/10/Serialization/" minOccurs="0" name="guid" type="q4:guid" />
-        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="basket" nillable="true" type="q5:Basket" />
-        <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="user" nillable="true" type="q6:User" />
-        <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="deliveryAddress" nillable="true" type="q7:Address" />
-        <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="billingInformation" nillable="true" type="q8:BillingInformation" />
+        <xs:element xmlns:q16="http://schemas.microsoft.com/2003/10/Serialization/" minOccurs="0" name="guid" type="q16:guid" />
+        <xs:element xmlns:q17="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="basket" nillable="true" type="q17:Basket" />
+        <xs:element xmlns:q18="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="user" nillable="true" type="q18:User" />
+        <xs:element xmlns:q19="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="deliveryAddress" nillable="true" type="q19:Address" />
+        <xs:element xmlns:q20="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="billingInformation" nillable="true" type="q20:BillingInformation" />
         <xs:element minOccurs="0" name="orderDate" type="xs:dateTime" />
         <xs:element minOccurs="0" name="deliveryDate" type="xs:dateTime" />
-        <xs:element xmlns:q9="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="orderState" nillable="true" type="q9:OrderState" />
+        <xs:element xmlns:q21="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="orderState" nillable="true" type="q21:OrderState" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="AddOrderResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q10="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="AddOrderResult" nillable="true" type="q10:Result" />
+        <xs:element xmlns:q22="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="AddOrderResult" nillable="true" type="q22:Result" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="AddOrderByObject">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q11="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="order" nillable="true" type="q11:Order" />
+        <xs:element xmlns:q23="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="order" nillable="true" type="q23:Order" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="AddOrderByObjectResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q12="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="AddOrderByObjectResult" nillable="true" type="q12:Result" />
+        <xs:element xmlns:q24="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="AddOrderByObjectResult" nillable="true" type="q24:Result" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="EditOrder">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q13="http://schemas.microsoft.com/2003/10/Serialization/" minOccurs="0" name="guid" type="q13:guid" />
-        <xs:element xmlns:q14="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="basket" nillable="true" type="q14:Basket" />
-        <xs:element xmlns:q15="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="user" nillable="true" type="q15:User" />
-        <xs:element xmlns:q16="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="deliveryAddress" nillable="true" type="q16:Address" />
-        <xs:element xmlns:q17="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="billingInformation" nillable="true" type="q17:BillingInformation" />
+        <xs:element xmlns:q25="http://schemas.microsoft.com/2003/10/Serialization/" minOccurs="0" name="guid" type="q25:guid" />
+        <xs:element xmlns:q26="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="basket" nillable="true" type="q26:Basket" />
+        <xs:element xmlns:q27="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="user" nillable="true" type="q27:User" />
+        <xs:element xmlns:q28="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="deliveryAddress" nillable="true" type="q28:Address" />
+        <xs:element xmlns:q29="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="billingInformation" nillable="true" type="q29:BillingInformation" />
         <xs:element minOccurs="0" name="deliveryDate" type="xs:dateTime" />
       </xs:sequence>
     </xs:complexType>
@@ -79,44 +139,44 @@
   <xs:element name="EditOrderResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q18="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="EditOrderResult" nillable="true" type="q18:Order" />
+        <xs:element xmlns:q30="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="EditOrderResult" nillable="true" type="q30:Order" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="ChangeOrderState">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q19="http://schemas.microsoft.com/2003/10/Serialization/" minOccurs="0" name="guid" type="q19:guid" />
-        <xs:element minOccurs="0" name="newState" type="xs:int" />
+        <xs:element xmlns:q31="http://schemas.microsoft.com/2003/10/Serialization/" minOccurs="0" name="guid" type="q31:guid" />
+        <xs:element xmlns:q32="http://schemas.datacontract.org/2004/07/SharedLibs.Enums" minOccurs="0" name="newState" type="q32:OrderStateType" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="ChangeOrderStateResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q20="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="ChangeOrderStateResult" nillable="true" type="q20:Result" />
+        <xs:element xmlns:q33="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="ChangeOrderStateResult" nillable="true" type="q33:Result" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="DeleteOrder">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q21="http://schemas.microsoft.com/2003/10/Serialization/" minOccurs="0" name="guid" type="q21:guid" />
+        <xs:element xmlns:q34="http://schemas.microsoft.com/2003/10/Serialization/" minOccurs="0" name="guid" type="q34:guid" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="DeleteOrderResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q22="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="DeleteOrderResult" nillable="true" type="q22:Result" />
+        <xs:element xmlns:q35="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="DeleteOrderResult" nillable="true" type="q35:Result" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="CreateEmail">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q23="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="user" nillable="true" type="q23:User" />
-        <xs:element xmlns:q24="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="order" nillable="true" type="q24:Order" />
+        <xs:element xmlns:q36="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="user" nillable="true" type="q36:User" />
+        <xs:element xmlns:q37="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="order" nillable="true" type="q37:Order" />
         <xs:element minOccurs="0" name="emailText" nillable="true" type="xs:string" />
         <xs:element minOccurs="0" name="attachment" nillable="true" type="xs:string" />
       </xs:sequence>
@@ -125,15 +185,15 @@
   <xs:element name="CreateEmailResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q25="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="CreateEmailResult" nillable="true" type="q25:Result" />
+        <xs:element xmlns:q38="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="CreateEmailResult" nillable="true" type="q38:Result" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="SendEmail">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q26="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="user" nillable="true" type="q26:User" />
-        <xs:element xmlns:q27="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="order" nillable="true" type="q27:Order" />
+        <xs:element xmlns:q39="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="user" nillable="true" type="q39:User" />
+        <xs:element xmlns:q40="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="order" nillable="true" type="q40:Order" />
         <xs:element minOccurs="0" name="emailText" nillable="true" type="xs:string" />
         <xs:element minOccurs="0" name="attachment" nillable="true" type="xs:string" />
       </xs:sequence>
@@ -142,24 +202,39 @@
   <xs:element name="SendEmailResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q28="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="SendEmailResult" nillable="true" type="q28:Result" />
+        <xs:element xmlns:q41="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="SendEmailResult" nillable="true" type="q41:Result" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="CreatePDFDocument">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q29="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="user" nillable="true" type="q29:User" />
-        <xs:element xmlns:q30="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="order" nillable="true" type="q30:Order" />
-        <xs:element xmlns:q31="http://schemas.datacontract.org/2004/07/SharedLibs.Enums" minOccurs="0" name="documentType" type="q31:PDFDocumentType" />
+        <xs:element xmlns:q42="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="user" nillable="true" type="q42:User" />
+        <xs:element xmlns:q43="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="order" nillable="true" type="q43:Order" />
+        <xs:element xmlns:q44="http://schemas.datacontract.org/2004/07/SharedLibs.Enums" minOccurs="0" name="documentType" type="q44:PDFDocumentType" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="CreatePDFDocumentResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q32="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="CreatePDFDocumentResult" nillable="true" type="q32:Result" />
+        <xs:element xmlns:q45="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="CreatePDFDocumentResult" nillable="true" type="q45:Result" />
         <xs:element minOccurs="0" name="pdfFilePath" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetOrderState">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q46="http://schemas.datacontract.org/2004/07/SharedLibs.Enums" minOccurs="0" name="orderStateType" type="q46:OrderStateType" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetOrderStateResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q47="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="GetOrderStateResult" nillable="true" type="q47:Result" />
+        <xs:element xmlns:q48="http://schemas.microsoft.com/2003/10/Serialization/" minOccurs="0" name="orderState" type="q48:guid" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

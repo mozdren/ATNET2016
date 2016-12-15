@@ -27,6 +27,31 @@ namespace ServiceBus.OrderServiceProxyClass {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IOrderService/GetAllOrders", ReplyAction="http://tempuri.org/IOrderService/GetAllOrdersResponse")]
         System.Threading.Tasks.Task<SharedLibs.DataContracts.Orders> GetAllOrdersAsync();
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IOrderService/CreateNewOrder", ReplyAction="http://tempuri.org/IOrderService/CreateNewOrderResponse")]
+        ServiceBus.OrderServiceProxyClass.CreateNewOrderResponse CreateNewOrder(ServiceBus.OrderServiceProxyClass.CreateNewOrderRequest request);
+        
+        // CODEGEN: Generating message contract since the operation has multiple return values.
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IOrderService/CreateNewOrder", ReplyAction="http://tempuri.org/IOrderService/CreateNewOrderResponse")]
+        System.Threading.Tasks.Task<ServiceBus.OrderServiceProxyClass.CreateNewOrderResponse> CreateNewOrderAsync(ServiceBus.OrderServiceProxyClass.CreateNewOrderRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IOrderService/AddUserToOrder", ReplyAction="http://tempuri.org/IOrderService/AddUserToOrderResponse")]
+        SharedLibs.DataContracts.Result AddUserToOrder(System.Guid orderId, SharedLibs.DataContracts.User user);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IOrderService/AddUserToOrder", ReplyAction="http://tempuri.org/IOrderService/AddUserToOrderResponse")]
+        System.Threading.Tasks.Task<SharedLibs.DataContracts.Result> AddUserToOrderAsync(System.Guid orderId, SharedLibs.DataContracts.User user);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IOrderService/AddAddressToOrder", ReplyAction="http://tempuri.org/IOrderService/AddAddressToOrderResponse")]
+        SharedLibs.DataContracts.Result AddAddressToOrder(System.Guid orderId, SharedLibs.DataContracts.Address deliveryAddress);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IOrderService/AddAddressToOrder", ReplyAction="http://tempuri.org/IOrderService/AddAddressToOrderResponse")]
+        System.Threading.Tasks.Task<SharedLibs.DataContracts.Result> AddAddressToOrderAsync(System.Guid orderId, SharedLibs.DataContracts.Address deliveryAddress);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IOrderService/AddBillingInformationToOrder", ReplyAction="http://tempuri.org/IOrderService/AddBillingInformationToOrderResponse")]
+        SharedLibs.DataContracts.Result AddBillingInformationToOrder(System.Guid orderId, SharedLibs.DataContracts.BillingInformation billingInformation);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IOrderService/AddBillingInformationToOrder", ReplyAction="http://tempuri.org/IOrderService/AddBillingInformationToOrderResponse")]
+        System.Threading.Tasks.Task<SharedLibs.DataContracts.Result> AddBillingInformationToOrderAsync(System.Guid orderId, SharedLibs.DataContracts.BillingInformation billingInformation);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IOrderService/AddOrder", ReplyAction="http://tempuri.org/IOrderService/AddOrderResponse")]
         SharedLibs.DataContracts.Result AddOrder(System.Guid guid, SharedLibs.DataContracts.Basket basket, SharedLibs.DataContracts.User user, SharedLibs.DataContracts.Address deliveryAddress, SharedLibs.DataContracts.BillingInformation billingInformation, System.DateTime orderDate, System.DateTime deliveryDate, SharedLibs.DataContracts.OrderState orderState);
         
@@ -46,10 +71,10 @@ namespace ServiceBus.OrderServiceProxyClass {
         System.Threading.Tasks.Task<SharedLibs.DataContracts.Order> EditOrderAsync(System.Guid guid, SharedLibs.DataContracts.Basket basket, SharedLibs.DataContracts.User user, SharedLibs.DataContracts.Address deliveryAddress, SharedLibs.DataContracts.BillingInformation billingInformation, System.DateTime deliveryDate);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IOrderService/ChangeOrderState", ReplyAction="http://tempuri.org/IOrderService/ChangeOrderStateResponse")]
-        SharedLibs.DataContracts.Result ChangeOrderState(System.Guid guid, int newState);
+        SharedLibs.DataContracts.Result ChangeOrderState(System.Guid guid, SharedLibs.Enums.OrderStateType newState);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IOrderService/ChangeOrderState", ReplyAction="http://tempuri.org/IOrderService/ChangeOrderStateResponse")]
-        System.Threading.Tasks.Task<SharedLibs.DataContracts.Result> ChangeOrderStateAsync(System.Guid guid, int newState);
+        System.Threading.Tasks.Task<SharedLibs.DataContracts.Result> ChangeOrderStateAsync(System.Guid guid, SharedLibs.Enums.OrderStateType newState);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IOrderService/DeleteOrder", ReplyAction="http://tempuri.org/IOrderService/DeleteOrderResponse")]
         SharedLibs.DataContracts.Result DeleteOrder(System.Guid guid);
@@ -75,6 +100,49 @@ namespace ServiceBus.OrderServiceProxyClass {
         // CODEGEN: Generating message contract since the operation has multiple return values.
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IOrderService/CreatePDFDocument", ReplyAction="http://tempuri.org/IOrderService/CreatePDFDocumentResponse")]
         System.Threading.Tasks.Task<ServiceBus.OrderServiceProxyClass.CreatePDFDocumentResponse> CreatePDFDocumentAsync(ServiceBus.OrderServiceProxyClass.CreatePDFDocumentRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IOrderService/GetOrderState", ReplyAction="http://tempuri.org/IOrderService/GetOrderStateResponse")]
+        ServiceBus.OrderServiceProxyClass.GetOrderStateResponse GetOrderState(ServiceBus.OrderServiceProxyClass.GetOrderStateRequest request);
+        
+        // CODEGEN: Generating message contract since the operation has multiple return values.
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IOrderService/GetOrderState", ReplyAction="http://tempuri.org/IOrderService/GetOrderStateResponse")]
+        System.Threading.Tasks.Task<ServiceBus.OrderServiceProxyClass.GetOrderStateResponse> GetOrderStateAsync(ServiceBus.OrderServiceProxyClass.GetOrderStateRequest request);
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="CreateNewOrder", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class CreateNewOrderRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        public SharedLibs.DataContracts.Basket basket;
+        
+        public CreateNewOrderRequest() {
+        }
+        
+        public CreateNewOrderRequest(SharedLibs.DataContracts.Basket basket) {
+            this.basket = basket;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="CreateNewOrderResponse", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class CreateNewOrderResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        public SharedLibs.DataContracts.Result CreateNewOrderResult;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=1)]
+        public System.Guid orderId;
+        
+        public CreateNewOrderResponse() {
+        }
+        
+        public CreateNewOrderResponse(SharedLibs.DataContracts.Result CreateNewOrderResult, System.Guid orderId) {
+            this.CreateNewOrderResult = CreateNewOrderResult;
+            this.orderId = orderId;
+        }
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -121,6 +189,42 @@ namespace ServiceBus.OrderServiceProxyClass {
         }
     }
     
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetOrderState", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class GetOrderStateRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        public SharedLibs.Enums.OrderStateType orderStateType;
+        
+        public GetOrderStateRequest() {
+        }
+        
+        public GetOrderStateRequest(SharedLibs.Enums.OrderStateType orderStateType) {
+            this.orderStateType = orderStateType;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetOrderStateResponse", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class GetOrderStateResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        public SharedLibs.DataContracts.Result GetOrderStateResult;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=1)]
+        public System.Guid orderState;
+        
+        public GetOrderStateResponse() {
+        }
+        
+        public GetOrderStateResponse(SharedLibs.DataContracts.Result GetOrderStateResult, System.Guid orderState) {
+            this.GetOrderStateResult = GetOrderStateResult;
+            this.orderState = orderState;
+        }
+    }
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     public interface IOrderServiceChannel : ServiceBus.OrderServiceProxyClass.IOrderService, System.ServiceModel.IClientChannel {
     }
@@ -164,6 +268,47 @@ namespace ServiceBus.OrderServiceProxyClass {
             return base.Channel.GetAllOrdersAsync();
         }
         
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        ServiceBus.OrderServiceProxyClass.CreateNewOrderResponse ServiceBus.OrderServiceProxyClass.IOrderService.CreateNewOrder(ServiceBus.OrderServiceProxyClass.CreateNewOrderRequest request) {
+            return base.Channel.CreateNewOrder(request);
+        }
+        
+        public SharedLibs.DataContracts.Result CreateNewOrder(SharedLibs.DataContracts.Basket basket, out System.Guid orderId) {
+            ServiceBus.OrderServiceProxyClass.CreateNewOrderRequest inValue = new ServiceBus.OrderServiceProxyClass.CreateNewOrderRequest();
+            inValue.basket = basket;
+            ServiceBus.OrderServiceProxyClass.CreateNewOrderResponse retVal = ((ServiceBus.OrderServiceProxyClass.IOrderService)(this)).CreateNewOrder(inValue);
+            orderId = retVal.orderId;
+            return retVal.CreateNewOrderResult;
+        }
+        
+        public System.Threading.Tasks.Task<ServiceBus.OrderServiceProxyClass.CreateNewOrderResponse> CreateNewOrderAsync(ServiceBus.OrderServiceProxyClass.CreateNewOrderRequest request) {
+            return base.Channel.CreateNewOrderAsync(request);
+        }
+        
+        public SharedLibs.DataContracts.Result AddUserToOrder(System.Guid orderId, SharedLibs.DataContracts.User user) {
+            return base.Channel.AddUserToOrder(orderId, user);
+        }
+        
+        public System.Threading.Tasks.Task<SharedLibs.DataContracts.Result> AddUserToOrderAsync(System.Guid orderId, SharedLibs.DataContracts.User user) {
+            return base.Channel.AddUserToOrderAsync(orderId, user);
+        }
+        
+        public SharedLibs.DataContracts.Result AddAddressToOrder(System.Guid orderId, SharedLibs.DataContracts.Address deliveryAddress) {
+            return base.Channel.AddAddressToOrder(orderId, deliveryAddress);
+        }
+        
+        public System.Threading.Tasks.Task<SharedLibs.DataContracts.Result> AddAddressToOrderAsync(System.Guid orderId, SharedLibs.DataContracts.Address deliveryAddress) {
+            return base.Channel.AddAddressToOrderAsync(orderId, deliveryAddress);
+        }
+        
+        public SharedLibs.DataContracts.Result AddBillingInformationToOrder(System.Guid orderId, SharedLibs.DataContracts.BillingInformation billingInformation) {
+            return base.Channel.AddBillingInformationToOrder(orderId, billingInformation);
+        }
+        
+        public System.Threading.Tasks.Task<SharedLibs.DataContracts.Result> AddBillingInformationToOrderAsync(System.Guid orderId, SharedLibs.DataContracts.BillingInformation billingInformation) {
+            return base.Channel.AddBillingInformationToOrderAsync(orderId, billingInformation);
+        }
+        
         public SharedLibs.DataContracts.Result AddOrder(System.Guid guid, SharedLibs.DataContracts.Basket basket, SharedLibs.DataContracts.User user, SharedLibs.DataContracts.Address deliveryAddress, SharedLibs.DataContracts.BillingInformation billingInformation, System.DateTime orderDate, System.DateTime deliveryDate, SharedLibs.DataContracts.OrderState orderState) {
             return base.Channel.AddOrder(guid, basket, user, deliveryAddress, billingInformation, orderDate, deliveryDate, orderState);
         }
@@ -188,11 +333,11 @@ namespace ServiceBus.OrderServiceProxyClass {
             return base.Channel.EditOrderAsync(guid, basket, user, deliveryAddress, billingInformation, deliveryDate);
         }
         
-        public SharedLibs.DataContracts.Result ChangeOrderState(System.Guid guid, int newState) {
+        public SharedLibs.DataContracts.Result ChangeOrderState(System.Guid guid, SharedLibs.Enums.OrderStateType newState) {
             return base.Channel.ChangeOrderState(guid, newState);
         }
         
-        public System.Threading.Tasks.Task<SharedLibs.DataContracts.Result> ChangeOrderStateAsync(System.Guid guid, int newState) {
+        public System.Threading.Tasks.Task<SharedLibs.DataContracts.Result> ChangeOrderStateAsync(System.Guid guid, SharedLibs.Enums.OrderStateType newState) {
             return base.Channel.ChangeOrderStateAsync(guid, newState);
         }
         
@@ -237,6 +382,23 @@ namespace ServiceBus.OrderServiceProxyClass {
         
         public System.Threading.Tasks.Task<ServiceBus.OrderServiceProxyClass.CreatePDFDocumentResponse> CreatePDFDocumentAsync(ServiceBus.OrderServiceProxyClass.CreatePDFDocumentRequest request) {
             return base.Channel.CreatePDFDocumentAsync(request);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        ServiceBus.OrderServiceProxyClass.GetOrderStateResponse ServiceBus.OrderServiceProxyClass.IOrderService.GetOrderState(ServiceBus.OrderServiceProxyClass.GetOrderStateRequest request) {
+            return base.Channel.GetOrderState(request);
+        }
+        
+        public SharedLibs.DataContracts.Result GetOrderState(SharedLibs.Enums.OrderStateType orderStateType, out System.Guid orderState) {
+            ServiceBus.OrderServiceProxyClass.GetOrderStateRequest inValue = new ServiceBus.OrderServiceProxyClass.GetOrderStateRequest();
+            inValue.orderStateType = orderStateType;
+            ServiceBus.OrderServiceProxyClass.GetOrderStateResponse retVal = ((ServiceBus.OrderServiceProxyClass.IOrderService)(this)).GetOrderState(inValue);
+            orderState = retVal.orderState;
+            return retVal.GetOrderStateResult;
+        }
+        
+        public System.Threading.Tasks.Task<ServiceBus.OrderServiceProxyClass.GetOrderStateResponse> GetOrderStateAsync(ServiceBus.OrderServiceProxyClass.GetOrderStateRequest request) {
+            return base.Channel.GetOrderStateAsync(request);
         }
     }
 }

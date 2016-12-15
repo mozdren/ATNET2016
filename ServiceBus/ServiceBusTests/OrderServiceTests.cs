@@ -1,6 +1,7 @@
 ﻿using ServiceBus;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SharedLibs.DataContracts;
+using System.Collections.Generic;
 using System;
 
 
@@ -34,7 +35,10 @@ namespace ServiceBusTests
         {
             OrderService.OrderServiceClient client = new OrderService.OrderServiceClient();
             Guid id;
-            var result = client.CreateNewOrder(out id);
+            List<BasketItem> basketItems = new List<BasketItem>();
+            List<Campaign> campaigns = new List<Campaign>();
+            Basket basket = new Basket() { Id = Guid.NewGuid(), BasketItems = basketItems, BasketCampaings = campaigns };
+            var result = client.CreateNewOrder(basket, out id);
             Assert.IsTrue(result.ResultType == SharedLibs.Enums.ResultType.Success);
         }
 
