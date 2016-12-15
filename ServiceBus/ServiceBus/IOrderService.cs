@@ -31,24 +31,16 @@ namespace ServiceBus
 
 
         /// <summary>
-        /// Create empty order with new Guid Id, orderNumber, date of order creation and a orderState created.
-        /// To this order you can then add particular objects like basket, user, address, etc.
-        /// All these items can be then added with help methods (AddBasketToOrder, AddUserToOrder, etc.) to newly created order to DB too
+        /// Create empty order with new Guid Id and basket object, orderNumber, date of order creation and a orderState created.
+        /// To this order you can then add particular objects like user, address, etc.
+        /// All these items can be then added with help methods (AddUserToOrder, AddAddressToOrder etc.) to newly created order to DB too
+        /// Order cannot be created without basket object because of the associaton basket <-> order cardinality is 1 to 0-1 
         /// </summary>
         /// <param name="orderId">Return value of Id of order which was newly created</param>
+        /// <param name="basket">Reference to basket object</param>
         /// <returns>Result object</returns>
         [OperationContract]
-        Result CreateNewOrder(out Guid orderId);
-
-
-        /// <summary>
-        /// Add basket object to created Order
-        /// </summary>
-        /// <param name="orderId">Id of order which you want to add a basket object to</param>
-        /// <param name="basket">Reference to a basket object you want to add</param>
-        /// <returns>Result object</returns>
-        [OperationContract]
-        Result AddBasketToOrder(Guid orderId, Basket basket);
+        Result CreateNewOrder(out Guid orderId, Basket basket);
 
 
         /// <summary>

@@ -9,261 +9,41 @@
 //------------------------------------------------------------------------------
 
 namespace ServiceBusTests.ProductService {
-    using System.Runtime.Serialization;
-    using System;
     
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="DTO", Namespace="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts")]
-    [System.SerializableAttribute()]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(ServiceBusTests.ProductService.PluralizedOfProductgUMYyf5D))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(ServiceBusTests.ProductService.Products))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(ServiceBusTests.ProductService.Product))]
-    public partial class DTO : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
-        
-        [System.NonSerializedAttribute()]
-        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private ServiceBusTests.ProductService.Result ResultField;
-        
-        [global::System.ComponentModel.BrowsableAttribute(false)]
-        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
-            get {
-                return this.extensionDataField;
-            }
-            set {
-                this.extensionDataField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public ServiceBusTests.ProductService.Result Result {
-            get {
-                return this.ResultField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.ResultField, value) != true)) {
-                    this.ResultField = value;
-                    this.RaisePropertyChanged("Result");
-                }
-            }
-        }
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="Result", Namespace="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts")]
-    [System.SerializableAttribute()]
-    public partial class Result : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
-        
-        [System.NonSerializedAttribute()]
-        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string MessageField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private ServiceBusTests.ProductService.ResultType ResultTypeField;
-        
-        [global::System.ComponentModel.BrowsableAttribute(false)]
-        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
-            get {
-                return this.extensionDataField;
-            }
-            set {
-                this.extensionDataField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string Message {
-            get {
-                return this.MessageField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.MessageField, value) != true)) {
-                    this.MessageField = value;
-                    this.RaisePropertyChanged("Message");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public ServiceBusTests.ProductService.ResultType ResultType {
-            get {
-                return this.ResultTypeField;
-            }
-            set {
-                if ((this.ResultTypeField.Equals(value) != true)) {
-                    this.ResultTypeField = value;
-                    this.RaisePropertyChanged("ResultType");
-                }
-            }
-        }
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="PluralizedOfProductgUMYyf5D", Namespace="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts")]
-    [System.SerializableAttribute()]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(ServiceBusTests.ProductService.Products))]
-    public partial class PluralizedOfProductgUMYyf5D : ServiceBusTests.ProductService.DTO {
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private ServiceBusTests.ProductService.Product[] ItemsField;
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public ServiceBusTests.ProductService.Product[] Items {
-            get {
-                return this.ItemsField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.ItemsField, value) != true)) {
-                    this.ItemsField = value;
-                    this.RaisePropertyChanged("Items");
-                }
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="Products", Namespace="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts")]
-    [System.SerializableAttribute()]
-    public partial class Products : ServiceBusTests.ProductService.PluralizedOfProductgUMYyf5D {
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="Product", Namespace="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts")]
-    [System.SerializableAttribute()]
-    public partial class Product : ServiceBusTests.ProductService.DTO {
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private System.Guid IDField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string NameField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private double PriceField;
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public System.Guid ID {
-            get {
-                return this.IDField;
-            }
-            set {
-                if ((this.IDField.Equals(value) != true)) {
-                    this.IDField = value;
-                    this.RaisePropertyChanged("ID");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string Name {
-            get {
-                return this.NameField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.NameField, value) != true)) {
-                    this.NameField = value;
-                    this.RaisePropertyChanged("Name");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public double Price {
-            get {
-                return this.PriceField;
-            }
-            set {
-                if ((this.PriceField.Equals(value) != true)) {
-                    this.PriceField = value;
-                    this.RaisePropertyChanged("Price");
-                }
-            }
-        }
-    }
-    
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="ResultType", Namespace="http://schemas.datacontract.org/2004/07/SharedLibs.Enums")]
-    public enum ResultType : int {
-        
-        [System.Runtime.Serialization.EnumMemberAttribute()]
-        Success = 0,
-        
-        [System.Runtime.Serialization.EnumMemberAttribute()]
-        Warning = 1,
-        
-        [System.Runtime.Serialization.EnumMemberAttribute()]
-        Error = 2,
-        
-        [System.Runtime.Serialization.EnumMemberAttribute()]
-        Fatal = 3,
-    }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="ProductService.IProductService")]
     public interface IProductService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProductService/GetProduct", ReplyAction="http://tempuri.org/IProductService/GetProductResponse")]
-        ServiceBusTests.ProductService.Product GetProduct(System.Guid guid);
+        SharedLibs.DataContracts.Product GetProduct(System.Guid guid);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProductService/GetProduct", ReplyAction="http://tempuri.org/IProductService/GetProductResponse")]
-        System.Threading.Tasks.Task<ServiceBusTests.ProductService.Product> GetProductAsync(System.Guid guid);
+        System.Threading.Tasks.Task<SharedLibs.DataContracts.Product> GetProductAsync(System.Guid guid);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProductService/GetAllProducts", ReplyAction="http://tempuri.org/IProductService/GetAllProductsResponse")]
-        ServiceBusTests.ProductService.Products GetAllProducts();
+        SharedLibs.DataContracts.Products GetAllProducts();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProductService/GetAllProducts", ReplyAction="http://tempuri.org/IProductService/GetAllProductsResponse")]
-        System.Threading.Tasks.Task<ServiceBusTests.ProductService.Products> GetAllProductsAsync();
+        System.Threading.Tasks.Task<SharedLibs.DataContracts.Products> GetAllProductsAsync();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProductService/AddProduct", ReplyAction="http://tempuri.org/IProductService/AddProductResponse")]
-        ServiceBusTests.ProductService.Result AddProduct(string name, double price, System.Guid guid);
+        SharedLibs.DataContracts.Result AddProduct(string name, double price, System.Guid guid, SharedLibs.Enums.ProductTypes productType, bool headliner);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProductService/AddProduct", ReplyAction="http://tempuri.org/IProductService/AddProductResponse")]
-        System.Threading.Tasks.Task<ServiceBusTests.ProductService.Result> AddProductAsync(string name, double price, System.Guid guid);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProductService/AddProductByObject", ReplyAction="http://tempuri.org/IProductService/AddProductByObjectResponse")]
-        ServiceBusTests.ProductService.Result AddProductByObject(ServiceBusTests.ProductService.Product product);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProductService/AddProductByObject", ReplyAction="http://tempuri.org/IProductService/AddProductByObjectResponse")]
-        System.Threading.Tasks.Task<ServiceBusTests.ProductService.Result> AddProductByObjectAsync(ServiceBusTests.ProductService.Product product);
+        System.Threading.Tasks.Task<SharedLibs.DataContracts.Result> AddProductAsync(string name, double price, System.Guid guid, SharedLibs.Enums.ProductTypes productType, bool headliner);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProductService/EditProduct", ReplyAction="http://tempuri.org/IProductService/EditProductResponse")]
-        ServiceBusTests.ProductService.Product EditProduct(System.Guid guid, string name, double price);
+        SharedLibs.DataContracts.Product EditProduct(System.Guid guid, string name, double price);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProductService/EditProduct", ReplyAction="http://tempuri.org/IProductService/EditProductResponse")]
-        System.Threading.Tasks.Task<ServiceBusTests.ProductService.Product> EditProductAsync(System.Guid guid, string name, double price);
+        System.Threading.Tasks.Task<SharedLibs.DataContracts.Product> EditProductAsync(System.Guid guid, string name, double price);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProductService/DeleteProduct", ReplyAction="http://tempuri.org/IProductService/DeleteProductResponse")]
-        ServiceBusTests.ProductService.Result DeleteProduct(System.Guid guid);
+        SharedLibs.DataContracts.Result DeleteProduct(System.Guid guid);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProductService/DeleteProduct", ReplyAction="http://tempuri.org/IProductService/DeleteProductResponse")]
-        System.Threading.Tasks.Task<ServiceBusTests.ProductService.Result> DeleteProductAsync(System.Guid guid);
+        System.Threading.Tasks.Task<SharedLibs.DataContracts.Result> DeleteProductAsync(System.Guid guid);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -293,51 +73,43 @@ namespace ServiceBusTests.ProductService {
                 base(binding, remoteAddress) {
         }
         
-        public ServiceBusTests.ProductService.Product GetProduct(System.Guid guid) {
+        public SharedLibs.DataContracts.Product GetProduct(System.Guid guid) {
             return base.Channel.GetProduct(guid);
         }
         
-        public System.Threading.Tasks.Task<ServiceBusTests.ProductService.Product> GetProductAsync(System.Guid guid) {
+        public System.Threading.Tasks.Task<SharedLibs.DataContracts.Product> GetProductAsync(System.Guid guid) {
             return base.Channel.GetProductAsync(guid);
         }
         
-        public ServiceBusTests.ProductService.Products GetAllProducts() {
+        public SharedLibs.DataContracts.Products GetAllProducts() {
             return base.Channel.GetAllProducts();
         }
         
-        public System.Threading.Tasks.Task<ServiceBusTests.ProductService.Products> GetAllProductsAsync() {
+        public System.Threading.Tasks.Task<SharedLibs.DataContracts.Products> GetAllProductsAsync() {
             return base.Channel.GetAllProductsAsync();
         }
         
-        public ServiceBusTests.ProductService.Result AddProduct(string name, double price, System.Guid guid) {
-            return base.Channel.AddProduct(name, price, guid);
+        public SharedLibs.DataContracts.Result AddProduct(string name, double price, System.Guid guid, SharedLibs.Enums.ProductTypes productType, bool headliner) {
+            return base.Channel.AddProduct(name, price, guid, productType, headliner);
         }
         
-        public System.Threading.Tasks.Task<ServiceBusTests.ProductService.Result> AddProductAsync(string name, double price, System.Guid guid) {
-            return base.Channel.AddProductAsync(name, price, guid);
+        public System.Threading.Tasks.Task<SharedLibs.DataContracts.Result> AddProductAsync(string name, double price, System.Guid guid, SharedLibs.Enums.ProductTypes productType, bool headliner) {
+            return base.Channel.AddProductAsync(name, price, guid, productType, headliner);
         }
         
-        public ServiceBusTests.ProductService.Result AddProductByObject(ServiceBusTests.ProductService.Product product) {
-            return base.Channel.AddProductByObject(product);
-        }
-        
-        public System.Threading.Tasks.Task<ServiceBusTests.ProductService.Result> AddProductByObjectAsync(ServiceBusTests.ProductService.Product product) {
-            return base.Channel.AddProductByObjectAsync(product);
-        }
-        
-        public ServiceBusTests.ProductService.Product EditProduct(System.Guid guid, string name, double price) {
+        public SharedLibs.DataContracts.Product EditProduct(System.Guid guid, string name, double price) {
             return base.Channel.EditProduct(guid, name, price);
         }
         
-        public System.Threading.Tasks.Task<ServiceBusTests.ProductService.Product> EditProductAsync(System.Guid guid, string name, double price) {
+        public System.Threading.Tasks.Task<SharedLibs.DataContracts.Product> EditProductAsync(System.Guid guid, string name, double price) {
             return base.Channel.EditProductAsync(guid, name, price);
         }
         
-        public ServiceBusTests.ProductService.Result DeleteProduct(System.Guid guid) {
+        public SharedLibs.DataContracts.Result DeleteProduct(System.Guid guid) {
             return base.Channel.DeleteProduct(guid);
         }
         
-        public System.Threading.Tasks.Task<ServiceBusTests.ProductService.Result> DeleteProductAsync(System.Guid guid) {
+        public System.Threading.Tasks.Task<SharedLibs.DataContracts.Result> DeleteProductAsync(System.Guid guid) {
             return base.Channel.DeleteProductAsync(guid);
         }
     }

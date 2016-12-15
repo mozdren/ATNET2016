@@ -14,7 +14,7 @@ namespace ServiceBusTests
 
             var product = client.GetProduct(productId);
 
-            Assert.IsTrue(product.Result.ResultType == ProductService.ResultType.Success);
+            Assert.IsTrue(product.Result.ResultType == SharedLibs.Enums.ResultType.Success);
         }
 
         [TestMethod]
@@ -24,7 +24,7 @@ namespace ServiceBusTests
 
             var product = client.GetAllProducts();
 
-            Assert.IsTrue(product.Result.ResultType == ProductService.ResultType.Success);
+            Assert.IsTrue(product.Result.ResultType == SharedLibs.Enums.ResultType.Success);
         }
     }
 }

@@ -198,22 +198,11 @@ namespace ServiceBus
                         });
                     }
 
-                    if (orderList.Count == 0)
+                    return new Orders()
                     {
-                        return new Orders()
-                        {
-                            Result = Result.WarningFormat("It was not found any item of orders."),
-                            Items = orderList
-                        };
-                    }
-                    else
-                    {
-                        return new Orders()
-                        {
-                            Result = Result.Success(),
-                            Items = orderList
-                        };
-                    }                    
+                        Result = Result.Success("It was not found any item of orders."),
+                        Items = orderList
+                    };                       
                 }
             }
             catch (Exception exception)
@@ -228,13 +217,15 @@ namespace ServiceBus
 
 
         /// <summary>
-        /// Create empty order with new Guid Id, orderNumber, date of order creation and a orderState created.
-        /// To this order you can then add particular objects like basket, user, address, etc.
-        /// All these items can be then added with help methods (AddBasketToOrder, AddUserToOrder, etc.) to newly created order to DB too
+        /// Create empty order with new Guid Id and basket object, orderNumber, date of order creation and a orderState created.
+        /// To this order you can then add particular objects like user, address, etc.
+        /// All these items can be then added with help methods (AddUserToOrder, AddAddressToOrder etc.) to newly created order to DB too
+        /// Order cannot be created without basket object because of the associaton basket <-> order cardinality is 1 to 0-1 
         /// </summary>
         /// <param name="orderId">Return value of Id of order which was newly created</param>
+        /// <param name="basket">Reference to basket object</param>
         /// <returns>Result object</returns>
-        public Result CreateNewOrder(out Guid orderId)
+        public Result CreateNewOrder(out Guid orderId, Basket basket)
         {
             try
             {
@@ -258,18 +249,24 @@ namespace ServiceBus
                         EntityModels.Order newOrder = new EntityModels.Order()
                         {
                             Id = newOrderId,
-                            OrderNumber = orderNumber,
-                            Basket_Id = Guid.Empty,
+                            OrderNumber = "111",
+                            Basket = new EntityModels.Basket()
+                            {
+                                Id = basket.Id,
+                                BasketItems = (ICollection <EntityModels.BasketItem>) basket.BasketItems,
+                                CampaignItems = (ICollection<EntityModels.CampaignItem>) basket.BasketCampaings
+                            },
                             UserId = null,
                             AddressId = null,
                             BillingInformationId = null,
                             OrderDate = DateTime.Now,
                             DeliveryDate = DateTime.Now,
-                            InvoiceNr = orderNumber,
-                            OrderStatusId = Guid.Empty
+                            InvoiceNr = "222",
+                            OrderStatusId = orderStatus.Id
                         };
 
-                        context.Orders.Add(newOrder);
+                        context.Entry(newOrder).State = EntityState.Added;
+                        //context.Orders.Add(newOrder);
                         context.SaveChanges();
 
                         orderId = newOrderId;
@@ -288,63 +285,7 @@ namespace ServiceBus
                 return Result.FatalFormat("In method CreateNewOrder was thrown exception: {0}.", exception.Message);
             }
         }
-
-
-        /// <summary>
-        /// Add basket object to created Order
-        /// </summary>
-        /// <param name="orderId">Id of order which you want to add a basket object to</param>
-        /// <param name="basket">Reference to a basket object you want to add</param>
-        /// <returns>Result object</returns>
-        public Result AddBasketToOrder(Guid orderId, Basket basket)
-        {
-            try
-            {
-                var storedOrder = GetOrder(orderId);
-
-                if (storedOrder.Result.ResultType == ResultType.Success && basket != null)
-                {
-                    var alteredOrder = new EntityModels.Order()
-                    {
-                        Id = storedOrder.Id,
-                        OrderNumber = storedOrder.OrderNumber,
-                        Basket_Id = storedOrder.Basket.Id,
-                        UserId = storedOrder.User.Id,
-                        AddressId = storedOrder.DeliveryAddress.Id,
-                        BillingInformationId = storedOrder.BillingInformation.Id,
-                        OrderDate = storedOrder.OrderDate,
-                        DeliveryDate = storedOrder.DeliveryDate,
-                        InvoiceNr = storedOrder.InvoiceNumber,
-                        OrderStatusId = storedOrder.OrderState.Id
-                    };
-
-                    using (var context = new EntityModels.ServiceBusDatabaseEntities())
-                    {
-                        context.Orders.Attach(alteredOrder);
-
-                        alteredOrder.Basket_Id = basket.Id;
-
-                        if (context.Entry(alteredOrder).State == EntityState.Unchanged)
-                        {
-                            return Result.WarningFormat("Order id {0} was not changed.", orderId);
-                        }
-                        else
-                        {
-                            context.SaveChanges();
-                            return Result.SuccessFormat("Order id {0} was changed.", orderId);
-                        }
-                    }
-                }
-                else
-                {
-                    return Result.WarningFormat("Order id {0} was not changed - the basket is null or order has not result success.", orderId);
-                }
-            }
-            catch (Exception exception)
-            {
-                return Result.FatalFormat("In method AddBasketToOrder was thrown exception: {0}.", exception.Message);
-            }
-        }
+        
 
 
         /// <summary>
@@ -365,7 +306,12 @@ namespace ServiceBus
                     {
                         Id = storedOrder.Id,
                         OrderNumber = storedOrder.OrderNumber,
-                        Basket_Id = storedOrder.Basket.Id,
+                        Basket = new EntityModels.Basket()
+                        {
+                            Id = storedOrder.Basket.Id,
+                            BasketItems = (ICollection<EntityModels.BasketItem>) storedOrder.Basket.BasketItems,
+                            CampaignItems = (ICollection<EntityModels.CampaignItem>) storedOrder.Basket.BasketCampaings
+                        },
                         UserId = storedOrder.User.Id,
                         AddressId = storedOrder.DeliveryAddress.Id,
                         BillingInformationId = storedOrder.BillingInformation.Id,
@@ -422,7 +368,12 @@ namespace ServiceBus
                     {
                         Id = storedOrder.Id,
                         OrderNumber = storedOrder.OrderNumber,
-                        Basket_Id = storedOrder.Basket.Id,
+                        Basket = new EntityModels.Basket()
+                        {
+                            Id = storedOrder.Basket.Id,
+                            BasketItems = (ICollection<EntityModels.BasketItem>) storedOrder.Basket.BasketItems,
+                            CampaignItems = (ICollection<EntityModels.CampaignItem>) storedOrder.Basket.BasketCampaings
+                        },
                         UserId = storedOrder.User.Id,
                         AddressId = storedOrder.DeliveryAddress.Id,
                         BillingInformationId = storedOrder.BillingInformation.Id,
@@ -479,7 +430,12 @@ namespace ServiceBus
                     {
                         Id = storedOrder.Id,
                         OrderNumber = storedOrder.OrderNumber,
-                        Basket_Id = storedOrder.Basket.Id,
+                        Basket = new EntityModels.Basket()
+                        {
+                            Id = storedOrder.Basket.Id,
+                            BasketItems = (ICollection<EntityModels.BasketItem>) storedOrder.Basket.BasketItems,
+                            CampaignItems = (ICollection<EntityModels.CampaignItem>) storedOrder.Basket.BasketCampaings
+                        },
                         UserId = storedOrder.User.Id,
                         AddressId = storedOrder.DeliveryAddress.Id,
                         BillingInformationId = storedOrder.BillingInformation.Id,
@@ -552,7 +508,12 @@ namespace ServiceBus
                         {
                             Id = guid,
                             OrderNumber = orderNumber,
-                            Basket_Id = basket.Id,
+                            Basket = new EntityModels.Basket()
+                            {
+                                Id = basket.Id,
+                                BasketItems = (ICollection<EntityModels.BasketItem>)basket.BasketItems,
+                                CampaignItems = (ICollection<EntityModels.CampaignItem>)basket.BasketCampaings
+                            },
                             UserId = user.Id,
                             AddressId = deliveryAddress.Id,
                             BillingInformationId = billingInformation.Id,
@@ -628,7 +589,12 @@ namespace ServiceBus
                     {
                         Id = storedOrder.Id,
                         OrderNumber = storedOrder.OrderNumber,
-                        Basket_Id = storedOrder.Basket.Id,
+                        Basket = new EntityModels.Basket()
+                        {
+                            Id = storedOrder.Basket.Id,
+                            BasketItems = (ICollection<EntityModels.BasketItem>) storedOrder.Basket.BasketItems,
+                            CampaignItems = (ICollection<EntityModels.CampaignItem>) storedOrder.Basket.BasketCampaings
+                        },
                         UserId = storedOrder.User.Id,
                         AddressId = storedOrder.DeliveryAddress.Id,
                         BillingInformationId = storedOrder.BillingInformation.Id,
@@ -780,7 +746,12 @@ namespace ServiceBus
                     var alteredOrder = new EntityModels.Order()
                     {
                         Id = storedOrder.Id,
-                        Basket_Id = storedOrder.Basket.Id,
+                        Basket = new EntityModels.Basket()
+                        {
+                            Id = storedOrder.Basket.Id,
+                            BasketItems = (ICollection<EntityModels.BasketItem>) storedOrder.Basket.BasketItems,
+                            CampaignItems = (ICollection<EntityModels.CampaignItem>) storedOrder.Basket.BasketCampaings
+                        },
                         AddressId = storedOrder.DeliveryAddress.Id,
                         BillingInformationId = storedOrder.BillingInformation.Id,
                         OrderDate = storedOrder.OrderDate,
@@ -935,7 +906,7 @@ namespace ServiceBus
                                       "nebo na e-mailu our_company@vsb.cz.\n\n\n\n" +
                                       "Tým our_company_vsb";
 
-                        this.SendEmail(user, order, text, attachment);
+                        SendEmail(user, order, text, attachment);
                     }
 
                     return Result.Success("E-mail was created correctly.");
@@ -1000,7 +971,7 @@ namespace ServiceBus
                         if (!attachmentFailure)
                         {
                             client.Send(message);
-                            return Result.SuccessFormat("E-mail was correctly sent to {0}.", user.EmailAddress);
+                            return Result.SuccessFormat("E-mail was correctly sent to {0}.", to); // recipient is set to check case
                         }
                         else
                         {

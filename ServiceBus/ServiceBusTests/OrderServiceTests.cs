@@ -100,6 +100,8 @@ namespace ServiceBusTests
         [TestMethod()]
         public void CreateEmailTest()
         {
+            //AppDomain.CurrentDomain.BaseDirectory
+
             Assert.Fail();
         }
 

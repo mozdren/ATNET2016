@@ -24,6 +24,8 @@ public partial class Address
 
         this.Orders = new HashSet<Order>();
 
+        this.Users = new HashSet<User>();
+
     }
 
 
@@ -53,7 +55,9 @@ public partial class Address
 
     public virtual Storage Storage { get; set; }
 
-    public virtual User User { get; set; }
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+
+    public virtual ICollection<User> Users { get; set; }
 
 }
 

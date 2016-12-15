@@ -77,10 +77,10 @@ namespace ServiceBusTests.OrderService {
         System.Threading.Tasks.Task<SharedLibs.DataContracts.Order> EditOrderAsync(System.Guid guid, SharedLibs.DataContracts.Basket basket, SharedLibs.DataContracts.User user, SharedLibs.DataContracts.Address deliveryAddress, SharedLibs.DataContracts.BillingInformation billingInformation, System.DateTime deliveryDate);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IOrderService/ChangeOrderState", ReplyAction="http://tempuri.org/IOrderService/ChangeOrderStateResponse")]
-        SharedLibs.DataContracts.Result ChangeOrderState(System.Guid guid, int newState);
+        SharedLibs.DataContracts.Result ChangeOrderState(System.Guid guid, SharedLibs.Enums.OrderStateType newState);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IOrderService/ChangeOrderState", ReplyAction="http://tempuri.org/IOrderService/ChangeOrderStateResponse")]
-        System.Threading.Tasks.Task<SharedLibs.DataContracts.Result> ChangeOrderStateAsync(System.Guid guid, int newState);
+        System.Threading.Tasks.Task<SharedLibs.DataContracts.Result> ChangeOrderStateAsync(System.Guid guid, SharedLibs.Enums.OrderStateType newState);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IOrderService/DeleteOrder", ReplyAction="http://tempuri.org/IOrderService/DeleteOrderResponse")]
         SharedLibs.DataContracts.Result DeleteOrder(System.Guid guid);
@@ -339,11 +339,11 @@ namespace ServiceBusTests.OrderService {
             return base.Channel.EditOrderAsync(guid, basket, user, deliveryAddress, billingInformation, deliveryDate);
         }
         
-        public SharedLibs.DataContracts.Result ChangeOrderState(System.Guid guid, int newState) {
+        public SharedLibs.DataContracts.Result ChangeOrderState(System.Guid guid, SharedLibs.Enums.OrderStateType newState) {
             return base.Channel.ChangeOrderState(guid, newState);
         }
         
-        public System.Threading.Tasks.Task<SharedLibs.DataContracts.Result> ChangeOrderStateAsync(System.Guid guid, int newState) {
+        public System.Threading.Tasks.Task<SharedLibs.DataContracts.Result> ChangeOrderStateAsync(System.Guid guid, SharedLibs.Enums.OrderStateType newState) {
             return base.Channel.ChangeOrderStateAsync(guid, newState);
         }
         

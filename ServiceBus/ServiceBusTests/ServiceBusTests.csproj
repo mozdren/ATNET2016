@@ -79,6 +79,8 @@
     <None Include="app.config" />
     <None Include="Properties\DataSources\SharedLibs.DataContracts.Order.datasource" />
     <None Include="Properties\DataSources\SharedLibs.DataContracts.Orders.datasource" />
+    <None Include="Properties\DataSources\SharedLibs.DataContracts.Product.datasource" />
+    <None Include="Properties\DataSources\SharedLibs.DataContracts.Products.datasource" />
     <None Include="Properties\DataSources\SharedLibs.DataContracts.Result.datasource" />
     <None Include="Properties\DataSources\SharedLibs.DataContracts.Student.datasource" />
     <None Include="Properties\DataSources\SharedLibs.DataContracts.Students.datasource" />
@@ -138,15 +140,6 @@
     </None>
     <None Include="Service References\ProductService\ProductService3.xsd">
       <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\ProductService\ServiceBusTests.ProductService.Product.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\ProductService\ServiceBusTests.ProductService.Products.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\ProductService\ServiceBusTests.ProductService.Result.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
   </ItemGroup>
   <ItemGroup>

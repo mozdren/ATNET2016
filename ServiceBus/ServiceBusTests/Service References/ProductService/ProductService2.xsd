@@ -2,6 +2,7 @@
 <xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:import schemaLocation="http://localhost:54222/ProductService.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
   <xs:import schemaLocation="http://localhost:54222/ProductService.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" />
+  <xs:import schemaLocation="http://localhost:54222/ProductService.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/SharedLibs.Enums" />
   <xs:element name="GetProduct">
     <xs:complexType>
       <xs:sequence>
@@ -34,34 +35,22 @@
         <xs:element minOccurs="0" name="name" nillable="true" type="xs:string" />
         <xs:element minOccurs="0" name="price" type="xs:double" />
         <xs:element xmlns:q4="http://schemas.microsoft.com/2003/10/Serialization/" minOccurs="0" name="guid" type="q4:guid" />
+        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/SharedLibs.Enums" minOccurs="0" name="productType" type="q5:ProductTypes" />
+        <xs:element minOccurs="0" name="headliner" type="xs:boolean" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="AddProductResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="AddProductResult" nillable="true" type="q5:Result" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="AddProductByObject">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="product" nillable="true" type="q6:Product" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="AddProductByObjectResponse">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="AddProductByObjectResult" nillable="true" type="q7:Result" />
+        <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="AddProductResult" nillable="true" type="q6:Result" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="EditProduct">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q8="http://schemas.microsoft.com/2003/10/Serialization/" minOccurs="0" name="guid" type="q8:guid" />
+        <xs:element xmlns:q7="http://schemas.microsoft.com/2003/10/Serialization/" minOccurs="0" name="guid" type="q7:guid" />
         <xs:element minOccurs="0" name="name" nillable="true" type="xs:string" />
         <xs:element minOccurs="0" name="price" type="xs:double" />
       </xs:sequence>
@@ -70,21 +59,21 @@
   <xs:element name="EditProductResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q9="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="EditProductResult" nillable="true" type="q9:Product" />
+        <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="EditProductResult" nillable="true" type="q8:Product" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="DeleteProduct">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q10="http://schemas.microsoft.com/2003/10/Serialization/" minOccurs="0" name="guid" type="q10:guid" />
+        <xs:element xmlns:q9="http://schemas.microsoft.com/2003/10/Serialization/" minOccurs="0" name="guid" type="q9:guid" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="DeleteProductResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q11="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="DeleteProductResult" nillable="true" type="q11:Result" />
+        <xs:element xmlns:q10="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="DeleteProductResult" nillable="true" type="q10:Result" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

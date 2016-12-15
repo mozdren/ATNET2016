@@ -6,9 +6,16 @@
     <xs:complexContent mixed="false">
       <xs:extension base="tns:DTO">
         <xs:sequence>
+          <xs:element minOccurs="0" name="BasketItems" nillable="true" type="tns:BasketItems" />
+          <xs:element minOccurs="0" name="Enabled" type="xs:boolean" />
+          <xs:element minOccurs="0" name="Headliner" type="xs:boolean" />
           <xs:element minOccurs="0" name="ID" type="ser:guid" />
           <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
-          <xs:element minOccurs="0" name="Price" type="xs:double" />
+          <xs:element minOccurs="0" name="Price" nillable="true" type="xs:double" />
+          <xs:element minOccurs="0" name="ProductType" nillable="true" type="tns:ProductType" />
+          <xs:element minOccurs="0" name="Repairs" nillable="true" type="tns:Repairs" />
+          <xs:element minOccurs="0" name="Reservations" nillable="true" type="tns:Reservations" />
+          <xs:element minOccurs="0" name="StorageItems" nillable="true" type="tns:StorageItems" />
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -27,6 +34,106 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="Result" nillable="true" type="tns:Result" />
+  <xs:complexType name="BasketItems">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:PluralizedOfBasketItemgUMYyf5D">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="BasketItems" nillable="true" type="tns:BasketItems" />
+  <xs:complexType name="PluralizedOfBasketItemgUMYyf5D">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="PluralizedOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="BasketItem" Namespace="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:DTO">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Items" nillable="true" type="tns:ArrayOfBasketItem" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="PluralizedOfBasketItemgUMYyf5D" nillable="true" type="tns:PluralizedOfBasketItemgUMYyf5D" />
+  <xs:complexType name="ArrayOfBasketItem">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="BasketItem" nillable="true" type="tns:BasketItem" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfBasketItem" nillable="true" type="tns:ArrayOfBasketItem" />
+  <xs:complexType name="BasketItem">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:DTO">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Active" type="xs:boolean" />
+          <xs:element minOccurs="0" name="Id" type="ser:guid" />
+          <xs:element minOccurs="0" name="Product" nillable="true" type="tns:Product" />
+          <xs:element minOccurs="0" name="Quantity" type="xs:int" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="BasketItem" nillable="true" type="tns:BasketItem" />
+  <xs:complexType name="ProductType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:DTO">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Campaings" nillable="true" type="tns:Campaigns" />
+          <xs:element minOccurs="0" name="ID" type="ser:guid" />
+          <xs:element minOccurs="0" name="Products" nillable="true" type="tns:Products" />
+          <xs:element minOccurs="0" name="Type" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="ProductType" nillable="true" type="tns:ProductType" />
+  <xs:complexType name="Campaigns">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:PluralizedOfCampaigngUMYyf5D">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="Campaigns" nillable="true" type="tns:Campaigns" />
+  <xs:complexType name="PluralizedOfCampaigngUMYyf5D">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="PluralizedOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="Campaign" Namespace="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:DTO">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Items" nillable="true" type="tns:ArrayOfCampaign" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="PluralizedOfCampaigngUMYyf5D" nillable="true" type="tns:PluralizedOfCampaigngUMYyf5D" />
+  <xs:complexType name="ArrayOfCampaign">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Campaign" nillable="true" type="tns:Campaign" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfCampaign" nillable="true" type="tns:ArrayOfCampaign" />
+  <xs:complexType name="Campaign">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:DTO">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Discount" type="xs:double" />
+          <xs:element minOccurs="0" name="Id" type="ser:guid" />
+          <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="Campaign" nillable="true" type="tns:Campaign" />
   <xs:complexType name="Products">
     <xs:complexContent mixed="false">
       <xs:extension base="tns:PluralizedOfProductgUMYyf5D">
@@ -58,4 +165,139 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="ArrayOfProduct" nillable="true" type="tns:ArrayOfProduct" />
+  <xs:complexType name="Repairs">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:PluralizedOfRepairgUMYyf5D">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="Repairs" nillable="true" type="tns:Repairs" />
+  <xs:complexType name="PluralizedOfRepairgUMYyf5D">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="PluralizedOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="Repair" Namespace="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:DTO">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Items" nillable="true" type="tns:ArrayOfRepair" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="PluralizedOfRepairgUMYyf5D" nillable="true" type="tns:PluralizedOfRepairgUMYyf5D" />
+  <xs:complexType name="ArrayOfRepair">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Repair" nillable="true" type="tns:Repair" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfRepair" nillable="true" type="tns:ArrayOfRepair" />
+  <xs:complexType name="Repair">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:DTO">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Description" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Id" type="ser:guid" />
+          <xs:element minOccurs="0" name="ProductId" type="ser:guid" />
+          <xs:element minOccurs="0" name="Serial" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="StorageId" type="ser:guid" />
+          <xs:element minOccurs="0" name="UserId" type="ser:guid" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="Repair" nillable="true" type="tns:Repair" />
+  <xs:complexType name="Reservations">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:PluralizedOfReservationgUMYyf5D">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="Reservations" nillable="true" type="tns:Reservations" />
+  <xs:complexType name="PluralizedOfReservationgUMYyf5D">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="PluralizedOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="Reservation" Namespace="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:DTO">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Items" nillable="true" type="tns:ArrayOfReservation" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="PluralizedOfReservationgUMYyf5D" nillable="true" type="tns:PluralizedOfReservationgUMYyf5D" />
+  <xs:complexType name="ArrayOfReservation">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Reservation" nillable="true" type="tns:Reservation" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfReservation" nillable="true" type="tns:ArrayOfReservation" />
+  <xs:complexType name="Reservation">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:DTO">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Count" type="xs:int" />
+          <xs:element minOccurs="0" name="Id" type="ser:guid" />
+          <xs:element minOccurs="0" name="ProductId" type="ser:guid" />
+          <xs:element minOccurs="0" name="StorageId" type="ser:guid" />
+          <xs:element minOccurs="0" name="UserId" type="ser:guid" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="Reservation" nillable="true" type="tns:Reservation" />
+  <xs:complexType name="StorageItems">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:PluralizedOfStorageItemgUMYyf5D">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="StorageItems" nillable="true" type="tns:StorageItems" />
+  <xs:complexType name="PluralizedOfStorageItemgUMYyf5D">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="PluralizedOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="StorageItem" Namespace="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:DTO">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Items" nillable="true" type="tns:ArrayOfStorageItem" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="PluralizedOfStorageItemgUMYyf5D" nillable="true" type="tns:PluralizedOfStorageItemgUMYyf5D" />
+  <xs:complexType name="ArrayOfStorageItem">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="StorageItem" nillable="true" type="tns:StorageItem" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfStorageItem" nillable="true" type="tns:ArrayOfStorageItem" />
+  <xs:complexType name="StorageItem">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:DTO">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Id" type="ser:guid" />
+          <xs:element minOccurs="0" name="ProductId" type="ser:guid" />
+          <xs:element minOccurs="0" name="Quantity" type="xs:int" />
+          <xs:element minOccurs="0" name="StorageId" type="ser:guid" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="StorageItem" nillable="true" type="tns:StorageItem" />
 </xs:schema>

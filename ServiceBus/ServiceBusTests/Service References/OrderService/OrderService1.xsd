@@ -160,36 +160,36 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element xmlns:q33="http://schemas.microsoft.com/2003/10/Serialization/" minOccurs="0" name="guid" type="q33:guid" />
-        <xs:element minOccurs="0" name="newState" type="xs:int" />
+        <xs:element xmlns:q34="http://schemas.datacontract.org/2004/07/SharedLibs.Enums" minOccurs="0" name="newState" type="q34:OrderStateType" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="ChangeOrderStateResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q34="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="ChangeOrderStateResult" nillable="true" type="q34:Result" />
+        <xs:element xmlns:q35="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="ChangeOrderStateResult" nillable="true" type="q35:Result" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="DeleteOrder">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q35="http://schemas.microsoft.com/2003/10/Serialization/" minOccurs="0" name="guid" type="q35:guid" />
+        <xs:element xmlns:q36="http://schemas.microsoft.com/2003/10/Serialization/" minOccurs="0" name="guid" type="q36:guid" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="DeleteOrderResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q36="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="DeleteOrderResult" nillable="true" type="q36:Result" />
+        <xs:element xmlns:q37="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="DeleteOrderResult" nillable="true" type="q37:Result" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="CreateEmail">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q37="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="user" nillable="true" type="q37:User" />
-        <xs:element xmlns:q38="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="order" nillable="true" type="q38:Order" />
+        <xs:element xmlns:q38="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="user" nillable="true" type="q38:User" />
+        <xs:element xmlns:q39="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="order" nillable="true" type="q39:Order" />
         <xs:element minOccurs="0" name="emailText" nillable="true" type="xs:string" />
         <xs:element minOccurs="0" name="attachment" nillable="true" type="xs:string" />
       </xs:sequence>
@@ -198,15 +198,15 @@
   <xs:element name="CreateEmailResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q39="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="CreateEmailResult" nillable="true" type="q39:Result" />
+        <xs:element xmlns:q40="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="CreateEmailResult" nillable="true" type="q40:Result" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="SendEmail">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q40="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="user" nillable="true" type="q40:User" />
-        <xs:element xmlns:q41="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="order" nillable="true" type="q41:Order" />
+        <xs:element xmlns:q41="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="user" nillable="true" type="q41:User" />
+        <xs:element xmlns:q42="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="order" nillable="true" type="q42:Order" />
         <xs:element minOccurs="0" name="emailText" nillable="true" type="xs:string" />
         <xs:element minOccurs="0" name="attachment" nillable="true" type="xs:string" />
       </xs:sequence>
@@ -215,23 +215,23 @@
   <xs:element name="SendEmailResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q42="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="SendEmailResult" nillable="true" type="q42:Result" />
+        <xs:element xmlns:q43="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="SendEmailResult" nillable="true" type="q43:Result" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="CreatePDFDocument">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q43="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="user" nillable="true" type="q43:User" />
-        <xs:element xmlns:q44="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="order" nillable="true" type="q44:Order" />
-        <xs:element xmlns:q45="http://schemas.datacontract.org/2004/07/SharedLibs.Enums" minOccurs="0" name="documentType" type="q45:PDFDocumentType" />
+        <xs:element xmlns:q44="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="user" nillable="true" type="q44:User" />
+        <xs:element xmlns:q45="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="order" nillable="true" type="q45:Order" />
+        <xs:element xmlns:q46="http://schemas.datacontract.org/2004/07/SharedLibs.Enums" minOccurs="0" name="documentType" type="q46:PDFDocumentType" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="CreatePDFDocumentResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q46="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="CreatePDFDocumentResult" nillable="true" type="q46:Result" />
+        <xs:element xmlns:q47="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="CreatePDFDocumentResult" nillable="true" type="q47:Result" />
         <xs:element minOccurs="0" name="pdfFilePath" nillable="true" type="xs:string" />
       </xs:sequence>
     </xs:complexType>
@@ -239,15 +239,15 @@
   <xs:element name="GetOrderState">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q47="http://schemas.datacontract.org/2004/07/SharedLibs.Enums" minOccurs="0" name="orderStateType" type="q47:OrderStateType" />
+        <xs:element xmlns:q48="http://schemas.datacontract.org/2004/07/SharedLibs.Enums" minOccurs="0" name="orderStateType" type="q48:OrderStateType" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="GetOrderStateResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q48="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="GetOrderStateResult" nillable="true" type="q48:Result" />
-        <xs:element xmlns:q49="http://schemas.microsoft.com/2003/10/Serialization/" minOccurs="0" name="orderState" type="q49:guid" />
+        <xs:element xmlns:q49="http://schemas.datacontract.org/2004/07/SharedLibs.DataContracts" minOccurs="0" name="GetOrderStateResult" nillable="true" type="q49:Result" />
+        <xs:element xmlns:q50="http://schemas.microsoft.com/2003/10/Serialization/" minOccurs="0" name="orderState" type="q50:guid" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

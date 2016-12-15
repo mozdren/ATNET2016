@@ -38,8 +38,6 @@ public partial class Order
 
     public string OrderNumber { get; set; }
 
-    public System.Guid Basket_Id { get; set; }
-
 
 
     public virtual Address Address { get; set; }

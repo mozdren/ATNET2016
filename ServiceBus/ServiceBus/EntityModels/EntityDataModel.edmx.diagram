@@ -47,6 +47,7 @@
         <AssociationConnector Association="DatabaseModel.OrderStatusOrder" />
         <AssociationConnector Association="DatabaseModel.UserAddress" ManuallyRouted="false" >
         </AssociationConnector>
+        <AssociationConnector Association="DatabaseModel.FK_Users_Addresses" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
