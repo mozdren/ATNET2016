@@ -32,6 +32,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CampaignId" Type="uniqueidentifier" />
           <Property Name="TotalPrice" Type="float" Nullable="false" />
         </EntityType>
         <EntityType Name="BillingInformations">
@@ -656,6 +657,7 @@
           </Key>
           <Property Name="Id" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="None" />
           <NavigationProperty Name="BasketItems" Relationship="DatabaseModel.BasketBasketItem" FromRole="Basket" ToRole="BasketItem" />
+          <Property Name="CampaignId" Type="Guid" Nullable="true" />
           <NavigationProperty Name="Order" Relationship="DatabaseModel.OrderBasket" FromRole="Basket" ToRole="Order" />
           <Property Name="TotalPrice" Type="Double" Nullable="false" />
           <NavigationProperty Name="CampaignItems" Relationship="DatabaseModel.BasketCampaignItem" FromRole="Basket" ToRole="CampaignItem" />
@@ -937,7 +939,7 @@
           <Property Name="ProductId" Type="Guid" Nullable="false" />
           <NavigationProperty Name="Storage" Relationship="DatabaseModel.StorageStorageItem" FromRole="StorageItem" ToRole="Storage" />
           <Property Name="StorageId" Type="Guid" Nullable="false" />
-          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" DefaultValue="0" />
         </EntityType>
         <Association Name="ProductStorageItem">
           <End Type="DatabaseModel.Product" Role="Product" Multiplicity="1" />
@@ -1071,6 +1073,7 @@
       <EntityTypeMapping TypeName="IsTypeOf(DatabaseModel.Basket)">
         <MappingFragment StoreEntitySet="Baskets">
           <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="CampaignId" ColumnName="CampaignId" />
           <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
         </MappingFragment>
       </EntityTypeMapping>
